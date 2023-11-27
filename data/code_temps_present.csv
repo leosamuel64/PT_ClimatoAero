@@ -1,0 +1,100 @@
+00;évolution des nuages est inobservable ou n'a pas été observée durant l'heure précédente.
+01;Nuages se dissolvant ou devenant moins épais.
+02;Etat du ciel inchangé dans l'ensemble.
+03;Nuages en formation ou en train de se développer
+04;Visibilité réduite par fumée, feu de brousse ou de forêt, fumées industrielles ou cendres volcaniques.
+05;Brume sèche.
+06;Poussières en suspension dans l'air d'une manière généralisée, non soulevées par le vent au point d'observation ou à ses alentours au moment de l'observation.
+07;Poussières ou sable soulevés par le vent au point d'observation ou à ses alentours au moment de l'observation mais absence de tourbillon(s) de poussière ou de sable caractérisé(s) et pas de tempête de poussière ou de sable observée au embruns observés à la station lorsqu'il s'agit de navires.
+08;Tourbillon(s) de poussière ou de sable caractérisé(s) observé(s) au point d'observation ou à ses alentours durant l'heure précédente ou au moment de l'observation, mais pas de tempête de poussière ou de sable.
+09;Tempête de poussière ou de sable observée au moment de l'observation en vue du point d'observation ou à ce point pendant l'heure précédente.
+10;Brume.
+11;Mince couche de brouillard en bancs ou de brouillard glacé en bancs au point d'observation, que celui-ci soit situé sur terre ou sur mer, d'une épaisseur n'excédant pas 2m sur terre ou 10 m sur mer.
+12;Mince couche de brouillard plus ou moins continus ou de brouillard glacé plus ou moins continus au point d'observation, que celui-ci soit situé sur terre ou sur mer, d'une épaisseur n'excédant pas 2m sur terre ou 10 m sur mer.
+13;Eclairs visibles, tonnerre non entendu.
+14;Précipitations en vue, n'atteignant pas le sol ou la surface de la mer.
+15;Précipitations en vue, atteignant le sol ou la surface de la mer, mais distantes (c'est-à-dire à plus de 5km à l'estime) de la station.
+16;Précipitations en vue, atteignant le sol ou la surface de la mer, près de la station mais pas à la station même.
+17;Orage, mais pas de précipitations au moment de l'observation.
+18;Grains, au point d'observation ou en vue de ce point pendant l'heure précédente ou au moment de l'observation.
+19;Trombe(s) terrestre(s) ou marine(s), au point d'observation ou en vue de ce point pendant l'heure précédente ou au moment de l'observation.
+20;Bruine (ne se congelant pas) ou neige en grain au cours de l'heure précédente mais non au moment de l'observation.
+21;Pluie ne se congelant pas au cours de l'heure précédente mais non au moment de l'observation.
+22;Neige au cours de l'heure précédente mais non au moment de l'observation.
+23;Pluie et neige mêlées ou granules de galce au cours de l'heure précédente mais non au moment de l'observation.
+24;Bruine ou pluie se congelant au cours de l'heure précédente mais non au moment de l'observation.
+25;Averse(s) de pluie au cours de l'heure précédente mais non au moment de l'observation.
+26;Averse(s) de neige ou de pluie et de neige au cours de l'heure précédente mais non au moment de l'observation.
+27;Averse(s) de grêle, grésil ou neige roulée ou de pluie et de grele au cours de l'heure précédente mais non au moment de l'observation.
+28;Brouillard ou brouillard glacé au cours de l'heure précédente mais non au moment de l'observation.
+29;Orage (avec ou sans précipitatios) au cours de l'heure précédente mais non au moment de l'observation.
+30;Tempête de poussière ou de sable légère ou modérée au moment de l'observation diminué au cours de l'heure précédente.
+31;Tempête de poussière ou de sable légère ou modérée au moment de l'observation sans changement appréciable au cours de l'heure précédente.
+32;Tempête de poussière ou de sable légère ou modérée au moment de l'observation débuté ou a augmenté au cours de  l'heure précédente.
+33;Violente tempête de poussière ou de sable au moment de l'observation diminué au cours de l'heure précédente.
+34;Violente tempête de poussière ou de sable au moment de l'observation sans changement appréciable au cours de l'heure précédente.
+35;Violente tempête de poussière ou de sable au moment de l'observation débuté ou a augmenté au cours de l'heure précédente.
+36;Chasse-neige faible ou modéré généralement basse (en-dessous du niveau de l'œil) au moment de l'observation.
+37;Forte chasse-neige généralement basse (en-dessous du niveau de l'œil) au moment de l'observation.
+38;Chasse-neige faible ou modéré généralement élevée (au-dessus du niveau de l'œil) au moment de l'observation.
+39;Forte chasse-neige généralement élevée (au-dessus du niveau de l'œil) au moment de l'observation.
+40;Brouillard ou brouillard glacé à distance au moment de l'observation mais non au lieu même de l'observation au cours de l'heure précédente, le brouillard ou le brouillard glacé s'étendant jusqu' à un niveau supérieur à celui de l'observateur.
+41;Brouillard ou brouillard glacé en bancs au moment de l'observation.
+42;Brouillard ou brouillard glacé, ciel visible, au moment de l'observation, s'est aminci au cours de l'heure précédente.
+43;Brouillard ou brouillard glacé, ciel invisible, au moment de l'observation, s'est aminci au cours de l'heure précédente.
+44;Brouillard ou brouillard glacé, ciel visible, au moment de l'observation, sans changement appréciable au cours de l'heure précédente.
+45;Brouillard ou brouillard glacé, ciel invisible, au moment de l'observation, sans changement appréciable au cours de l'heure précédente.
+46;Brouillard ou brouillard glacé, ciel visible, au moment de l'observation, a débuté ou est devenu plus épais au cours de l'heure précédente.
+47;Brouillard ou brouillard glacé, ciel invisible, au moment de l'observation, a débuté ou est devenu plus épais au cours de l'heure précédente.
+48;Brouillard déposant du givre, ciel visible, au moment de l'observation.
+49;Brouillard déposant du givre, ciel invisible, au moment de l'observation.
+50;Bruine intermittente, ne se congelant pas, faible au moment de l'observation.
+51;Bruine continue, ne se congelant pas, faible au moment de l'observation.
+52;Bruine intermittente, ne se congelant pas, modérée au moment de l'observation.
+53;Bruine continue, ne se congelant pas, modérée au moment de l'observation.
+54;Bruine intermittente, ne se congelant pas, forte ou dense au moment de l'observation.
+55;Bruine continue, ne se congelant pas, forte ou dense au moment de l'observation.
+56;Bruine faible, se congelant.
+57;Bruine modérée ou forte (dense), se congelant.
+58;Bruine et pluie, faible.
+59;Bruine et pluie, modérée ou forte.
+60;Pluie intermittente, ne se congelant pas, faible au moment de l'observation.
+61;Pluie continue, ne se congelant pas, faible au moment de l'observation.
+62;Pluie intermittente, ne se congelant pas, modérée au moment de l'observation.
+63;Pluie continue, ne se congelant pas, modérée au moment de l'observation.
+64;Pluie intermittente, ne se congelant pas, forte au moment de l'observation.
+65;Pluie continue, ne se congelant pas, forte au moment de l'observation.
+66;Pluie faible, se congelant.
+67;Pluie modérée ou forte, se congelant.
+68;Pluie et neige, ou bruine et neige, faible.
+69;Pluie et neige, ou bruine et neige, modérée ou forte.
+70;Chute intermittente de flocons de neige, faible au moment de l'observation.
+71;Chute continue de flocons de neige, faible au moment de l'observation.
+72;Chute intermittente de flocons de neige, modérée au moment de l'observation.
+73;Chute continue de flocons de neige, modérée au moment de l'observation.
+74;Chute intermittente de flocons de neige, forte au moment de l'observation.
+75;Chute continue de flocons de neige, forte au moment de l'observation.
+76;Poudrin de glace (avec ou sans brouillard).
+77;Neige en grains (avec ou sans brouillard).
+78;Etoiles de neige isolées (avec ou sans brouillard).
+79;Granules de glace.
+80;Averse(s) de pluie faible(s).
+81;Averse(s) de pluie modérée(s) ou forte(s).
+82;Averse(s) de pluie violente(s).
+83;Averse(s) de pluie et neige mêlées faible(s).
+84;Averse(s) de pluie et neige mêlées modérée(s) ou forte(s).
+85;Averse(s) de neige faible(s).
+86;Averse(s) de neige modérée(s) ou forte(s).
+87;Averse(s) faible(s) de grésil ou de neige roulée avec ou sans pluie ou pluie et neige mêlées.
+88;Averse(s) modérée(s) ou forte(s) de grésil ou de neige roulée avec ou sans pluie ou pluie et neige mêlées.
+89;Averse(s) faible(s) de grêle avec ou sans pluie ou pluie et neige mêlées sans tonnerre.
+90;Averse(s) modérée(s) ou forte(s) de grêle avec ou sans pluie ou pluie et neige mêlées sans tonnerre.
+91;Pluie faible au moment de l'observation avec orage durant l'heure précédente mais non au moment de l'observation.
+92;Pluie modérée ou forte au moment de l'observation avec orage durant l'heure précédente mais non au moment de l'observation.
+93;Faible chute de neige ou pluie et neige mêlées ou grêle, grésil ou neige roulée au moment de l'observation avec orage durant l'heure précédente mais non au moment de l'observation.
+94;Chute modérée ou forte de neige ou de pluie et neige mêlées ou de grêle, grésil ou neige roulée au moment de l'observation avec orage durant l'heure précédente mais non au moment de l'observation.
+95;Orage faible ou modéré, sans grêle, grésil ou neige roulée mais avec pluie et (ou) neige au moment de l'observation.
+96;Orage faible ou modéré, avec grêle, grésil ou neige roulée au moment de l'observation.
+97;Orage fort, sans grêle, grésil ou neige roulée mais avec pluie et (ou) neige au moment de l'observation.
+98;Orage avec tempête de poussière ou de sable au moment de l'observation.
+99;Orage fort avec grêle, grésil ou neige roulée au moment de l'observation.
