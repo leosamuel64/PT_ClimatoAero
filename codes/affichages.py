@@ -1,9 +1,10 @@
-
+from PIL import Image
 import matplotlib.pyplot as plt
 from codes.fonctions_auxiliaires_mto import *
 import math
 import datetime
 from codes.calculs import *
+from codes.config import *
 
 
 def rose_des_vents(data,runways):
@@ -94,8 +95,9 @@ def plot_weather(metars,seuil=0):
             X.append(pourcentage)
             Y.append(y)
         
-    plt.bar(Y,X)
-    plt.title('Météo ')
+    plt.bar(Y,X,color=color_template().orange)
+    # plt.title('Météo ')
+    plt.savefig('fig.svg',format='svg')
     plt.show()
     
     
@@ -105,15 +107,16 @@ def trace_phenomene(metars,code,show=True):
     Sortie : Graphique des températures en fonction de la date
     '''
     res=count_weather_date(metars,code)
-    X=[]
-    Y=[]
+    X=['Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec']
+    Y=[0 for _ in range (1,13)]
     for key_date in res.keys():
-        X.append(key_date)
+        mois = key_date.month
+        print(mois)
         value=res[key_date]
-        Y.append(value)
-    plt.bar(X,Y)
-    plt.title('Répartition de '+code)
+        Y[mois-1]+=value
+    plt.bar(X,Y,color=color_template().orange)
     if show:
+        plt.savefig('fig.svg',format='svg')
         plt.show()
     else:
         return X,Y
