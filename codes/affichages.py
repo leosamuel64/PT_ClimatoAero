@@ -176,5 +176,5 @@ def trace_limitations(data,aeronef,ad,piste):
     plt.bar(X,res,color=color_template().orange)
     addlabels(X, res,'%')
     
-    plt.savefig('fig.svg',format='svg')
+    plt.savefig('limit_'+aeronef.code+'.svg',format='svg')
     plt.show()

@@ -7,8 +7,8 @@ from codes.affichages import *
 from codes.config import *
 
 
-# data = charge_fichier(chemin_observations)
-metars = build_dict_metar(chemin_Metars)
+data = charge_fichier(chemin_observations)
+# metars = build_dict_metar(chemin_Metars)
 # 
 
 print('DEBUT CODE')
@@ -24,4 +24,3 @@ print('DEBUT CODE')
 # ad = aerodrome('LFBO')
 # trace_limitations(data,x,ad,30)
 
-trace_phenomene(metars,'FG')
