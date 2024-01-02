@@ -138,4 +138,4 @@ def addlabels(x,y,suff):
     Sortie : Ajoute la valeur en haut de la barre 
     """
     for i in range(len(x)):
-        plt.text(i,y[i],str(y[i])+suff,ha = 'center')
+        plt.text(i,y[i],str(round(y[i],1))+suff,ha = 'center')

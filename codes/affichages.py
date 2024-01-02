@@ -95,6 +95,8 @@ def plot_weather(metars,seuil=0):
             Y.append(y)
         
     plt.bar(Y,X,color=color_template().orange)
+    addlabels(Y, X,'%')
+    
     # plt.title('Météo ')
     plt.savefig('fig.svg',format='svg')
     plt.show()
@@ -103,16 +105,23 @@ def plot_weather(metars,seuil=0):
 def trace_phenomene(metars,code,show=True):
     '''
     Entrée : Liste des metars, code du phénomene (TS,-RA...), flag pour l'affichage ou les valeurs
-    Sortie : Graphique des températures en fonction de la date
+    Sortie : Graphique du phénomène en fonction des mois
     '''
     res=count_weather_date(metars,code)
     X=['Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec']
     Y=[0 for _ in range (1,13)]
+    cnt=[0 for _ in range (1,13)]
     for key_date in res.keys():
         mois = key_date.month
         value=res[key_date]
         Y[mois-1]+=value
+        cnt[mois-1]+=24
+    for k in range(len(Y)):
+        Y[k]=100*Y[k]/cnt[k]
+    
     plt.bar(X,Y,color=color_template().orange)
+    addlabels(X, Y,'%')
+    
     if show:
         plt.savefig('fig.svg',format='svg')
         plt.show()

@@ -175,8 +175,10 @@ def count_weather_date(metars,code):
                     res[key_date]+=0.5
                 else:
                     res[key_date]=0.5
-            elif not key_date in res.keys():
-                    res[key_date]=0
+                    
+        key_date=datetime.datetime(m.date.year,m.date.month,m.date.day)
+        if not (key_date in res.keys()):
+            res[key_date]=0
                         
     return res
 
