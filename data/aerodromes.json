@@ -1,0 +1,15 @@
+{   "LFBR":     {
+    "Nom": "Aérodrome de Muret L'Herm",
+    "visi_vfr": 5000,
+    "visi_ifr": 1500,
+    "plafond_vfr":1500,
+    "plafond_ifr":400
+},
+"LFBO":     {
+    "Nom": "Aéroport de Toulouse-Blagnac",
+    "visi_vfr": 1500,
+    "visi_ifr": 550,
+    "plafond_vfr":600,
+    "plafond_ifr":200
+}
+}  

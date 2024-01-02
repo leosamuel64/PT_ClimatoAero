@@ -1,6 +1,5 @@
 from PIL import Image
 import matplotlib.pyplot as plt
-from codes.fonctions_auxiliaires_mto import *
 import math
 import datetime
 from codes.calculs import *
@@ -111,7 +110,6 @@ def trace_phenomene(metars,code,show=True):
     Y=[0 for _ in range (1,13)]
     for key_date in res.keys():
         mois = key_date.month
-        print(mois)
         value=res[key_date]
         Y[mois-1]+=value
     plt.bar(X,Y,color=color_template().orange)
@@ -120,4 +118,54 @@ def trace_phenomene(metars,code,show=True):
         plt.show()
     else:
         return X,Y
+    
+def trace_tableau(column_labels,line_label,data_temp):
+    '''
+    Entrée : Liste des labels, liste de liste des données
+    Sortie : Tableau
+    '''
+    data_temp_2=[]
+    for t in data_temp:
+        tableau = format_temp_date(t,'°C')
+        data_temp_2.append(tableau)
+    
+    data = []
+    for k in range(len(data_temp_2)):
+        data.append(ajoute_debut(data_temp_2[k],line_label[k]))
+        
+    data_head = ajoute_debut(data,column_labels)
+    colors = [[color_template().fond_table for _ in range(len(data_head[0])) ] for _ in range(len(data_head))]
+    for k in range(len(colors[0])):
+        colors[0][k]=color_template().orange
+    fig, ax = plt.subplots(1, 1)
+    # ax.axis("tight")
+    ax.axis("off")
+    table = ax.table(cellText=data_head, cellColours=colors, loc="center")
+    table.auto_set_font_size(False)
+    table.set_fontsize(5)
+    plt.savefig('fig.svg',format='svg')
+    
+    plt.show()
 
+def trace_tableau_temp(data):
+    t_max = tableau_climato(data, max)
+    t_min = tableau_climato(data, min)
+    t_moy = tableau_moyenne(data)
+
+    trace_tableau(  ['-','Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec'],
+                    ['Max','Min', 'Moy'],
+                    [t_max,t_min,t_moy])
+    
+def trace_limitations(data,aeronef,ad,piste):
+    """
+    Entrée : Observation, avion, Numéro de la piste, aerodrome
+    Sortie : Graphique des pourcentages de non-accessibilité de l'aérodrome par l'aéronef en fonction des mois
+    """
+    res=limitations(data,aeronef,piste,ad)
+    X=['Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec']
+    
+    plt.bar(X,res,color=color_template().orange)
+    addlabels(X, res,'%')
+    
+    plt.savefig('fig.svg',format='svg')
+    plt.show()

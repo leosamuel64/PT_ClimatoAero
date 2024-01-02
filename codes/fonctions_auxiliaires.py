@@ -1,4 +1,5 @@
 import datetime
+import matplotlib.pyplot as plt
 
 
 def incr_dico(dico,key,value):
@@ -52,3 +53,89 @@ def convert_int(valeur):
         return 0
     else:
         return int(valeur)
+
+def ajoute_debut(t,val):
+    temp = [-1 for _ in range(len(t)+1)]
+    temp[0]=val
+    for k in range (1,len(t)+1):
+        temp[k]=t[k-1]
+    return temp
+
+def format_temp_date(t,suff):
+    temp = []
+    for x in t:
+        match x:
+            case (a,b):
+                temp.append(str(a)+suff+'\n ('+str(b)+')')
+            case a:
+                temp.append(str(a)+suff)
+    return temp
+
+def sort_mois_temp(data,intervalle_heure=[]):
+    '''
+    Entrée : Liste des observations, Intervalle des heures à prendre en compte (pour exclure la nuit)
+    Sortie : Dictionnaire des moyennes de température par mois
+    '''
+    res = {i:[] for i in range(1,13)}
+    cnt = {i:0 for i in range(1,13)}
+    for d in data:
+        mois = d.date.month
+        heure = d.date.hour
+        temp = d.temperature
+        
+        if intervalle_heure != [] and heure>=intervalle_heure[0] and heure<=intervalle_heure[1]:
+            res[mois].append((temp,d.date.year))
+        elif intervalle_heure == []:
+            res[mois].append((temp,d.date.year))
+    return res
+
+def tableau_climato(data, fonction):
+    valeurs = sort_mois_temp(data)
+    res=[]
+    for i in range(1,13):
+        res.append(fonction(valeurs[i]))
+    return res
+    
+def moyenne(t):
+    return sum(t)/len(t)
+
+def tableau_moyenne(data):
+    valeurs = sort_mois_temp(data)
+    res=[]
+    
+    for i in range(1,13):
+        somme=0
+        for (temp,_) in valeurs[i]:
+            somme+=temp
+        res.append(round(somme/len(valeurs[i]),2))
+        
+    return res
+
+def round_wind(wind_deg):
+    '''
+    Entrée : Direction du vent en °
+    Sortie : Vent correspondant à la piste
+    '''
+    res=round(wind_deg/10)
+    return res
+
+        
+def assoc_temps_present(path):
+    '''
+    Entrée : Chemin vers fichier code temps present
+    Sortie : Dictionnaire code -> Description
+    '''
+    file=open(path,'r')
+    res = {}
+    for ligne in file:
+        code,descr = ligne.strip().split(';')
+        res[int(code)]=descr
+    return res
+
+def addlabels(x,y,suff):
+    """
+    Entrée : liste des abscices, liste des ordonnées, ajout d'un suffixe en haut de la barre
+    Sortie : Ajoute la valeur en haut de la barre 
+    """
+    for i in range(len(x)):
+        plt.text(i,y[i],str(y[i])+suff,ha = 'center')

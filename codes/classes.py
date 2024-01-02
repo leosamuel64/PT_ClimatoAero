@@ -1,4 +1,5 @@
 from codes.fonctions_auxiliaires import *
+import json
 
 class metar:
     def __init__(self,ligne,date):
@@ -78,3 +79,34 @@ class observation:
                 couche_max=nuages[i]
         if nebu_max>4:
             return couche_max
+
+
+class avion:
+    def __init__(self, code):
+        
+        
+        file = open('data/avions.json','r')
+        
+        data = json.load(file)
+        dico = data[code]
+        
+        self.code=code
+        self.nom = dico['Nom_entier']
+        self.max_cross_wind = dico["limit_cross_wind"]
+        self.ifr = dico['IFR']
+    
+class aerodrome:
+    def __init__(self, code):
+        
+        file = open('data/aerodromes.json','r')
+        
+        data = json.load(file)
+        dico = data[code]
+        
+        self.code=code
+        self.nom = dico['Nom']
+        self.ifr_visi = dico["visi_ifr"]
+        self.vfr_visi = dico["visi_vfr"]
+        self.ifr_plafond = dico["plafond_ifr"]
+        self.vfr_plafond = dico["plafond_vfr"]
+        

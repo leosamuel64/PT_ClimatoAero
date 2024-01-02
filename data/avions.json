@@ -1,0 +1,22 @@
+{   "DA40":     {
+        "Nom_entier": "Diamond DA40",
+        "limit_cross_wind": 20,
+        "IFR": false
+    },
+    "DA42":     {
+        "Nom_entier": "Diamond DA42",
+        "limit_cross_wind": 25,
+        "IFR": true
+    },
+    "TOBA":     {
+        "Nom_entier": "Socata TB10 Tobago",
+        "limit_cross_wind": 10,
+        "IFR": false
+    },
+    "TRIN":     {
+        "Nom_entier": "Socata TB20 Trinidad",
+        "limit_cross_wind": 20,
+        "IFR": true
+    }
+
+}  
