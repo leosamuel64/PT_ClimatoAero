@@ -286,3 +286,48 @@ def calcul_donnees_manquantes(data):
     for key in res.keys():
         res[key]=100*res[key]/cnt
     return res
+
+def couple_contingence_visi_plafond(data):
+    """
+    Entrée : Observation
+    Sortie : liste des couples (visi,plafond)
+    """
+    res=[]
+    for d in data:
+        if (not 'visi' in d.a_donnees_manquantes()) and d.visi!='':
+            plafond = d.plafond()
+            if plafond != None:
+                res.append((d.visi,int(plafond[2])))
+            else:
+                res.append((d.visi,20000))
+    return res
+
+def place_table_contingence(grandeurs,pas1,pas2):
+    """
+    Entrée : liste des couples, catégories en abscisse, catégories en ordonnée
+    Sortie : matrice des valeurs en fonction des catégories
+    """
+    res = [[0 for _ in range(len(pas1)+1)] for _ in range(len(pas2)+1)]
+    for (x,y) in grandeurs:
+        i,j=0,0
+        while (x>pas1[i] and i!=len(pas1)-1):
+            i+=1
+        while (y>pas2[j] and j!=len(pas2)-1):
+            j+=1
+        
+        if x>pas1[len(pas1)-1]:
+            i+=1
+        if y>pas2[len(pas2)-1]:
+            j+=1
+        res[j][i]+=1
+    return res
+
+def calcul_table_contingence(data,pas_abs, pas_ord,fonction_couple):
+    """
+    Entrée : Observation, catégories en abscisse, catégories en ordonnée, fonction de création des couples
+    Sortie : table de contingence du couple en fonction des catégories (en pourcent)
+    """
+    couple = fonction_couple(data)
+    table_place = place_table_contingence(couple,pas_abs,pas_ord)
+    normalise_matrice(table_place)
+    return table_place

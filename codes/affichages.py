@@ -195,3 +195,25 @@ def trace_donnees_manquantes(data):
     trace_tableau(['Données','Données Manquantes (%)'],
                 keys,
                 res)
+
+    
+
+def affiche_table_contingence(data,pas_abs,pas_ord,fonction_couple,texte):
+    """
+    Entrée : Observation, catégories en abscisse, catégories en ordonnée, fonction de création des couples, texte pour la case (0,0)
+    Sortie : table de contingence du couple en fonction des catégories en image
+    """
+    table = calcul_table_contingence(data,pas_abs,pas_ord,fonction_couple)
+    trace_tableau(  [texte]+pas_abs+['>'],
+                    pas_ord+['>'],
+                    table,'')
+    
+
+def affiche_tc_visi_plafond(data):
+    """
+    Entrée : Observation,
+    Sortie : table de contingence visi/plafond
+    """
+    pas_visi = [800,1500,5000,10000] # Visi
+    pas_plafond = [50,100,200,400,1500,5000] # Plafond
+    affiche_table_contingence(data,pas_visi,pas_plafond,couple_contingence_visi_plafond, 'Visibilité\n Plafond          ')

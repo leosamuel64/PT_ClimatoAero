@@ -38,11 +38,16 @@ def vents_dominants_vitesse(data):
         res[wr].append(sp)
     return res
 
+
+affiche_tc_visi_plafond(data)
+                
     
-# trace_donnees_manquantes(data)
-print(data[86431].qnh)
-print(data[86431].alt)
 
 
-print(data[86431].altitude_pression())
 
+
+    
+
+
+
+        

@@ -140,3 +140,18 @@ def addlabels(x,y,suff):
     """
     for i in range(len(x)):
         plt.text(i,y[i],str(round(y[i],1))+suff,ha = 'center')
+        
+def normalise_matrice(m):
+    """
+    Entrée : Matrice à valeurs positives
+    Sortie : Matrice avec des pourcentages pour valeurs 
+    """
+    somme=0
+    for i in range(len(m)):
+        for j in range(len(m[0])):       
+            somme+=m[i][j]
+            
+    for i in range(len(m)):
+        for j in range(len(m[0])):
+            m[i][j]=round(100*m[i][j]/somme,2)
+         
