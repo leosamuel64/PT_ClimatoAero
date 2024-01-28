@@ -98,6 +98,12 @@ class observation:
                 
         return res
 
+    def altitude_pression(self):
+        if self.qnh != '':
+            return self.alt+(1013-self.qnh)*28
+        else:
+            return None
+
 class avion:
     def __init__(self, code):
         

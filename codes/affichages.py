@@ -182,6 +182,7 @@ def trace_limitations(data,aeronef,ad,piste):
     plt.show()
     
 def trace_donnees_manquantes(data):
+    # TODO : Faire une entete I/O
     calc = calcul_donnees_manquantes(data)
     res=[]
     keys=[]
