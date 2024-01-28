@@ -11,12 +11,13 @@ def vents_dominants_p(data):
     res={i:0 for i in range(0,36)}
     cnt=0
     for d in data:
+        if (not ('direction_vent' in d.a_donnees_manquantes()) )and (not ('vitesse_vent' in d.a_donnees_manquantes())):
         
-        direct = d.direction_vent
-        sp=d.vitesse_vent
-        wr=round_wind(direct)%36
-        res[wr]+=1*sp
-        cnt+=1*sp
+            direct = d.direction_vent
+            sp=d.vitesse_vent
+            wr=round_wind(direct)%36
+            res[wr]+=1*sp
+            cnt+=1*sp
         
     for key in res:
         res[key]=round(100*res[key]/cnt)
@@ -28,12 +29,14 @@ def maxi_temp(data):
     Entrée : Liste des observations
     Sortie : Couple (Température Maximum, Date)
     '''
+    
     res=data[0].temperature_maxi
     date = data[0].date
     for d in data:
-        if d.temperature_maxi>res:
-            res = d.temperature_maxi
-            date = d.date
+        if not ('temperature_maxi' in d.a_donnees_manquantes()):
+            if d.temperature_maxi>res:
+                res = d.temperature_maxi
+                date = d.date
     return res,date
 
 def mini_temp(data):
@@ -43,9 +46,10 @@ def mini_temp(data):
     '''
     res=data[0].temperature_mini
     for d in data:
-        if d.temperature_mini<res:
-            res = d.temperature_mini
-            date = d.date
+        if not ('temperature_mini' in d.a_donnees_manquantes()):
+            if d.temperature_mini<res:
+                res = d.temperature_mini
+                date = d.date
     return res,date
 
 def maxi_qnh(data):
@@ -56,9 +60,10 @@ def maxi_qnh(data):
     res=data[0].qnh
     date = data[0].date
     for d in data:
-        if d.qnh>res:
-            res = d.qnh
-            date = d.date
+        if not ('qnh' in d.a_donnees_manquantes()):
+            if d.qnh>res:
+                res = d.qnh
+                date = d.date
     return res,date
 
 def mini_qnh(data):
@@ -68,9 +73,10 @@ def mini_qnh(data):
     '''
     res=data[0].qnh
     for d in data:
-        if d.qnh<res and d.qnh!=0:
-            res = d.qnh
-            date = d.date
+        if not ('qnh' in d.a_donnees_manquantes()):
+            if d.qnh<res and d.qnh!=0:
+                res = d.qnh
+                date = d.date
     return res,date
 
 def moyenne_mois(data,intervalle_heure=[]):
@@ -102,7 +108,8 @@ def compte_temps_present(data):
     '''
     res={}
     for d in data:
-        incr_dico(res,d.temps_present,1)
+        if not ('temps_present' in d.a_donnees_manquantes()):
+            incr_dico(res,d.temps_present,1)
     return res
 
 
@@ -200,11 +207,14 @@ def limite_vent(d,aeronef,piste):
     Entrée : Observation, avion, numéro de la piste
     Sortie : Indique si le vent est limitant
     """
-    direct = d.direction_vent
-    sp=d.vitesse_vent
-    vent_t = calcul_crossWind(piste*10,direct,sp)
-    if aeronef.max_cross_wind < vent_t:
-        return True
+    if not ('direction_vent' in d.a_donnees_manquantes()) and not ('vitesse_vent' in d.a_donnees_manquantes()):
+        direct = d.direction_vent
+        sp=d.vitesse_vent
+        vent_t = calcul_crossWind(piste*10,direct,sp)
+        if aeronef.max_cross_wind < vent_t:
+            return True
+        else:
+            return False
     else:
         return False
     
@@ -215,10 +225,11 @@ def limite_visi(d,aeronef,ad):
     """
     visi = d.visi
     res = False
-    if visi > 0 and aeronef.ifr and visi<ad.ifr_visi :
-        res=True
-    elif visi > 0 and not aeronef.ifr and visi < ad.vfr_visi:
-        res=True
+    if (not ('visi' in d.a_donnees_manquantes())) and visi!='':
+        if visi > 0 and aeronef.ifr and visi<ad.ifr_visi :
+            res=True
+        elif visi > 0 and not aeronef.ifr and visi < ad.vfr_visi:
+            res=True
     return res
         
 def limite_plafond(d,aeronef,ad):
@@ -257,3 +268,19 @@ def limitations(data,aeronef,piste,ad):
         last_lim, last_tot = res[key]
         fin.append(round(100*last_lim/last_tot,1))
     return fin
+
+
+def calcul_donnees_manquantes(data):
+    labels = ["hauteur_precipitation", "duree_precipitation ","temperature ","dew_point ","temperature_mini ","heure_temperature_mini","temperature_maxi","heure_temperature_maxi ","duree_gel","qfe", "qnh ","geopotentiel","qnh_mini","vitesse_vent","direction_vent","vitesse_vent_instant_maxi","direction_vent_instant_maxi ","heure_vent_instant_maxi ","humidite","humidite_mini","heure_humidite_mini","humidite_maxi", "heure_humidite_maxi","nebulosite ","temps_present ","visi"]
+    res = {i : 0 for i in labels}
+    total = len(data)
+    for d in data:
+        manquantes = d.a_donnees_manquantes()
+        
+        for i in manquantes:
+            res[i]+=1
+    cnt = len(data)
+    
+    for key in res.keys():
+        res[key]=100*res[key]/cnt
+    return res

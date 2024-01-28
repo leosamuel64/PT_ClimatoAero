@@ -39,10 +39,11 @@ def plot_temp(data):
     mini_calc, mini_date=mini_temp(data)
     cnt=data[0].date
     for d in data:
-        X.append(d.temperature)
-        Y.append(cnt)
-            
-        cnt+=datetime.timedelta(0,30*60)
+        if not ('temperature' in d.a_donnees_manquantes()):
+            X.append(d.temperature)
+            Y.append(cnt)
+                
+            cnt+=datetime.timedelta(0,30*60)
         
     plt.plot_date(Y,X)
     plt.xlabel('Date')
@@ -62,7 +63,8 @@ def plot_qnh(data):
     mini_calc, mini_date=mini_qnh(data)
     cnt=data[0].date
     for d in data:
-        if d.qnh!=0:
+        if not ('qnh' in d.a_donnees_manquantes()):
+    
             X.append(d.qnh)
             Y.append(cnt)
             
@@ -128,14 +130,14 @@ def trace_phenomene(metars,code,show=True):
     else:
         return X,Y
     
-def trace_tableau(column_labels,line_label,data_temp):
+def trace_tableau(column_labels,line_label,data_temp,ajout=''):
     '''
     Entrée : Liste des labels, liste de liste des données
     Sortie : Tableau
     '''
     data_temp_2=[]
     for t in data_temp:
-        tableau = format_temp_date(t,'°C')
+        tableau = format_temp_date(t,ajout)
         data_temp_2.append(tableau)
     
     data = []
@@ -163,7 +165,7 @@ def trace_tableau_temp(data):
 
     trace_tableau(  ['-','Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec'],
                     ['Max','Min', 'Moy'],
-                    [t_max,t_min,t_moy])
+                    [t_max,t_min,t_moy],'°C')
     
 def trace_limitations(data,aeronef,ad,piste):
     """
@@ -178,3 +180,16 @@ def trace_limitations(data,aeronef,ad,piste):
     
     plt.savefig('limit_'+aeronef.code+'.svg',format='svg')
     plt.show()
+    
+def trace_donnees_manquantes(data):
+    calc = calcul_donnees_manquantes(data)
+    res=[]
+    keys=[]
+    for key in calc.keys():
+        res.append([round(calc[key],2)])
+        keys.append(key)
+        
+        
+    trace_tableau(['Données','Données Manquantes (%)'],
+                keys,
+                res)

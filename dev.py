@@ -24,3 +24,20 @@ print('DEBUT CODE')
 # ad = aerodrome('LFBO')
 # trace_limitations(data,x,ad,30)
 
+def vents_dominants_vitesse(data):
+    """
+    Entrée : Liste des observations
+    Sortie : Dictionnaire des listes des vitesses de vent
+    """
+    res={i:[] for i in range(0,36)}
+    for d in data:
+        
+        direct = d.direction_vent
+        sp=d.vitesse_vent
+        wr=round_wind(direct)%36
+        res[wr].append(sp)
+    return res
+
+    
+trace_donnees_manquantes(data)
+

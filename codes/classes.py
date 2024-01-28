@@ -14,7 +14,7 @@ class metar:
         
 class observation:
     def __init__(self, ligne):
-        self.poste ,self.nom ,self.lon ,self.lat ,alt ,date ,hauteur_precipitation ,self.qrr1 ,duree_precipitation ,self.qdrr1 ,temperature ,self.qt ,dew_point ,self.qtd ,temperature_mini ,self.qtn ,heure_temperature_mini ,self.qhtn ,temperature_maxi ,self.qtx ,heure_temperature_maxi ,self.qhtx ,duree_gel ,self.qdg ,qfe ,self.qpstat ,qnh ,self.qpmer ,self.geopotentiel ,self.qgeop ,self.qnh_mini ,self.qpmermin ,self.vitesse_vent ,self.qff ,self.direction_vent ,self.qdd ,self.vitesse_vent_instant_maxi ,self.qfxi ,self.direction_vent_instant_maxi ,self.qdxi ,self.heure_vent_instant_maxi ,self.qhxi ,self.humidite ,self.qu ,self.humidite_mini ,self.qun ,self.heure_humidite_mini ,self.qhun ,self.humidite_maxi ,self.qux ,self.heure_humidite_mini ,self.qhux ,self.nebulosite ,self.qn ,self.nbas ,self.qnbas ,self.n1 ,self.qn1 ,self.c1 ,self.qc1 ,self.b1 ,self.qb1 ,self.n2 ,self.qn2 ,self.c2 ,self.qc2 ,self.b2 ,self.qb2 ,self.n3 ,self.qn3 ,self.b3 ,self.qb3 ,self.c3 ,self.qc3 ,self.n4 ,self.qn4 ,self.c4 ,self.qc4 ,self.b4 ,self.qb4 ,self.temps_present ,self.qww ,self.visi ,self.qvv = ligne.split(';')
+        self.poste ,self.nom ,self.lon ,self.lat ,alt ,date ,hauteur_precipitation ,self.q_hauteur_precipitation ,duree_precipitation ,self.q_duree_precipitation ,temperature ,self.q_temperature ,dew_point ,self.q_dew_point ,temperature_mini ,self.q_temperature_mini ,heure_temperature_mini ,self.q_heure_temperature_mini ,temperature_maxi ,self.q_temperature_maxi ,heure_temperature_maxi ,self.q_heure_temperature_maxi ,duree_gel ,self.q_duree_gel ,qfe ,self.q_qfe ,qnh ,self.q_qnh ,self.geopotentiel ,self.q_geopotentiel ,self.qnh_mini ,self.q_qnh_mini ,self.vitesse_vent ,self.q_vitesse_vent ,self.direction_vent ,self.q_direction_vent ,self.vitesse_vent_instant_maxi ,self.q_vitesse_vent_instant_maxi ,self.direction_vent_instant_maxi ,self.q_direction_vent_instant_maxi ,self.heure_vent_instant_maxi ,self.q_heure_vent_instant_maxi ,self.humidite ,self.q_humidite ,self.humidite_mini ,self.q_humidite_mini ,self.heure_humidite_mini ,self.q_heure_humidite_mini ,self.humidite_maxi ,self.q_humidite_maxi ,self.heure_humidite_maxi ,self.q_heure_humidite_maxi ,self.nebulosite ,self.q_nebulosite ,self.nbas ,self.qnbas ,self.n1 ,self.qn1 ,self.c1 ,self.qc1 ,self.b1 ,self.qb1 ,self.n2 ,self.qn2 ,self.c2 ,self.qc2 ,self.b2 ,self.qb2 ,self.n3 ,self.qn3 ,self.b3 ,self.qb3 ,self.c3 ,self.qc3 ,self.n4 ,self.qn4 ,self.c4 ,self.qc4 ,self.b4 ,self.qb4 ,self.temps_present ,self.q_temps_present ,self.visi ,self.q_visi = ligne.split(';')
         
         self.date=convert_date(date)
         self.alt=int(alt)*3.281
@@ -30,9 +30,11 @@ class observation:
         self.heure_temperature_mini=convert_heure(heure_temperature_mini,self.date)
         self.heure_temperature_maxi=convert_heure(heure_temperature_maxi,self.date)
         self.qnh_mini=convert_float(self.qnh_mini)
-        self.vitesse_vent=convert_float(self.vitesse_vent)*1.944
+        if not self.vitesse_vent=='':
+            self.vitesse_vent=convert_float(self.vitesse_vent)*1.944
         self.direction_vent=convert_int(self.direction_vent)
-        self.vitesse_vent_instant_maxi=convert_float(self.vitesse_vent_instant_maxi)*1.944
+        if not self.vitesse_vent_instant_maxi=='':
+            self.vitesse_vent_instant_maxi=convert_float(self.vitesse_vent_instant_maxi)*1.944
         self.heure_vent_instant_maxi=convert_heure(self.heure_vent_instant_maxi,self.date)
         self.humidite=convert_float(self.humidite)
         self.humidite_mini =convert_float(self.humidite_mini)
@@ -74,12 +76,27 @@ class observation:
         nebu_max=0
         couche_max = None
         for i in range(len(nuages)):
-            if nuages[i][0]>nebu_max:
+            if nuages[i][0]!='' and nuages[i][0]>nebu_max:
                 nebu_max=nuages[i][0]
                 couche_max=nuages[i]
         if nebu_max>4:
             return couche_max
 
+    def a_donnees_manquantes(self):
+        tab = [self.q_hauteur_precipitation, self.q_duree_precipitation ,self.q_temperature ,self.q_dew_point ,self.q_temperature_mini ,self.q_heure_temperature_mini,self.q_temperature_maxi,self.q_heure_temperature_maxi ,self.q_duree_gel,self.q_qfe, self.q_qnh ,self.q_geopotentiel,self.q_qnh_mini,self.q_vitesse_vent,self.q_direction_vent,self.q_vitesse_vent_instant_maxi,self.q_direction_vent_instant_maxi ,self.q_heure_vent_instant_maxi ,self.q_humidite,self.q_humidite_mini,self.q_heure_humidite_mini,self.q_humidite_maxi, self.q_heure_humidite_maxi,self.q_nebulosite ,self.q_temps_present ,self.q_visi]
+        labels = ["hauteur_precipitation", "duree_precipitation ","temperature ","dew_point ","temperature_mini ","heure_temperature_mini","temperature_maxi","heure_temperature_maxi ","duree_gel","qfe", "qnh ","geopotentiel","qnh_mini","vitesse_vent","direction_vent","vitesse_vent_instant_maxi","direction_vent_instant_maxi ","heure_vent_instant_maxi ","humidite","humidite_mini","heure_humidite_mini","humidite_maxi", "heure_humidite_maxi","nebulosite ","temps_present ","visi"]
+        res = []
+        
+        for i in range(len(tab)):
+            if tab[i] in ['n','m','d','r','']:
+                res.append(labels[i])
+                
+        if self.temperature=='' and (not ('temperature' in res)):
+            res.append('visi')
+        if self.visi=='' and (not ('visi' in res)):
+            res.append('visi')
+                
+        return res
 
 class avion:
     def __init__(self, code):

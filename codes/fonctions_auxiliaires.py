@@ -44,13 +44,13 @@ def convert_heure(mot,d):
         
 def convert_float(valeur):
     if valeur=='':
-        return 0.0
+        return ''
     else:
         return float(valeur.replace(',','.'))
 
 def convert_int(valeur):
     if valeur=='':
-        return 0
+        return ''
     else:
         return int(valeur)
 
@@ -82,11 +82,12 @@ def sort_mois_temp(data,intervalle_heure=[]):
         mois = d.date.month
         heure = d.date.hour
         temp = d.temperature
-        
-        if intervalle_heure != [] and heure>=intervalle_heure[0] and heure<=intervalle_heure[1]:
-            res[mois].append((temp,d.date.year))
-        elif intervalle_heure == []:
-            res[mois].append((temp,d.date.year))
+        if (not('temperature' in d.a_donnees_manquantes())) and (not(temp=='')):
+
+            if intervalle_heure != [] and heure>=intervalle_heure[0] and heure<=intervalle_heure[1]:
+                res[mois].append((temp,d.date.year))
+            elif intervalle_heure == []:
+                res[mois].append((temp,d.date.year))
     return res
 
 def tableau_climato(data, fonction):

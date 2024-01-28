@@ -10,12 +10,12 @@
     },
     "TOBA":     {
         "Nom_entier": "Socata TB10 Tobago",
-        "limit_cross_wind": 10,
+        "limit_cross_wind": 15,
         "IFR": false
     },
     "TRIN":     {
         "Nom_entier": "Socata TB20 Trinidad",
-        "limit_cross_wind": 20,
+        "limit_cross_wind": 25,
         "IFR": true
     }
 
