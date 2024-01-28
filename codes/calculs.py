@@ -271,6 +271,8 @@ def limitations(data,aeronef,piste,ad):
 
 
 def calcul_donnees_manquantes(data):
+    # TODO : Faire une entete I/O
+    
     labels = ["hauteur_precipitation", "duree_precipitation ","temperature ","dew_point ","temperature_mini ","heure_temperature_mini","temperature_maxi","heure_temperature_maxi ","duree_gel","qfe", "qnh ","geopotentiel","qnh_mini","vitesse_vent","direction_vent","vitesse_vent_instant_maxi","direction_vent_instant_maxi ","heure_vent_instant_maxi ","humidite","humidite_mini","heure_humidite_mini","humidite_maxi", "heure_humidite_maxi","nebulosite ","temps_present ","visi"]
     res = {i : 0 for i in labels}
     total = len(data)

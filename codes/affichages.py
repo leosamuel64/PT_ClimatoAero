@@ -159,6 +159,8 @@ def trace_tableau(column_labels,line_label,data_temp,ajout=''):
     plt.show()
 
 def trace_tableau_temp(data):
+    # TODO : Faire une entete I/O
+    
     t_max = tableau_climato(data, max)
     t_min = tableau_climato(data, min)
     t_moy = tableau_moyenne(data)
@@ -189,7 +191,6 @@ def trace_donnees_manquantes(data):
     for key in calc.keys():
         res.append([round(calc[key],2)])
         keys.append(key)
-        
         
     trace_tableau(['Données','Données Manquantes (%)'],
                 keys,
