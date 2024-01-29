@@ -1,6 +1,8 @@
 from metar import Metar
 from codes.fonctions_auxiliaires import *
 import math
+from codes.config import *
+
 
 def vents_dominants_p(data):
     """
@@ -152,11 +154,16 @@ def count_weather(metars):
             for k in groupe:
                 if k!=None and not('/' in k):
                     temp+=k
+            if temp in PHENOMENE_PONDERATION.keys():
+                valeur=PHENOMENE_PONDERATION[temp]
+            else:
+                valeur = 1
+
             if temp in res.keys():
-                res[temp]+=1
+                res[temp]+=valeur
             else:
                 if temp!='':
-                    res[temp]=1
+                    res[temp]=valeur
     return res
 
 def count_weather_date(metars,code):
@@ -266,7 +273,7 @@ def limitations(data,aeronef,piste,ad):
     fin=[]
     for key in res:
         last_lim, last_tot = res[key]
-        fin.append(round(100*last_lim/last_tot,1))
+        fin.append(round((last_lim/last_tot)*30,1))
     return fin
 
 

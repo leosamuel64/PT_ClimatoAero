@@ -8,3 +8,7 @@ class color_template:
         self.gris = (75/255,77/255,81/255)
         self.fond_table = (1,1,1)
         
+PHENOMENE_PONDERATION = {'TS':24,
+                         'RA':12,
+                         'DZ':12}
+        

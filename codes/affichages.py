@@ -91,13 +91,13 @@ def plot_weather(metars,seuil=0):
     temp.sort(reverse=True)
     long = len(metars)
     for (x,y) in temp:
-        pourcentage=100*x/long
+        pourcentage=2*365*x/long
         if pourcentage>seuil:
             X.append(pourcentage)
             Y.append(y)
         
     plt.bar(Y,X,color=color_template().orange)
-    addlabels(Y, X,'%')
+    addlabels(Y, X,'j/an')
     
     # plt.title('Météo ')
     plt.savefig('fig.svg',format='svg')
@@ -113,16 +113,31 @@ def trace_phenomene(metars,code,show=True):
     X=['Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec']
     Y=[0 for _ in range (1,13)]
     cnt=[0 for _ in range (1,13)]
+    deja_jour=[]
     for key_date in res.keys():
         mois = key_date.month
-        value=res[key_date]
-        Y[mois-1]+=value
-        cnt[mois-1]+=24
-    for k in range(len(Y)):
-        Y[k]=100*Y[k]/cnt[k]
+        jour = key_date.day
+        year = key_date.year
+        if code!='TS':
+            value=res[key_date]
+            Y[mois-1]+=value
+            cnt[mois-1]+=24
+        else:
+            if not(datetime.datetime(year,mois,jour) in deja_jour):
+                deja_jour.append(datetime.datetime(year,mois,jour))
+                value=res[key_date]
+                Y[mois-1]+=value
+                cnt[mois-1]+=24
+            
+    if code!='TS':
+        for k in range(len(Y)):
+            Y[k]=30*Y[k]/cnt[k]
+    else:
+        for k in range(len(Y)):
+            Y[k]=30*(Y[k]*24)/cnt[k]
     
     plt.bar(X,Y,color=color_template().orange)
-    addlabels(X, Y,'%')
+    addlabels(X, Y,'j')
     
     if show:
         plt.savefig('fig.svg',format='svg')
@@ -178,7 +193,7 @@ def trace_limitations(data,aeronef,ad,piste):
     X=['Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec']
     
     plt.bar(X,res,color=color_template().orange)
-    addlabels(X, res,'%')
+    addlabels(X, res,'j')
     
     plt.savefig('limit_'+aeronef.code+'.svg',format='svg')
     plt.show()
