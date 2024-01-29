@@ -90,8 +90,34 @@ def sort_mois_temp(data,intervalle_heure=[]):
                 res[mois].append((temp,d.date.year))
     return res
 
-def tableau_climato(data, fonction):
+def sort_mois_qnh(data,intervalle_heure=[]):
+    '''
+    Entrée : Liste des observations, Intervalle des heures à prendre en compte (pour exclure la nuit)
+    Sortie : Dictionnaire des moyennes de température par mois
+    '''
+    res = {i:[] for i in range(1,13)}
+    cnt = {i:0 for i in range(1,13)}
+    for d in data:
+        mois = d.date.month
+        heure = d.date.hour
+        temp = d.qnh
+        if (not('qnh' in d.a_donnees_manquantes())) and (not(temp=='')):
+
+            if intervalle_heure != [] and heure>=intervalle_heure[0] and heure<=intervalle_heure[1]:
+                res[mois].append((int(temp),d.date.year))
+            elif intervalle_heure == []:
+                res[mois].append((int(temp),d.date.year))
+    return res
+
+def tableau_climato_temp(data, fonction):
     valeurs = sort_mois_temp(data)
+    res=[]
+    for i in range(1,13):
+        res.append(fonction(valeurs[i]))
+    return res
+    
+def tableau_climato_qnh(data, fonction):
+    valeurs = sort_mois_qnh(data)
     res=[]
     for i in range(1,13):
         res.append(fonction(valeurs[i]))
@@ -99,8 +125,9 @@ def tableau_climato(data, fonction):
     
 def moyenne(t):
     return sum(t)/len(t)
+        
 
-def tableau_moyenne(data):
+def tableau_moyenne_temp(data):
     valeurs = sort_mois_temp(data)
     res=[]
     
@@ -109,6 +136,18 @@ def tableau_moyenne(data):
         for (temp,_) in valeurs[i]:
             somme+=temp
         res.append(round(somme/len(valeurs[i]),2))
+        
+    return res
+
+def tableau_moyenne_qnh(data):
+    valeurs = sort_mois_qnh(data)
+    res=[]
+    
+    for i in range(1,13):
+        somme=0
+        for (temp,_) in valeurs[i]:
+            somme+=temp
+        res.append(round(somme/len(valeurs[i]),0))
         
     return res
 

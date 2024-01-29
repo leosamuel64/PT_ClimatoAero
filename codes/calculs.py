@@ -8,7 +8,6 @@ def vents_dominants_p(data):
     """
     Entrée : Liste des observations
     Sortie : Dictionnaire des pourcentages des vents
-    TODO : Revoir la pondération des vents en fonction de la vitesse
     """
     res={i:0 for i in range(0,36)}
     cnt=0
@@ -209,6 +208,19 @@ def calcul_crossWind(cap,direction,vitesse):
     
     return math.sin(rad)*vitesse
 
+def calcul_vent_eff(cap,direction,vitesse):
+    """
+    Entrée : Cap de l'avion, Direction du vent, vitesse du vent
+    Sortie : Vent Traversier subit par l'avion
+    """
+    angle_au_vent=(cap-direction) % 360
+    
+    if angle_au_vent>180:
+        angle_au_vent=abs(angle_au_vent-360)
+    rad = angle_au_vent*math.pi/180
+    
+    return math.cos(rad)*vitesse
+
 def limite_vent(d,aeronef,piste):
     """
     Entrée : Observation, avion, numéro de la piste
@@ -278,7 +290,10 @@ def limitations(data,aeronef,piste,ad):
 
 
 def calcul_donnees_manquantes(data):
-    # TODO : Faire une entete I/O
+    """
+    Entrée : Observation
+    Sortie : Liste des pourcentages des parametres manquants
+    """
     
     labels = ["hauteur_precipitation", "duree_precipitation ","temperature ","dew_point ","temperature_mini ","heure_temperature_mini","temperature_maxi","heure_temperature_maxi ","duree_gel","qfe", "qnh ","geopotentiel","qnh_mini","vitesse_vent","direction_vent","vitesse_vent_instant_maxi","direction_vent_instant_maxi ","heure_vent_instant_maxi ","humidite","humidite_mini","heure_humidite_mini","humidite_maxi", "heure_humidite_maxi","nebulosite ","temps_present ","visi"]
     res = {i : 0 for i in labels}
@@ -338,3 +353,179 @@ def calcul_table_contingence(data,pas_abs, pas_ord,fonction_couple):
     table_place = place_table_contingence(couple,pas_abs,pas_ord)
     normalise_matrice(table_place)
     return table_place
+
+def compte_gel_mois(data):
+    """
+    Entrée : Observation,
+    Sortie : liste du nombre de jour moyen par mois
+    """
+    cnt=[0 for i in range(0,12)]
+    total=[0 for i in range(0,12)]
+    for d in data:
+        if not('duree_gel' in d.a_donnees_manquantes()) and d.duree_gel!='':
+            mois = d.date.month
+            total[mois-1]+=60
+            cnt[mois-1]+=d.duree_gel
+    res=[]
+    for k in range(len(cnt)):
+        res.append((round(4*30*cnt[k]/total[k],2)))
+    return res
+
+def precipitation_par_jour(data):
+    """
+    Entrée : Observation
+    Sortie : liste des precipitations par jour
+    """
+    res={}
+    
+    for d in data:
+        hp = d.hauteur_precipitation
+        if (not('hauteur_precipitation' in d.a_donnees_manquantes())) and (not(hp=='')):
+            jour = d.date.day
+            mois = d.date.month
+            annee = d.date.year
+            
+            date = datetime.datetime(annee,mois,jour)
+            
+            incr_dico(res,date,hp)
+            
+    return res
+
+def precipitation_par_mois(data):
+    """
+    Entrée : Observation
+    Sortie : liste des precipitations par mois
+    """
+    precip_jour = precipitation_par_jour(data)
+    annee = [[] for _ in range(12)]
+    for date in precip_jour.keys():
+        mois = date.month
+        annee[mois-1].append((round(precip_jour[date],0),date.year))
+    return annee
+
+def max_precipitation_mois(data):
+    """
+    Entrée : Observation
+    Sortie : liste des maxi par mois
+    """
+    precip_mois = precipitation_par_mois(data)
+    res=[]
+    for k in range(12):
+        record = max(precip_mois[k])
+        res.append(record)
+    return res
+
+def moyenne_precipitation_mois(data):
+    """
+    Entrée : Observation
+    Sortie : liste des moyennes par mois
+    """
+    precip_mois = precipitation_par_mois(data)
+    res=[]
+    for k in range(12):
+        mois = precip_mois[k]
+        somme=0
+        for (v,annee) in mois:
+            somme+=v
+            
+        moy = somme/len(mois)
+        res.append(round(moy,1))
+    return res
+
+def vent_t_par_mois(data,piste):
+    """
+    Entrée : Observation
+    Sortie : liste des vents traverisés par mois
+    """
+    res={i:[] for i in range(1,13)}
+    
+    for d in data:
+        vent_dir = d.direction_vent
+        vent_sp = d.vitesse_vent
+        if (not('direction_vent' in d.a_donnees_manquantes())) and (not(vent_dir=='')) and (not('vitesse_vent' in d.a_donnees_manquantes())) and (not(vent_sp=='')):
+            mois = d.date.month
+            annee = d.date.year
+            
+            vt = calcul_crossWind(piste*10,vent_dir,vent_sp)
+            
+            
+            res[mois].append((round(vt,0),annee))
+            
+    return res 
+
+def max_vent_t_mois(data,piste):
+    """
+    Entrée : Observation
+    Sortie : liste des maxis par mois
+    """
+    vt_mois = vent_t_par_mois(data,piste)
+    res=[]
+    for mois in vt_mois.keys():
+        m = max(vt_mois[mois])
+        res.append(m)
+    return res
+
+def moyenne_vent_t_mois(data,piste):
+    """
+    Entrée : Observation
+    Sortie : liste des moyennes par mois
+    """
+    vt_mois = vent_t_par_mois(data,piste)
+    res=[]
+    for mois in vt_mois.keys():
+        somme=0
+        cnt=0
+        for (v,a) in vt_mois[mois]:
+            cnt+=1
+            somme+=v
+        res.append(round(somme/cnt,2))
+    return res
+
+def vent_e_par_mois(data,piste):
+    """
+    Entrée : Observation
+    Sortie : liste des vents traverisés par mois
+    """
+    res={i:[] for i in range(1,13)}
+    
+    for d in data:
+        vent_dir = d.direction_vent
+        vent_sp = d.vitesse_vent
+        if (not('direction_vent' in d.a_donnees_manquantes())) and (not(vent_dir=='')) and (not('vitesse_vent' in d.a_donnees_manquantes())) and (not(vent_sp=='')):
+            mois = d.date.month
+            annee = d.date.year
+            
+            vt = abs(calcul_vent_eff(piste*10,vent_dir,vent_sp))
+            
+            
+            res[mois].append((round(vt,0),annee))
+            
+    return res 
+
+def max_vent_e_mois(data,piste):
+    """
+    Entrée : Observation
+    Sortie : liste des maxis par mois
+    """
+    vt_mois = vent_e_par_mois(data,piste)
+    res=[]
+    for mois in vt_mois.keys():
+        m = max(vt_mois[mois])
+        res.append(m)
+    return res
+
+def moyenne_vent_e_mois(data,piste):
+    """
+    Entrée : Observation
+    Sortie : liste des moyennes par mois
+    """
+    vt_mois = vent_e_par_mois(data,piste)
+    res=[]
+    for mois in vt_mois.keys():
+        somme=0
+        cnt=0
+        for (v,a) in vt_mois[mois]:
+            cnt+=1
+            somme+=v
+        res.append(round(somme/cnt,2))
+    return res

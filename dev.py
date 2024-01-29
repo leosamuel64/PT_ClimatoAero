@@ -7,8 +7,8 @@ from codes.affichages import *
 from codes.config import *
 
 
-# data = charge_fichier(chemin_observations)
-metars = build_dict_metar(chemin_Metars)
+data = charge_fichier(chemin_observations)
+# metars = build_dict_metar(chemin_Metars)
 # 
 
 print('DEBUT CODE')
@@ -39,13 +39,22 @@ def vents_dominants_vitesse(data):
     return res
 
 
-# affiche_tc_visi_plafond(data)
 
-acft = avion('TRIN')
-ad = aerodrome('LFBR')
 
-plot_weather(metars,seuil=0.5)
-                
+            
+            
+            
+            
+            
+            
+            
+            
+
+        
+            
+
+
+            
     
 
 

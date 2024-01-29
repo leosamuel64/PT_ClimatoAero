@@ -25,6 +25,8 @@ def rose_des_vents(data,runways):
         else:
             plt.bar(x=(d*10)*math.pi/180, height=vd[d], width=math.pi*10/180, bottom=0,color="red")
     ax.set_title("Rose des vents ("+data[0].nom+")")
+    plt.savefig('exports_raw/RDV_.svg',format='svg')
+    
     plt.show()
     
 
@@ -100,7 +102,7 @@ def plot_weather(metars,seuil=0):
     addlabels(Y, X,'j/an')
     
     # plt.title('Météo ')
-    plt.savefig('fig.svg',format='svg')
+    plt.savefig('exports_raw/weather.svg',format='svg')
     plt.show()
     
     
@@ -140,12 +142,12 @@ def trace_phenomene(metars,code,show=True):
     addlabels(X, Y,'j')
     
     if show:
-        plt.savefig('fig.svg',format='svg')
+        plt.savefig('exports_raw/Phenomene'+code+'.svg',format='svg')
         plt.show()
     else:
         return X,Y
     
-def trace_tableau(column_labels,line_label,data_temp,ajout=''):
+def trace_tableau(column_labels,line_label,data_temp,nom,ajout=''):
     '''
     Entrée : Liste des labels, liste de liste des données
     Sortie : Tableau
@@ -169,20 +171,42 @@ def trace_tableau(column_labels,line_label,data_temp,ajout=''):
     table = ax.table(cellText=data_head, cellColours=colors, loc="center")
     table.auto_set_font_size(False)
     table.set_fontsize(5)
-    plt.savefig('fig.svg',format='svg')
+    plt.savefig('exports_raw/Tableau'+nom+'.svg',format='svg')
     
     plt.show()
 
 def trace_tableau_temp(data):
-    # TODO : Faire une entete I/O
+    """
+    Entrée : Observation
+    Sortie : Tableau des temperature max, min et moyenne avec les records par mois
+    """
     
-    t_max = tableau_climato(data, max)
-    t_min = tableau_climato(data, min)
-    t_moy = tableau_moyenne(data)
+    t_max = tableau_climato_temp(data, max)
+    t_min = tableau_climato_temp(data, min)
+    t_moy = tableau_moyenne_temp(data)
 
     trace_tableau(  ['-','Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec'],
                     ['Max','Min', 'Moy'],
-                    [t_max,t_min,t_moy],'°C')
+                    [t_max,t_min,t_moy],'température','°C')
+    
+def trace_tableau_qnh(data):
+    """
+    Entrée : Observation
+    Sortie : Tableau des temperature max, min et moyenne avec les records par mois
+    """
+    
+    t_max = tableau_climato_qnh(data, max)
+    t_min = tableau_climato_qnh(data, min)
+    t_moy = tableau_moyenne_qnh(data)
+    
+    maxi = max(t_max)[0]
+    mini = min(t_min)[0]
+    moy= round(moyenne(t_moy),0)
+    
+
+    trace_tableau(  ['-','Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec','Record'],
+                    ['Max','Min', 'Moy'],
+                    [t_max+[maxi],t_min+[mini],t_moy+[str(moy)]],'QNH','hPa')
     
 def trace_limitations(data,aeronef,ad,piste):
     """
@@ -195,11 +219,14 @@ def trace_limitations(data,aeronef,ad,piste):
     plt.bar(X,res,color=color_template().orange)
     addlabels(X, res,'j')
     
-    plt.savefig('limit_'+aeronef.code+'.svg',format='svg')
+    plt.savefig('exports_raw/limit_'+aeronef.code+'.svg',format='svg')
     plt.show()
     
 def trace_donnees_manquantes(data):
-    # TODO : Faire une entete I/O
+    """
+    Entrée : Observation
+    Sortie : tableau des pourcentages des données manquantes par paramètres
+    """
     calc = calcul_donnees_manquantes(data)
     res=[]
     keys=[]
@@ -209,7 +236,7 @@ def trace_donnees_manquantes(data):
         
     trace_tableau(['Données','Données Manquantes (%)'],
                 keys,
-                res)
+                res,'Miss_Data')
 
     
 
@@ -221,7 +248,7 @@ def affiche_table_contingence(data,pas_abs,pas_ord,fonction_couple,texte):
     table = calcul_table_contingence(data,pas_abs,pas_ord,fonction_couple)
     trace_tableau(  [texte]+pas_abs+['>'],
                     pas_ord+['>'],
-                    table,'')
+                    table,'tc'+fonction_couple.__name__,'')
     
 
 def affiche_tc_visi_plafond(data):
@@ -232,3 +259,69 @@ def affiche_tc_visi_plafond(data):
     pas_visi = [800,1500,5000,10000] # Visi
     pas_plafond = [50,100,200,400,1500,5000] # Plafond
     affiche_table_contingence(data,pas_visi,pas_plafond,couple_contingence_visi_plafond, 'Visibilité\n Plafond          ')
+
+def trace_tableau_gel(data):
+    """
+    Entrée : Observation,
+    Sortie : tableau du nombre de jour moyen de gel par mois
+    """
+    tab = compte_gel_mois(data)
+    
+    trace_tableau(  ['-','Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec'],
+                    ['jours/mois'],
+                    [tab],'gel','j/m')
+    
+
+def trace_tableau_precipitation(data):
+    """
+    Entrée : Observation
+    Sortie : Tableau des precipitations max et moyenne avec les records par mois
+    """
+    
+    t_max = max_precipitation_mois(data)
+    t_moy = moyenne_precipitation_mois(data)
+    
+    maxi = max(t_max)[0]
+    moy= round(moyenne(t_moy),0)
+    
+
+    trace_tableau(  ['-','Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec','Record'],
+                    ['Max', 'Moy'],
+                    [t_max+[str(maxi)],t_moy+[str(moy)]],
+                    'precipitation','mm/jour')
+    
+def trace_tableau_vent_travers(data,piste):
+    """
+    Entrée : Observation
+    Sortie : Tableau des vents traversiés max et moyen avec les records par mois
+    """
+    
+    t_max = max_vent_t_mois(data,piste)
+    t_moy = moyenne_vent_t_mois(data,piste)
+    
+    maxi = max(t_max)[0]
+    moy= round(moyenne(t_moy),0)
+    
+
+    trace_tableau(  ['-','Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec','Record'],
+                    ['Max', 'Moy'],
+                    [t_max+[str(maxi)],t_moy+[str(moy)]],
+                    'Vent_travers','kt')
+    
+def trace_tableau_vent_effectif(data,piste):
+    """
+    Entrée : Observation
+    Sortie : Tableau des vents traversiés max et moyen avec les records par mois
+    """
+    
+    t_max = max_vent_e_mois(data,piste)
+    t_moy = moyenne_vent_e_mois(data,piste)
+    
+    maxi = max(t_max)[0]
+    moy= round(moyenne(t_moy),0)
+    
+
+    trace_tableau(  ['-','Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec','Record'],
+                    ['Max', 'Moy'],
+                    [t_max+[str(maxi)],t_moy+[str(moy)]],
+                    'Vent_effectif','kt')
