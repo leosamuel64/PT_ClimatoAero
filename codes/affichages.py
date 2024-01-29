@@ -290,10 +290,10 @@ def trace_tableau_precipitation(data):
     moy= round(moyenne(t_moy),0)
     
 
-    trace_tableau(  ['-','Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec','Record'],
+    trace_tableau(  ['mm/jour','Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec','Record'],
                     ['Max', 'Moy'],
                     [t_max+[str(maxi)],t_moy+[str(moy)]],
-                    'precipitation','mm/jour')
+                    'precipitation','')
     
 def trace_tableau_vent_travers(data,piste):
     """
