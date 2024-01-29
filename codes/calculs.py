@@ -3,25 +3,26 @@ from codes.fonctions_auxiliaires import *
 import math
 from codes.config import *
 
-
-def vents_dominants_p(data):
+def vents_dominants_vitesse(data):
     """
     Entrée : Liste des observations
-    Sortie : Dictionnaire des pourcentages des vents
+    Sortie : Dictionnaire des listes des vitesses de vent
     """
-    res={i:0 for i in range(0,36)}
-    cnt=0
+    res={i:[0,0,0] for i in range(0,36)}
     for d in data:
-        if (not ('direction_vent' in d.a_donnees_manquantes()) )and (not ('vitesse_vent' in d.a_donnees_manquantes())):
+        direct = d.direction_vent
+        sp=d.vitesse_vent
+        if (not('direction_vent' in d.a_donnees_manquantes())) and (not(direct=='')) and (not('vitesse_vent' in d.a_donnees_manquantes())) and (not(sp=='')):
         
-            direct = d.direction_vent
-            sp=d.vitesse_vent
             wr=round_wind(direct)%36
-            res[wr]+=1*sp
-            cnt+=1*sp
-        
-    for key in res:
-        res[key]=round(100*res[key]/cnt)
+            if sp>2.9:
+                if sp<8.7:
+                    res[wr][0]+=1
+                elif sp<15.5:
+                    res[wr][1]+=1
+                else:
+                    res[wr][2]+=1
+                
     return res
 
 

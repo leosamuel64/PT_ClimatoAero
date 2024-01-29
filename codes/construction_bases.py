@@ -42,3 +42,23 @@ def charge_fichier(path):
         obs = observation(ligne)
         res.append(obs)
     return res
+
+def reecrit_fichier_MT(fichier,fichier_corr):
+    file=open(fichier,'r')
+    rajout='''MONTPELLIER;1�15'43"E;43�27'05"N;1;'''
+    temp = []
+    for ligne in file:
+        debut=ligne[0:9]
+        fin=ligne[9:len(ligne)]
+        temp.append(debut+rajout+fin)
+    file=open(fichier_corr,'w')
+    for ligne in temp:
+        file.write(ligne)
+    file.close()
+    
+
+        
+        
+        
+        
+    

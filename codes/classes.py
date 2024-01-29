@@ -79,8 +79,10 @@ class observation:
             if nuages[i][0]!='' and nuages[i][0]>nebu_max:
                 nebu_max=nuages[i][0]
                 couche_max=nuages[i]
-        if nebu_max>4:
+        if nebu_max>4 and couche_max[2]!='':
             return couche_max
+        else:
+            return None
 
     def a_donnees_manquantes(self):
         tab = [self.q_hauteur_precipitation, self.q_duree_precipitation ,self.q_temperature ,self.q_dew_point ,self.q_temperature_mini ,self.q_heure_temperature_mini,self.q_temperature_maxi,self.q_heure_temperature_maxi ,self.q_duree_gel,self.q_qfe, self.q_qnh ,self.q_geopotentiel,self.q_qnh_mini,self.q_vitesse_vent,self.q_direction_vent,self.q_vitesse_vent_instant_maxi,self.q_direction_vent_instant_maxi ,self.q_heure_vent_instant_maxi ,self.q_humidite,self.q_humidite_mini,self.q_heure_humidite_mini,self.q_humidite_maxi, self.q_heure_humidite_maxi,self.q_nebulosite ,self.q_temps_present ,self.q_visi]

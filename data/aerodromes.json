@@ -11,5 +11,12 @@
     "visi_ifr": 550,
     "plafond_vfr":600,
     "plafond_ifr":200
+},
+"LFMT":     {
+    "Nom": "Aéroport de Montpellier Méditerranée",
+    "visi_vfr": 1500,
+    "visi_ifr": 550,
+    "plafond_vfr":600,
+    "plafond_ifr":200
 }
 }  

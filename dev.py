@@ -7,7 +7,7 @@ from codes.affichages import *
 from codes.config import *
 
 
-data = charge_fichier(chemin_observations)
+data = charge_fichier('data/LFMT.data')
 # metars = build_dict_metar(chemin_Metars)
 # 
 
@@ -24,27 +24,17 @@ print('DEBUT CODE')
 # ad = aerodrome('LFBO')
 # trace_limitations(data,x,ad,30)
 
-def vents_dominants_vitesse(data):
-    """
-    Entrée : Liste des observations
-    Sortie : Dictionnaire des listes des vitesses de vent
-    """
-    res={i:[] for i in range(0,36)}
-    for d in data:
-        
-        direct = d.direction_vent
-        sp=d.vitesse_vent
-        wr=round_wind(direct)%36
-        res[wr].append(sp)
-    return res
 
 
-
+# reecrit_fichier_MT('data/backup_LFMT.data','data/LFMT.data')
 
             
             
+# rose_des_vents(data)
             
-            
+for i in range(len(data)):
+    if data[i].plafond()!=None and data[i].plafond()[2]=='':
+        print(data[i].plafond())
             
             
             

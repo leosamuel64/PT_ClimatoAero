@@ -13,11 +13,15 @@ def incr_dico(dico,key,value):
         dico[key]=value
 
 def convert_date(mot):
-        annee=int(mot[0]+mot[1]+mot[2]+mot[3])
-        mois=int(mot[4])*10+int(mot[5])
-        jour=int(mot[6])*10+int(mot[7])
-        heure=int(mot[8])*10+int(mot[9])
-        return datetime.datetime(annee,mois,jour,heure)
+    '''
+    Entrée : date au format observation
+    Procedure : Augmente Dictionnaire[Clé] de Valeur
+    '''
+    annee=int(mot[0]+mot[1]+mot[2]+mot[3])
+    mois=int(mot[4])*10+int(mot[5])
+    jour=int(mot[6])*10+int(mot[7])
+    heure=int(mot[8])*10+int(mot[9])
+    return datetime.datetime(annee,mois,jour,heure)
     
 def convert_heure(mot,d):
     if len(mot)==3:

@@ -6,28 +6,33 @@ from codes.calculs import *
 from codes.config import *
 
 
-def rose_des_vents(data,runways):
+def rose_des_vents(data):
     '''
     Entrée : Liste des observations, liste des numéros de pistes
     Sortie : Graphique Rose des vents
     '''
-    vd = vents_dominants_p(data)
+    vd = vents_dominants_vitesse(data)
+    
     ax = plt.subplot(111, polar=True)
     ax.set_theta_zero_location("N")
     ax.set_theta_direction(-1)
+    ax.get_yaxis().set_visible(False)
+    
+    
     for d in vd: 
-        if d in runways:
-            plt.bar(x=(d*10)*math.pi/180, height=vd[d], width=math.pi*10/180, bottom=0,color="green")
-        elif (d+1)%36 in runways or (d-1)%36 in runways:
-            plt.bar(x=(d*10)*math.pi/180, height=vd[d], width=math.pi*10/180, bottom=0,color="yellow")
-        elif (d+2)%36 in runways or (d-2)%36 in runways:
-            plt.bar(x=(d*10)*math.pi/180, height=vd[d], width=math.pi*10/180, bottom=0,color="orange")
-        else:
-            plt.bar(x=(d*10)*math.pi/180, height=vd[d], width=math.pi*10/180, bottom=0,color="red")
-    ax.set_title("Rose des vents ("+data[0].nom+")")
+        i,m,s=vd[d]
+        s+=i+m
+        m+=i
+        
+        plt.bar(x=(d*10)*math.pi/180, height=s, width=math.pi*10/180, bottom=0,color="red")
+        plt.bar(x=(d*10)*math.pi/180, height=m, width=math.pi*10/180, bottom=0,color="orange")
+        plt.bar(x=(d*10)*math.pi/180, height=i, width=math.pi*10/180, bottom=0,color="green")
+        
+    # ax.set_title("Rose des vents ("+data[0].nom+")")
     plt.savefig('exports_raw/RDV_.svg',format='svg')
     
     plt.show()
+
     
 
 def plot_temp(data):
