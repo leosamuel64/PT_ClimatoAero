@@ -17,18 +17,34 @@ def rose_des_vents(data):
     ax.set_theta_zero_location("N")
     ax.set_theta_direction(-1)
     ax.get_yaxis().set_visible(False)
-    
+    legnd_R = True
+    legnd_O = True    
+    legnd_G = True
+
     
     for d in vd: 
         i,m,s=vd[d]
         s+=i+m
         m+=i
         
-        plt.bar(x=(d*10)*math.pi/180, height=s, width=math.pi*10/180, bottom=0,color="red")
-        plt.bar(x=(d*10)*math.pi/180, height=m, width=math.pi*10/180, bottom=0,color="orange")
-        plt.bar(x=(d*10)*math.pi/180, height=i, width=math.pi*10/180, bottom=0,color="green")
+        if legnd_R:
+            plt.bar(x=(d*10)*math.pi/180, height=s, width=math.pi*10/180, bottom=0,color="red",label='Vitesse vent>15kt')
+            legnd_R=False
+        else:
+            plt.bar(x=(d*10)*math.pi/180, height=s, width=math.pi*10/180, bottom=0,color="red")
+        if legnd_O:
+            plt.bar(x=(d*10)*math.pi/180, height=m, width=math.pi*10/180, bottom=0,color="orange",label='Vitesse vent ∈ [2.9;8.7] kt')
+            legnd_O=False
+        else:
+            plt.bar(x=(d*10)*math.pi/180, height=m, width=math.pi*10/180, bottom=0,color="orange")
+        if legnd_G:
+            plt.bar(x=(d*10)*math.pi/180, height=i, width=math.pi*10/180, bottom=0,color="green",label='Vitesse vent<2.9kt')
+            legnd_G=False
+        else:
+            plt.bar(x=(d*10)*math.pi/180, height=i, width=math.pi*10/180, bottom=0,color="green")
         
     # ax.set_title("Rose des vents ("+data[0].nom+")")
+    plt.legend()
     plt.savefig('exports_raw/RDV_.svg',format='svg')
     
     plt.show()
@@ -290,8 +306,8 @@ def trace_tableau_precipitation(data):
     moy= round(moyenne(t_moy),0)
     
 
-    trace_tableau(  ['mm/jour','Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec','Record'],
-                    ['Max', 'Moy'],
+    trace_tableau(  ['-','Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec','Record'],
+                    ['Max (mm/jour)', 'Moy (mm)'],
                     [t_max+[str(maxi)],t_moy+[str(moy)]],
                     'precipitation','')
     

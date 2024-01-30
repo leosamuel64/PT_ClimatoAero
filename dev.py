@@ -7,7 +7,7 @@ from codes.affichages import *
 from codes.config import *
 
 
-data = charge_fichier('data/LFMT.data')
+data = charge_fichier('data/LFBR.data')
 # metars = build_dict_metar(chemin_Metars)
 # 
 
@@ -18,7 +18,6 @@ print('DEBUT CODE')
 # --------------------------------------- CODE -----------------------------------------
 # --------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------
-
 
 
 

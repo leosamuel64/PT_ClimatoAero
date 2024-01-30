@@ -429,7 +429,7 @@ def moyenne_precipitation_mois(data):
         for (v,annee) in mois:
             somme+=v
             
-        moy = somme/len(mois)
+        moy = 30*(somme/len(mois))
         res.append(round(moy,1))
     return res
 
