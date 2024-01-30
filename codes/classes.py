@@ -134,4 +134,6 @@ class aerodrome:
         self.vfr_visi = dico["visi_vfr"]
         self.ifr_plafond = dico["plafond_ifr"]
         self.vfr_plafond = dico["plafond_vfr"]
+        self.pistes = dico["pistes"]
+        self.piste_pref = dico["piste_pref"]
         

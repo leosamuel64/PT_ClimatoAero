@@ -330,3 +330,17 @@ def trace_tableau_vent_effectif(data,piste):
                     ['Max', 'Moy'],
                     [t_max+[str(maxi)],t_moy+[str(moy)]],
                     'Vent_effectif','kt')
+    
+def affiche_coeff_pistes(data,ad,seuil_vent):
+    coeff_p=coeff_pistes(data,ad,seuil_vent)
+    X,Y=[],[]
+    for piste in coeff_p.keys():
+        X.append(str(piste))
+        Y.append(coeff_p[piste])
+        
+    plt.bar(X,Y,color=color_template().orange)
+        
+    addlabels(X, Y,'%')
+    
+    plt.savefig('exports_raw/coeff_pistes.svg',format='svg')
+    plt.show()

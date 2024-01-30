@@ -530,3 +530,32 @@ def moyenne_vent_e_mois(data,piste):
             somme+=v
         res.append(round(somme/cnt,2))
     return res
+
+def coeff_pistes(data,ad,seuil_vent):
+    pistes=ad.pistes
+    piste_pref=ad.piste_pref
+    
+    res={n:0 for n in pistes}
+    cnt=0
+    
+    for d in data:
+        vent_dir = d.direction_vent
+        vent_sp = d.vitesse_vent
+        if (not('direction_vent' in d.a_donnees_manquantes())) and (not(vent_dir=='')) and (not('vitesse_vent' in d.a_donnees_manquantes())) and (not(vent_sp=='')):
+            v_eff_max = 0
+            p = piste_pref
+            for hdg in pistes:
+                v_eff = calcul_vent_eff(hdg*10,vent_dir,vent_sp)
+                if v_eff> v_eff_max:
+                    v_eff_max=v_eff
+                    p=hdg
+            if v_eff_max>=seuil_vent:
+                res[p]+=1
+            else:
+                res[piste_pref]+=1
+            cnt+=1
+            
+    for hdg in pistes:
+        res[hdg]=round(100*res[hdg]/cnt,1)
+        
+    return res

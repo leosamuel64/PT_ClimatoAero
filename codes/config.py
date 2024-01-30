@@ -11,4 +11,6 @@ class color_template:
 PHENOMENE_PONDERATION = {'TS':24,
                          'RA':12,
                          'DZ':12}
+
+SEUIL_VENT_CALME = 2 # En kt
         

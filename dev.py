@@ -20,21 +20,8 @@ print('DEBUT CODE')
 # --------------------------------------------------------------------------------------
 
 
-# x = avion('TRIN')
-# ad = aerodrome('LFBO')
-# trace_limitations(data,x,ad,30)
 
 
-
-# reecrit_fichier_MT('data/backup_LFMT.data','data/LFMT.data')
-
-            
-            
-# rose_des_vents(data)
-            
-for i in range(len(data)):
-    if data[i].plafond()!=None and data[i].plafond()[2]=='':
-        print(data[i].plafond())
             
             
             
