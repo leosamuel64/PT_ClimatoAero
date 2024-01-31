@@ -49,6 +49,8 @@ def rose_des_vents(data,conf):
     
     if config.SHOW:
         plt.show()
+    plt.close('all')
+    
 
     
 
@@ -75,6 +77,8 @@ def plot_temp(data):
     plt.title('Température '+data[0].nom+'\n Température Maximum : '+str(maxi_calc)+'°C ('+str(maxi_date)+')\n Température Minimum : '+str(mini_calc)+'°C ('+str(mini_date)+')')
     if config.SHOW:
         plt.show()
+    plt.close('all')
+        
 
 
 def plot_qnh(data):
@@ -100,6 +104,8 @@ def plot_qnh(data):
     plt.title('QNH '+data[0].nom+'\n QNH Maximum : '+str(maxi_calc)+'hPa ('+str(maxi_date)+')\n QNH Minimum : '+str(mini_calc)+'hPa ('+str(mini_date)+')')
     if config.SHOW:
         plt.show()
+    plt.close('all')
+        
     
 
 def plot_weather(metars,conf,seuil=0):
@@ -129,6 +135,8 @@ def plot_weather(metars,conf,seuil=0):
     plt.savefig('Figures_raw/'+conf.chemin_observations[-9:-5]+'/weather.svg',format='svg')
     if config.SHOW:
         plt.show()
+    plt.close('all')
+        
     
     
 def trace_phenomene(metars,code,conf,show=True):
@@ -171,6 +179,8 @@ def trace_phenomene(metars,code,conf,show=True):
     plt.savefig('Figures_raw/'+conf.chemin_observations[-9:-5]+'/Phenomene'+code+'.svg',format='svg')
     if config.SHOW:
         plt.show()
+    plt.close('all')
+        
 
     
 def trace_tableau(column_labels,line_label,data_temp,nom,conf,ajout=''):
@@ -203,6 +213,8 @@ def trace_tableau(column_labels,line_label,data_temp,nom,conf,ajout=''):
     
     if config.SHOW:
         plt.show()
+    plt.close('all')
+        
 
 def trace_tableau_temp(data,conf):
     """
@@ -255,6 +267,8 @@ def trace_limitations(data,aeronef,ad,conf):
     plt.savefig('Figures_raw/'+conf.chemin_observations[-9:-5]+'/limit_'+aeronef.code+'.svg',format='svg')
     if config.SHOW:
         plt.show()
+    plt.close('all')
+        
     
 def trace_donnees_manquantes(data,conf):
     """
@@ -374,3 +388,5 @@ def affiche_coeff_pistes(data,ad,seuil_vent,conf):
     plt.savefig('Figures_raw/'+conf.chemin_observations[-9:-5]+'/coeff_pistes.svg',format='svg')
     if config.SHOW:
         plt.show()
+    plt.close('all')
+        

@@ -59,6 +59,10 @@ def multi_exports(liste_ad,flotte,phenomenes):
         print('---------'+code+'--------')
         deb=time.time()
         res = genere_export_ad(code,flotte,phenomenes)
-        plt.close('all')
-        print("Temps d'execution : "+str(round(time.time()-deb,0)+' s')
+        tps = round(time.time()-deb,0)
+        print("Temps d'execution : "+str(tps)+' s')
         print("Nombre de figures : "+str(res)+' figures')
+        print("Nombre de figures : "+str(res)+' figures')
+        print("Temps par figure : "+str(round(tps/res,1))+' s/figures')
+        
+        
