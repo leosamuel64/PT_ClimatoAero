@@ -43,7 +43,7 @@ def rose_des_vents(data):
         else:
             plt.bar(x=(d*10)*math.pi/180, height=i, width=math.pi*10/180, bottom=0,color="green")
         
-    # ax.set_title("Rose des vents ("+data[0].nom+")")
+    ax.set_title("Rose des vents")
     plt.legend()
     plt.savefig('exports_raw/RDV_.svg',format='svg')
     
@@ -122,7 +122,7 @@ def plot_weather(metars,seuil=0):
     plt.bar(Y,X,color=color_template().orange)
     addlabels(Y, X,'j/an')
     
-    # plt.title('Météo ')
+    plt.title('Temps significatifs')
     plt.savefig('exports_raw/weather.svg',format='svg')
     plt.show()
     
@@ -163,6 +163,7 @@ def trace_phenomene(metars,code,show=True):
     addlabels(X, Y,'j')
     
     if show:
+        plt.title('Moyenne des jour de '+code+' par mois')
         plt.savefig('exports_raw/Phenomene'+code+'.svg',format='svg')
         plt.show()
     else:
@@ -192,6 +193,8 @@ def trace_tableau(column_labels,line_label,data_temp,nom,ajout=''):
     table = ax.table(cellText=data_head, cellColours=colors, loc="center")
     table.auto_set_font_size(False)
     table.set_fontsize(5)
+    plt.title(nom)
+    
     plt.savefig('exports_raw/Tableau'+nom+'.svg',format='svg')
     
     plt.show()
@@ -205,6 +208,8 @@ def trace_tableau_temp(data):
     t_max = tableau_climato_temp(data, max)
     t_min = tableau_climato_temp(data, min)
     t_moy = tableau_moyenne_temp(data)
+    
+    
 
     trace_tableau(  ['-','Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec'],
                     ['Max','Min', 'Moy'],
@@ -240,6 +245,8 @@ def trace_limitations(data,aeronef,ad,piste):
     plt.bar(X,res,color=color_template().orange)
     addlabels(X, res,'j')
     
+    plt.title('limitation '+aeronef.nom)
+    
     plt.savefig('exports_raw/limit_'+aeronef.code+'.svg',format='svg')
     plt.show()
     
@@ -257,7 +264,7 @@ def trace_donnees_manquantes(data):
         
     trace_tableau(['Données','Données Manquantes (%)'],
                 keys,
-                res,'Miss_Data')
+                res,'Données Manquantes')
 
     
 
