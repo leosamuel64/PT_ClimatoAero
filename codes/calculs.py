@@ -231,12 +231,25 @@ def limite_vent(d,aeronef,piste):
         direct = d.direction_vent
         sp=d.vitesse_vent
         vent_t = calcul_crossWind(piste*10,direct,sp)
-        if aeronef.max_cross_wind < vent_t:
+        if (aeronef.max_cross_wind < vent_t) or ((aeronef.limite_vent != None) and (aeronef.limite_vent < sp)):
             return True
         else:
             return False
     else:
         return False
+    
+def limite_precip(d,aeronef):
+    """
+    Entrée : Observation, avion, numéro de la piste
+    Sortie : Indique si le vent est limitant
+    """
+    if (not ('hauteur_precipitation' in d.a_donnees_manquantes())) and d.hauteur_precipitation!='':
+        if d.hauteur_precipitation>0 and aeronef.limite_pluie:
+            return True
+        else:
+            return False
+        
+        
     
 def limite_visi(d,aeronef,ad):
     """
@@ -279,7 +292,7 @@ def limitations(data,aeronef,piste,ad):
         
         last_lim, last_tot = res[mois-1]
         
-        if limite_vent(d,aeronef,piste) or limite_visi(d,aeronef,ad) or limite_plafond(d,aeronef,ad):        
+        if limite_vent(d,aeronef,piste) or limite_visi(d,aeronef,ad) or limite_plafond(d,aeronef,ad) or limite_precip(d,aeronef):        
             res[mois-1]=(last_lim+1,last_tot+1)
         else:
             res[mois-1]=(last_lim,last_tot+1)
