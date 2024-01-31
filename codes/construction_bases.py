@@ -43,9 +43,9 @@ def charge_fichier(path):
         res.append(obs)
     return res
 
-def reecrit_fichier_MT(fichier,fichier_corr):
+def reecrit_fichier(fichier,fichier_corr):
     file=open(fichier,'r')
-    rajout='''MONTPELLIER;1�15'43"E;43�27'05"N;1;'''
+    rajout='''Melun;1�15'43"E;43�27'05"N;301;'''
     temp = []
     for ligne in file:
         debut=ligne[0:9]
