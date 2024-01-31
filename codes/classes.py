@@ -139,3 +139,7 @@ class aerodrome:
         self.pistes = dico["pistes"]
         self.piste_pref = dico["piste_pref"]
         
+class export:
+    def __init__(self,code_ad) -> None:
+        self.chemin_observations='data/obs/'+code_ad+'.data'
+        self.code_ad=code_ad

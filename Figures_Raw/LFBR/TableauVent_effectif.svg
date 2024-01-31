@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2024-01-30T00:24:55.605789</dc:date>
+    <dc:date>2024-02-01T00:16:32.817363</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -1743,6 +1743,64 @@ z
       <use xlink:href="#DejaVuSans-6b" x="159.033203"/>
       <use xlink:href="#DejaVuSans-74" x="216.943359"/>
      </g>
+    </g>
+   </g>
+   <g id="text_43">
+    <!-- Vent_effectif -->
+    <g transform="translate(198.635625 35.472) scale(0.12 -0.12)">
+     <defs>
+      <path id="DejaVuSans-56" d="M 1831 0 
+L 50 4666 
+L 709 4666 
+L 2188 738 
+L 3669 4666 
+L 4325 4666 
+L 2547 0 
+L 1831 0 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-5f" d="M 3263 -1063 
+L 3263 -1509 
+L -63 -1509 
+L -63 -1063 
+L 3263 -1063 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-66" d="M 2375 4863 
+L 2375 4384 
+L 1825 4384 
+Q 1516 4384 1395 4259 
+Q 1275 4134 1275 3809 
+L 1275 3500 
+L 2222 3500 
+L 2222 3053 
+L 1275 3053 
+L 1275 0 
+L 697 0 
+L 697 3053 
+L 147 3053 
+L 147 3500 
+L 697 3500 
+L 697 3744 
+Q 697 4328 969 4595 
+Q 1241 4863 1831 4863 
+L 2375 4863 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#DejaVuSans-56"/>
+     <use xlink:href="#DejaVuSans-65" x="60.658203"/>
+     <use xlink:href="#DejaVuSans-6e" x="122.181641"/>
+     <use xlink:href="#DejaVuSans-74" x="185.560547"/>
+     <use xlink:href="#DejaVuSans-5f" x="224.769531"/>
+     <use xlink:href="#DejaVuSans-65" x="274.769531"/>
+     <use xlink:href="#DejaVuSans-66" x="336.292969"/>
+     <use xlink:href="#DejaVuSans-66" x="371.498047"/>
+     <use xlink:href="#DejaVuSans-65" x="406.703125"/>
+     <use xlink:href="#DejaVuSans-63" x="468.226562"/>
+     <use xlink:href="#DejaVuSans-74" x="523.207031"/>
+     <use xlink:href="#DejaVuSans-69" x="562.416016"/>
+     <use xlink:href="#DejaVuSans-66" x="590.199219"/>
     </g>
    </g>
   </g>

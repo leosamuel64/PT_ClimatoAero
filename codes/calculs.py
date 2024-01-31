@@ -154,8 +154,8 @@ def count_weather(metars):
             for k in groupe:
                 if k!=None and not('/' in k):
                     temp+=k
-            if temp in PHENOMENE_PONDERATION.keys():
-                valeur=PHENOMENE_PONDERATION[temp]
+            if temp in config.PHENOMENE_PONDERATION.keys():
+                valeur=config.PHENOMENE_PONDERATION[temp]
             else:
                 valeur = 1
 
@@ -227,7 +227,7 @@ def limite_vent(d,aeronef,ad):
     Entrée : Observation, avion, numéro de la piste
     Sortie : Indique si le vent est limitant
     """
-    if not ('direction_vent' in d.a_donnees_manquantes()) and not ('vitesse_vent' in d.a_donnees_manquantes()):
+    if not('direction_vent' in d.a_donnees_manquantes()) and not('vitesse_vent' in d.a_donnees_manquantes()) and d.direction_vent!='' and d.vitesse_vent!='':
         direct = d.direction_vent
         sp=d.vitesse_vent
         vent_t = calcul_crossWind(ad.pistes[0]*10,direct,sp)

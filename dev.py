@@ -5,6 +5,7 @@ from codes.calculs import *
 from codes.affichages import *
 
 from codes.config import *
+from codes.export import *
 
 
 # data = charge_fichier('data/LFBR.data')
@@ -17,7 +18,7 @@ from codes.config import *
 
 # data = charge_fichier('data/obs/LFMK.data')
 # data = charge_fichier('data/obs/LFMT.data')
-data = charge_fichier('data/obs/LFPM.data')
+# data = charge_fichier('data/obs/LFPM.data')
 
 
 
@@ -29,20 +30,22 @@ print('DEBUT CODE')
 # --------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------
 
+flotte = ['TOBA',
+          'TB20',
+          'DA40',
+          'DA42',
+          'CP10',
+          'B58',
+          'PIVI'] 
 
-# trace_tableau_qnh(data)
+phenomenes = ['BR',
+              'RA',
+              'FG',
+              'TS']
 
-# ad= aerodrome('LFBO')
-# ac = avion('PIVI')
-# trace_limitations(data,ac,ad)
-            
-# reecrit_fichier('data/obs/LFPM.data','data/obs/LFPM.data')
-            
-            
+liste_ad = ['LFBR','LFLN','LFLS','LFMK','LFMT','LFPM']
 
-        
-            
-
+multi_exports(liste_ad,flotte,phenomenes)
 
             
     

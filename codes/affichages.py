@@ -6,7 +6,7 @@ from codes.calculs import *
 from codes.config import *
 
 
-def rose_des_vents(data):
+def rose_des_vents(data,conf):
     '''
     Entrée : Liste des observations, liste des numéros de pistes
     Sortie : Graphique Rose des vents
@@ -45,9 +45,10 @@ def rose_des_vents(data):
         
     ax.set_title("Rose des vents")
     plt.legend()
-    plt.savefig('exports_raw/RDV_.svg',format='svg')
+    plt.savefig('Figures_raw/'+conf.chemin_observations[-9:-5]+'/RDV_.svg',format='svg')
     
-    plt.show()
+    if config.SHOW:
+        plt.show()
 
     
 
@@ -72,7 +73,8 @@ def plot_temp(data):
     plt.xlabel('Date')
     plt.ylabel('Température (°C)')
     plt.title('Température '+data[0].nom+'\n Température Maximum : '+str(maxi_calc)+'°C ('+str(maxi_date)+')\n Température Minimum : '+str(mini_calc)+'°C ('+str(mini_date)+')')
-    plt.show()
+    if config.SHOW:
+        plt.show()
 
 
 def plot_qnh(data):
@@ -96,10 +98,11 @@ def plot_qnh(data):
     plt.xlabel('Date')
     plt.ylabel('Température (°C)')
     plt.title('QNH '+data[0].nom+'\n QNH Maximum : '+str(maxi_calc)+'hPa ('+str(maxi_date)+')\n QNH Minimum : '+str(mini_calc)+'hPa ('+str(mini_date)+')')
-    plt.show()
+    if config.SHOW:
+        plt.show()
     
 
-def plot_weather(metars,seuil=0):
+def plot_weather(metars,conf,seuil=0):
     '''
     Entrée : Liste des metars, seuil pour ignorer les temps rares
     Sortie : Histogramme des pourcentages de chaque temps présent
@@ -123,11 +126,12 @@ def plot_weather(metars,seuil=0):
     addlabels(Y, X,'j/an')
     
     plt.title('Temps significatifs')
-    plt.savefig('exports_raw/weather.svg',format='svg')
-    plt.show()
+    plt.savefig('Figures_raw/'+conf.chemin_observations[-9:-5]+'/weather.svg',format='svg')
+    if config.SHOW:
+        plt.show()
     
     
-def trace_phenomene(metars,code,show=True):
+def trace_phenomene(metars,code,conf,show=True):
     '''
     Entrée : Liste des metars, code du phénomene (TS,-RA...), flag pour l'affichage ou les valeurs
     Sortie : Graphique du phénomène en fonction des mois
@@ -162,14 +166,14 @@ def trace_phenomene(metars,code,show=True):
     plt.bar(X,Y,color=color_template().orange)
     addlabels(X, Y,'j')
     
-    if show:
-        plt.title('Moyenne des jour de '+code+' par mois')
-        plt.savefig('exports_raw/Phenomene'+code+'.svg',format='svg')
+
+    plt.title('Moyenne des jour de '+code+' par mois')
+    plt.savefig('Figures_raw/'+conf.chemin_observations[-9:-5]+'/Phenomene'+code+'.svg',format='svg')
+    if config.SHOW:
         plt.show()
-    else:
-        return X,Y
+
     
-def trace_tableau(column_labels,line_label,data_temp,nom,ajout=''):
+def trace_tableau(column_labels,line_label,data_temp,nom,conf,ajout=''):
     '''
     Entrée : Liste des labels, liste de liste des données
     Sortie : Tableau
@@ -195,11 +199,12 @@ def trace_tableau(column_labels,line_label,data_temp,nom,ajout=''):
     table.set_fontsize(5)
     plt.title(nom)
     
-    plt.savefig('exports_raw/Tableau'+nom+'.svg',format='svg')
+    plt.savefig('Figures_raw/'+conf.chemin_observations[-9:-5]+'/Tableau'+nom+'.svg',format='svg')
     
-    plt.show()
+    if config.SHOW:
+        plt.show()
 
-def trace_tableau_temp(data):
+def trace_tableau_temp(data,conf):
     """
     Entrée : Observation
     Sortie : Tableau des temperature max, min et moyenne avec les records par mois
@@ -213,9 +218,9 @@ def trace_tableau_temp(data):
 
     trace_tableau(  ['-','Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec'],
                     ['Max','Min', 'Moy'],
-                    [t_max,t_min,t_moy],'température','°C')
+                    [t_max,t_min,t_moy],'température',conf,'°C')
     
-def trace_tableau_qnh(data):
+def trace_tableau_qnh(data,conf):
     """
     Entrée : Observation
     Sortie : Tableau des temperature max, min et moyenne avec les records par mois
@@ -232,9 +237,9 @@ def trace_tableau_qnh(data):
 
     trace_tableau(  ['-','Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec','Record'],
                     ['Max','Min', 'Moy'],
-                    [t_max+[maxi],t_min+[mini],t_moy+[str(moy)]],'QNH','hPa')
+                    [t_max+[maxi],t_min+[mini],t_moy+[str(moy)]],'QNH',conf,'hPa')
     
-def trace_limitations(data,aeronef,ad):
+def trace_limitations(data,aeronef,ad,conf):
     """
     Entrée : Observation, avion, Numéro de la piste, aerodrome
     Sortie : Graphique des pourcentages de non-accessibilité de l'aérodrome par l'aéronef en fonction des mois
@@ -247,10 +252,11 @@ def trace_limitations(data,aeronef,ad):
     
     plt.title('limitation '+aeronef.nom)
     
-    plt.savefig('exports_raw/limit_'+aeronef.code+'.svg',format='svg')
-    plt.show()
+    plt.savefig('Figures_raw/'+conf.chemin_observations[-9:-5]+'/limit_'+aeronef.code+'.svg',format='svg')
+    if config.SHOW:
+        plt.show()
     
-def trace_donnees_manquantes(data):
+def trace_donnees_manquantes(data,conf):
     """
     Entrée : Observation
     Sortie : tableau des pourcentages des données manquantes par paramètres
@@ -264,11 +270,11 @@ def trace_donnees_manquantes(data):
         
     trace_tableau(['Données','Données Manquantes (%)'],
                 keys,
-                res,'Données Manquantes')
+                res,'Données Manquantes',conf)
 
     
 
-def affiche_table_contingence(data,pas_abs,pas_ord,fonction_couple,texte):
+def affiche_table_contingence(data,pas_abs,pas_ord,fonction_couple,texte,conf):
     """
     Entrée : Observation, catégories en abscisse, catégories en ordonnée, fonction de création des couples, texte pour la case (0,0)
     Sortie : table de contingence du couple en fonction des catégories en image
@@ -276,19 +282,19 @@ def affiche_table_contingence(data,pas_abs,pas_ord,fonction_couple,texte):
     table = calcul_table_contingence(data,pas_abs,pas_ord,fonction_couple)
     trace_tableau(  [texte]+pas_abs+['>'],
                     pas_ord+['>'],
-                    table,'tc'+fonction_couple.__name__,'')
+                    table,'tc'+fonction_couple.__name__,conf,'')
     
 
-def affiche_tc_visi_plafond(data):
+def affiche_tc_visi_plafond(data,conf):
     """
     Entrée : Observation,
     Sortie : table de contingence visi/plafond
     """
     pas_visi = [800,1500,5000,10000] # Visi
     pas_plafond = [50,100,200,400,1500,5000] # Plafond
-    affiche_table_contingence(data,pas_visi,pas_plafond,couple_contingence_visi_plafond, 'Visibilité\n Plafond          ')
+    affiche_table_contingence(data,pas_visi,pas_plafond,couple_contingence_visi_plafond, 'Visibilité\n Plafond          ',conf)
 
-def trace_tableau_gel(data):
+def trace_tableau_gel(data,conf):
     """
     Entrée : Observation,
     Sortie : tableau du nombre de jour moyen de gel par mois
@@ -297,10 +303,10 @@ def trace_tableau_gel(data):
     
     trace_tableau(  ['-','Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec'],
                     ['jours/mois'],
-                    [tab],'gel','j/m')
+                    [tab],'gel',conf,'j/m')
     
 
-def trace_tableau_precipitation(data):
+def trace_tableau_precipitation(data,conf):
     """
     Entrée : Observation
     Sortie : Tableau des precipitations max et moyenne avec les records par mois
@@ -316,9 +322,9 @@ def trace_tableau_precipitation(data):
     trace_tableau(  ['-','Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec','Record'],
                     ['Max (mm/jour)', 'Moy (mm)'],
                     [t_max+[str(maxi)],t_moy+[str(moy)]],
-                    'precipitation','')
+                    'precipitation',conf,'')
     
-def trace_tableau_vent_travers(data,piste):
+def trace_tableau_vent_travers(data,piste,conf):
     """
     Entrée : Observation
     Sortie : Tableau des vents traversiés max et moyen avec les records par mois
@@ -334,9 +340,9 @@ def trace_tableau_vent_travers(data,piste):
     trace_tableau(  ['-','Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec','Record'],
                     ['Max', 'Moy'],
                     [t_max+[str(maxi)],t_moy+[str(moy)]],
-                    'Vent_travers','kt')
+                    'Vent_travers',conf,'kt')
     
-def trace_tableau_vent_effectif(data,piste):
+def trace_tableau_vent_effectif(data,piste,conf):
     """
     Entrée : Observation
     Sortie : Tableau des vents traversiés max et moyen avec les records par mois
@@ -352,9 +358,9 @@ def trace_tableau_vent_effectif(data,piste):
     trace_tableau(  ['-','Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec','Record'],
                     ['Max', 'Moy'],
                     [t_max+[str(maxi)],t_moy+[str(moy)]],
-                    'Vent_effectif','kt')
+                    'Vent_effectif',conf,'kt')
     
-def affiche_coeff_pistes(data,ad,seuil_vent):
+def affiche_coeff_pistes(data,ad,seuil_vent,conf):
     coeff_p=coeff_pistes(data,ad,seuil_vent)
     X,Y=[],[]
     for piste in coeff_p.keys():
@@ -365,5 +371,6 @@ def affiche_coeff_pistes(data,ad,seuil_vent):
         
     addlabels(X, Y,'%')
     
-    plt.savefig('exports_raw/coeff_pistes.svg',format='svg')
-    plt.show()
+    plt.savefig('Figures_raw/'+conf.chemin_observations[-9:-5]+'/coeff_pistes.svg',format='svg')
+    if config.SHOW:
+        plt.show()

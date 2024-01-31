@@ -57,6 +57,10 @@ def reecrit_fichier(fichier,fichier_corr):
     file.close()
     
 
+
+    
+    
+
         
         
         

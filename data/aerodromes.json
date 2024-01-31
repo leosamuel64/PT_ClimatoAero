@@ -24,5 +24,40 @@
     "plafond_ifr":200,
     "pistes":[12,30],
     "piste_pref":30
+},
+"LFLN":     {
+    "Nom": "Aéroport de Saint Yan",
+    "visi_vfr": 1500,
+    "visi_ifr": 550,
+    "plafond_vfr":600,
+    "plafond_ifr":200,
+    "pistes":[15,33],
+    "piste_pref":33
+},"LFLS":     {
+    "Nom": "Aéroport de Grenoble Alpes Isère",
+    "visi_vfr": 1500,
+    "visi_ifr": 550,
+    "plafond_vfr":600,
+    "plafond_ifr":200,
+    "pistes":[9,27],
+    "piste_pref":9
+},
+"LFMK":     {
+    "Nom": "Aéroport de Carcassonne",
+    "visi_vfr": 1500,
+    "visi_ifr": 550,
+    "plafond_vfr":600,
+    "plafond_ifr":200,
+    "pistes":[9,27],
+    "piste_pref":9
+},
+"LFPM":     {
+    "Nom": "Aéroport de Melun",
+    "visi_vfr": 1500,
+    "visi_ifr": 550,
+    "plafond_vfr":600,
+    "plafond_ifr":200,
+    "pistes":[19,1,28,10],
+    "piste_pref":28
 }
 }  

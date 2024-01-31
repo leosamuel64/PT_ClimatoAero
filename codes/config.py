@@ -1,5 +1,3 @@
-chemin_observations = 'data/LFBR.data'
-chemin_Metars = 'data/lfbo.txt'
 
 class color_template:
     def __init__(self):
@@ -8,9 +6,12 @@ class color_template:
         self.gris = (75/255,77/255,81/255)
         self.fond_table = (1,1,1)
         
-PHENOMENE_PONDERATION = {'TS':24,
-                         'RA':12,
-                         'DZ':12}
+class config:
+    PHENOMENE_PONDERATION = {   'TS':24,
+                                'RA':12,
+                                'DZ':12
+                            }
 
-SEUIL_VENT_CALME = 2 # En kt
+    SEUIL_VENT_CALME = 2 # En kt
+    SHOW=False
         
