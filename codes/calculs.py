@@ -222,7 +222,7 @@ def calcul_vent_eff(cap,direction,vitesse):
     
     return math.cos(rad)*vitesse
 
-def limite_vent(d,aeronef,piste):
+def limite_vent(d,aeronef,ad):
     """
     Entrée : Observation, avion, numéro de la piste
     Sortie : Indique si le vent est limitant
@@ -230,7 +230,7 @@ def limite_vent(d,aeronef,piste):
     if not ('direction_vent' in d.a_donnees_manquantes()) and not ('vitesse_vent' in d.a_donnees_manquantes()):
         direct = d.direction_vent
         sp=d.vitesse_vent
-        vent_t = calcul_crossWind(piste*10,direct,sp)
+        vent_t = calcul_crossWind(ad.pistes[0]*10,direct,sp)
         if (aeronef.max_cross_wind < vent_t) or ((aeronef.limite_vent != None) and (aeronef.limite_vent < sp)):
             return True
         else:
@@ -280,7 +280,7 @@ def limite_plafond(d,aeronef,ad):
         res=True
     return res
 
-def limitations(data,aeronef,piste,ad):
+def limitations(data,aeronef,ad):
     """
     Entrée : Observation, avion, Numéro de la piste, aerodrome
     Sortie : Tableau des pourcentages de non-accessibilité de l'aérodrome par l'aéronef en fonction des mois
@@ -292,7 +292,7 @@ def limitations(data,aeronef,piste,ad):
         
         last_lim, last_tot = res[mois-1]
         
-        if limite_vent(d,aeronef,piste) or limite_visi(d,aeronef,ad) or limite_plafond(d,aeronef,ad) or limite_precip(d,aeronef):        
+        if limite_vent(d,aeronef,ad) or limite_visi(d,aeronef,ad) or limite_plafond(d,aeronef,ad) or limite_precip(d,aeronef):        
             res[mois-1]=(last_lim+1,last_tot+1)
         else:
             res[mois-1]=(last_lim,last_tot+1)

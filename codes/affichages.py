@@ -234,12 +234,12 @@ def trace_tableau_qnh(data):
                     ['Max','Min', 'Moy'],
                     [t_max+[maxi],t_min+[mini],t_moy+[str(moy)]],'QNH','hPa')
     
-def trace_limitations(data,aeronef,ad,piste):
+def trace_limitations(data,aeronef,ad):
     """
     Entrée : Observation, avion, Numéro de la piste, aerodrome
     Sortie : Graphique des pourcentages de non-accessibilité de l'aérodrome par l'aéronef en fonction des mois
     """
-    res=limitations(data,aeronef,piste,ad)
+    res=limitations(data,aeronef,ad)
     X=['Jan','Fev','Mars','Avr','Mai', 'Juin', 'Juil','Aout','Sept','Oct','Nov','Dec']
     
     plt.bar(X,res,color=color_template().orange)

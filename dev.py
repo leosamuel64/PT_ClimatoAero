@@ -22,8 +22,8 @@ print('DEBUT CODE')
 
 # trace_tableau_qnh(data)
 ad= aerodrome('LFBO')
-ac = avion('TOBA')
-trace_limitations(data,ac,ad,12)
+ac = avion('PIVI')
+trace_limitations(data,ac,ad)
             
             
             
