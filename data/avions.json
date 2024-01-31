@@ -1,22 +1,57 @@
 {   "DA40":     {
         "Nom_entier": "Diamond DA40",
         "limit_cross_wind": 20,
+        "limit_vent_arriere": 10,
+        "limit_vent": null,
+        "limit_pluie":false,
         "IFR": false
     },
     "DA42":     {
         "Nom_entier": "Diamond DA42",
-        "limit_cross_wind": 25,
+        "limit_cross_wind": 20,
+        "limit_vent_arriere": 10,
+        "limit_vent": null,
+        "limit_pluie":false,
         "IFR": true
     },
     "TOBA":     {
         "Nom_entier": "Socata TB10 Tobago",
-        "limit_cross_wind": 15,
+        "limit_cross_wind": 25,
+        "limit_vent_arriere": 10,
+        "limit_vent": null,
+        "limit_pluie":false,
         "IFR": false
     },
-    "TRIN":     {
+    "TB20":     {
         "Nom_entier": "Socata TB20 Trinidad",
         "limit_cross_wind": 25,
+        "limit_vent_arriere": 10,
+        "limit_vent": null,
+        "limit_pluie":false,
         "IFR": true
+    },
+    "CP10":     {
+        "Nom_entier": "Mudry Cap 10",
+        "limit_cross_wind": 25,
+        "limit_vent_arriere": 5,
+        "limit_vent": 25,
+        "limit_pluie":false,
+        "IFR": false
+    },
+    "B58":     {
+        "Nom_entier": "Beechcraft Baron 58",
+        "limit_cross_wind": 22,
+        "limit_vent_arriere": 10,
+        "limit_vent": null,
+        "limit_pluie":false,
+        "IFR": true
+    },
+    "PIVI":     {
+        "Nom_entier": "Pipistrel Velis Electro",
+        "limit_cross_wind": 15,
+        "limit_vent_arriere": 10,
+        "limit_vent": null,
+        "limit_pluie":true,
+        "IFR": false
     }
-
 }  

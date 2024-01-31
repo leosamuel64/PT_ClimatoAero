@@ -109,16 +109,18 @@ class observation:
 class avion:
     def __init__(self, code):
         
-        
         file = open('data/avions.json','r')
         
         data = json.load(file)
         dico = data[code]
-        
-        self.code=code
-        self.nom = dico['Nom_entier']
-        self.max_cross_wind = dico["limit_cross_wind"]
-        self.ifr = dico['IFR']
+                
+        self.code=code  # str
+        self.nom = dico['Nom_entier']   # str
+        self.max_cross_wind = dico["limit_cross_wind"] # int
+        self.max_vent_arriere = dico["limit_vent_arriere"]  # int
+        self.limite_vent = dico["limit_vent"] # None or #int
+        self.limite_pluie = dico["limit_pluie"] # bool
+        self.ifr = dico['IFR']  # bool
     
 class aerodrome:
     def __init__(self, code):
