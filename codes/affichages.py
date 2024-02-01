@@ -146,22 +146,23 @@ def trace_phenomene(metars, code, conf, show=True):
         mois = key_date.month
         jour = key_date.day
         year = key_date.year
-        if code != 'TS':
+        if not code in config.PHENOMENE_PONDERATION.keys():
             value = res[key_date]
             Y[mois-1] += value
             cnt[mois-1] += 24
+            
         else:
             if not (datetime.datetime(year, mois, jour) in deja_jour):
                 deja_jour.append(datetime.datetime(year, mois, jour))
                 value = res[key_date]
                 Y[mois-1] += value
                 cnt[mois-1] += 24
-    if code != 'TS':
+    if not code in  config.PHENOMENE_PONDERATION.keys():
         for k in range(len(Y)):
             Y[k] = 30*Y[k]/cnt[k]
     else:
         for k in range(len(Y)):
-            Y[k] = 30*(Y[k]*24)/cnt[k]
+            Y[k] = 30*(Y[k]*config.PHENOMENE_PONDERATION[code])/cnt[k]
     plt.bar(X, Y, color=color_template().orange)
     addlabels(X, Y, 'j')
     plt.title('Moyenne des jour de '+code+' par mois')
