@@ -54,7 +54,6 @@ class observation:
     def __str__(self):
         txt = "For only {price:.2f} dollars!"
         texte = """ ----- Observation du {date} à {nom} ({alti} ft) -----\n
-        
         Temperature : {temp}°C (maxi : {tmaxi}°C | mini : {tmini}°C)
         Point de Rosée : {dp}°C | Humidité : {U}%
         Pression : QNH : {qnh} hPa | QFE : {qfe} hPa
@@ -99,16 +98,13 @@ class observation:
         labels = ["hauteur_precipitation", "duree_precipitation ", "temperature ", "dew_point ", "temperature_mini ", "heure_temperature_mini", "temperature_maxi", "heure_temperature_maxi ", "duree_gel", "qfe", "qnh ", "geopotentiel", "qnh_mini", "vitesse_vent",
                   "direction_vent", "vitesse_vent_instant_maxi", "direction_vent_instant_maxi ", "heure_vent_instant_maxi ", "humidite", "humidite_mini", "heure_humidite_mini", "humidite_maxi", "heure_humidite_maxi", "nebulosite ", "temps_present ", "visi"]
         res = []
-
         for i in range(len(tab)):
             if tab[i] in ['n', 'm', 'd', 'r', '']:
                 res.append(labels[i])
-
         if self.temperature == '' and (not ('temperature' in res)):
             res.append('visi')
         if self.visi == '' and (not ('visi' in res)):
             res.append('visi')
-
         return res
 
     def altitude_pression(self):
@@ -120,12 +116,9 @@ class observation:
 
 class avion:
     def __init__(self, code):
-
         file = open('data/avions.json', 'r')
-
         data = json.load(file)
         dico = data[code]
-
         self.code = code  # str
         self.nom = dico['Nom_entier']   # str
         self.max_cross_wind = dico["limit_cross_wind"]  # int
@@ -137,12 +130,9 @@ class avion:
 
 class aerodrome:
     def __init__(self, code):
-
         file = open('data/aerodromes.json', 'r')
-
         data = json.load(file)
         dico = data[code]
-
         self.code = code
         self.nom = dico['Nom']
         self.ifr_visi = dico["visi_ifr"]

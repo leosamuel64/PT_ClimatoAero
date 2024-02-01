@@ -10,13 +10,11 @@ import time
 
 def genere_export_ad(code_ad, flotte, phenomenes):
     conf = export(code_ad)
-
     data = charge_fichier(conf.chemin_observations)
     metars = build_dict_metar('data/metar/'+code_ad+'.txt')
-
     ad = aerodrome(code_ad)
     res = 0
-
+    # Debut calculs images
     rose_des_vents(data, conf)
     res += 1
     plot_weather(metars, conf, seuil=2)
@@ -24,7 +22,6 @@ def genere_export_ad(code_ad, flotte, phenomenes):
     for phenomene in phenomenes:
         trace_phenomene(metars, phenomene, conf)
         res += 1
-
     trace_tableau_temp(data, conf)
     res += 1
     trace_tableau_gel(data, conf)
@@ -33,16 +30,14 @@ def genere_export_ad(code_ad, flotte, phenomenes):
     res += 1
     trace_tableau_precipitation(data, conf)
     res += 1
-    trace_tableau_vent_travers(data, 12, conf)
+    trace_tableau_vent_travers(data, ad.pistes[0], conf)
     res += 1
-    trace_tableau_vent_effectif(data, 12, conf)
+    trace_tableau_vent_effectif(data, ad.pistes[0], conf)
     res += 1
-
     for ac in flotte:
         acft = avion(ac)
         trace_limitations(data, acft, ad, conf)
         res += 1
-
     trace_donnees_manquantes(data, conf)
     res += 1
     affiche_tc_visi_plafond(data, conf)

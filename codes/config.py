@@ -12,10 +12,8 @@ class config:
                              'RA': 12,
                              'DZ': 12
                              }
-
     SEUIL_VENT_CALME = 2  # En kt
     SHOW = False
-
     flotte = ['TOBA',
               'TB20',
               'DA40',
@@ -23,10 +21,8 @@ class config:
               'CP10',
               'B58',
               'PIVI']
-
     phenomenes = ['BR',
                   'RA',
                   'FG',
                   'TS']
-
     liste_ad = ['LFBR', 'LFLN', 'LFLS', 'LFMK', 'LFMT', 'LFPM']

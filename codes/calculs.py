@@ -162,7 +162,6 @@ def count_weather(metars):
                 valeur = config.PHENOMENE_PONDERATION[temp]
             else:
                 valeur = 1
-
             if temp in res.keys():
                 res[temp] += valeur
             else:
@@ -186,15 +185,12 @@ def count_weather_date(metars, code):
             for k in groupe:
                 if k != None and not ('/' in k):
                     temp += k
-
             key_date = datetime.datetime(m.date.year, m.date.month, m.date.day)
-
             if temp == code:
                 if key_date in res.keys():
                     res[key_date] += 0.5
                 else:
                     res[key_date] = 0.5
-
         key_date = datetime.datetime(m.date.year, m.date.month, m.date.day)
         if not (key_date in res.keys()):
             res[key_date] = 0
@@ -208,11 +204,9 @@ def calcul_crossWind(cap, direction, vitesse):
     Sortie : Vent Traversier subit par l'avion
     """
     angle_au_vent = (cap-direction) % 360
-
     if angle_au_vent > 180:
         angle_au_vent = abs(angle_au_vent-360)
     rad = angle_au_vent*math.pi/180
-
     return math.sin(rad)*vitesse
 
 
@@ -222,7 +216,6 @@ def calcul_vent_eff(cap, direction, vitesse):
     Sortie : Vent Traversier subit par l'avion
     """
     angle_au_vent = (cap-direction) % 360
-
     if angle_au_vent > 180:
         angle_au_vent = abs(angle_au_vent-360)
     rad = angle_au_vent*math.pi/180
@@ -299,9 +292,7 @@ def limitations(data, aeronef, ad):
     cnt = 0
     for d in data:
         mois = d.date.month
-
         last_lim, last_tot = res[mois-1]
-
         if limite_vent(d, aeronef, ad) or limite_visi(d, aeronef, ad) or limite_plafond(d, aeronef, ad) or limite_precip(d, aeronef):
             res[mois-1] = (last_lim+1, last_tot+1)
         else:
@@ -318,18 +309,15 @@ def calcul_donnees_manquantes(data):
     Entrée : Observation
     Sortie : Liste des pourcentages des parametres manquants
     """
-
     labels = ["hauteur_precipitation", "duree_precipitation ", "temperature ", "dew_point ", "temperature_mini ", "heure_temperature_mini", "temperature_maxi", "heure_temperature_maxi ", "duree_gel", "qfe", "qnh ", "geopotentiel", "qnh_mini", "vitesse_vent",
               "direction_vent", "vitesse_vent_instant_maxi", "direction_vent_instant_maxi ", "heure_vent_instant_maxi ", "humidite", "humidite_mini", "heure_humidite_mini", "humidite_maxi", "heure_humidite_maxi", "nebulosite ", "temps_present ", "visi"]
     res = {i: 0 for i in labels}
     total = len(data)
     for d in data:
         manquantes = d.a_donnees_manquantes()
-
         for i in manquantes:
             res[i] += 1
     cnt = len(data)
-
     for key in res.keys():
         res[key] = 100*res[key]/cnt
     return res
@@ -363,7 +351,6 @@ def place_table_contingence(grandeurs, pas1, pas2):
             i += 1
         while (y > pas2[j] and j != len(pas2)-1):
             j += 1
-
         if x > pas1[len(pas1)-1]:
             i += 1
         if y > pas2[len(pas2)-1]:
@@ -414,11 +401,8 @@ def precipitation_par_jour(data):
             jour = d.date.day
             mois = d.date.month
             annee = d.date.year
-
             date = datetime.datetime(annee, mois, jour)
-
             incr_dico(res, date, hp)
-
     return res
 
 
@@ -460,7 +444,6 @@ def moyenne_precipitation_mois(data):
         somme = 0
         for (v, annee) in mois:
             somme += v
-
         moy = 30*(somme/len(mois))
         res.append(round(moy, 1))
     return res
@@ -472,18 +455,14 @@ def vent_t_par_mois(data, piste):
     Sortie : liste des vents traverisés par mois
     """
     res = {i: [] for i in range(1, 13)}
-
     for d in data:
         vent_dir = d.direction_vent
         vent_sp = d.vitesse_vent
         if (not ('direction_vent' in d.a_donnees_manquantes())) and (not (vent_dir == '')) and (not ('vitesse_vent' in d.a_donnees_manquantes())) and (not (vent_sp == '')):
             mois = d.date.month
             annee = d.date.year
-
             vt = calcul_crossWind(piste*10, vent_dir, vent_sp)
-
             res[mois].append((round(vt, 0), annee))
-
     return res
 
 
@@ -523,18 +502,14 @@ def vent_e_par_mois(data, piste):
     Sortie : liste des vents traverisés par mois
     """
     res = {i: [] for i in range(1, 13)}
-
     for d in data:
         vent_dir = d.direction_vent
         vent_sp = d.vitesse_vent
         if (not ('direction_vent' in d.a_donnees_manquantes())) and (not (vent_dir == '')) and (not ('vitesse_vent' in d.a_donnees_manquantes())) and (not (vent_sp == '')):
             mois = d.date.month
             annee = d.date.year
-
             vt = abs(calcul_vent_eff(piste*10, vent_dir, vent_sp))
-
             res[mois].append((round(vt, 0), annee))
-
     return res
 
 
@@ -571,10 +546,8 @@ def moyenne_vent_e_mois(data, piste):
 def coeff_pistes(data, ad, seuil_vent):
     pistes = ad.pistes
     piste_pref = ad.piste_pref
-
     res = {n: 0 for n in pistes}
     cnt = 0
-
     for d in data:
         vent_dir = d.direction_vent
         vent_sp = d.vitesse_vent
@@ -591,8 +564,44 @@ def coeff_pistes(data, ad, seuil_vent):
             else:
                 res[piste_pref] += 1
             cnt += 1
-
     for hdg in pistes:
         res[hdg] = round(100*res[hdg]/cnt, 1)
+    return res
 
+
+def sort_mois_temp(data, intervalle_heure=[]):
+    '''
+    Entrée : Liste des observations, Intervalle des heures à prendre en compte (pour exclure la nuit)
+    Sortie : Dictionnaire des moyennes de température par mois
+    '''
+    res = {i: [] for i in range(1, 13)}
+    cnt = {i: 0 for i in range(1, 13)}
+    for d in data:
+        mois = d.date.month
+        heure = d.date.hour
+        temp = d.temperature
+        if (not ('temperature' in d.a_donnees_manquantes())) and (not (temp == '')):
+            if intervalle_heure != [] and heure >= intervalle_heure[0] and heure <= intervalle_heure[1]:
+                res[mois].append((temp, d.date.year))
+            elif intervalle_heure == []:
+                res[mois].append((temp, d.date.year))
+    return res
+
+
+def sort_mois_qnh(data, intervalle_heure=[]):
+    '''
+    Entrée : Liste des observations, Intervalle des heures à prendre en compte (pour exclure la nuit)
+    Sortie : Dictionnaire des moyennes des qnh par mois
+    '''
+    res = {i: [] for i in range(1, 13)}
+    cnt = {i: 0 for i in range(1, 13)}
+    for d in data:
+        mois = d.date.month
+        heure = d.date.hour
+        temp = d.qnh
+        if (not ('qnh' in d.a_donnees_manquantes())) and (not (temp == '')):
+            if intervalle_heure != [] and heure >= intervalle_heure[0] and heure <= intervalle_heure[1]:
+                res[mois].append((int(temp), d.date.year))
+            elif intervalle_heure == []:
+                res[mois].append((int(temp), d.date.year))
     return res

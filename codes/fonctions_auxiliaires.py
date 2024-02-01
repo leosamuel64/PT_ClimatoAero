@@ -26,6 +26,10 @@ def convert_date(mot):
 
 
 def convert_heure(mot, d):
+    """
+    Entrée : une str de la date, observation
+    Sortie : Renvoie l'heure (str) en format datetime
+    """
     if len(mot) == 3:
         heures = int(mot[0])
         minutes = int(mot[1])*10+int(mot[2])
@@ -50,6 +54,10 @@ def convert_heure(mot, d):
 
 
 def convert_float(valeur):
+    """
+    Entrée : str du fichier .data
+    Sortie : Renvoie valeur en str '' OU float
+    """
     if valeur == '':
         return ''
     else:
@@ -57,6 +65,10 @@ def convert_float(valeur):
 
 
 def convert_int(valeur):
+    """
+    Entrée : str du fichier .data
+    Sortie : Renvoie valeur en str:'' OU int
+    """
     if valeur == '':
         return ''
     else:
@@ -64,6 +76,10 @@ def convert_int(valeur):
 
 
 def ajoute_debut(t, val):
+    """
+    Entrée : liste, valeur
+    Sortie : Renvoie liste avec valeur au début
+    """
     temp = [-1 for _ in range(len(t)+1)]
     temp[0] = val
     for k in range(1, len(t)+1):
@@ -72,6 +88,10 @@ def ajoute_debut(t, val):
 
 
 def format_temp_date(t, suff):
+    """
+    Entrée : liste des couples (valeur, date), str
+    Sortie : Renvoie la liste des couples (valeur+str, date)
+    """
     temp = []
     for x in t:
         match x:
@@ -82,56 +102,22 @@ def format_temp_date(t, suff):
     return temp
 
 
-def sort_mois_temp(data, intervalle_heure=[]):
-    '''
-    Entrée : Liste des observations, Intervalle des heures à prendre en compte (pour exclure la nuit)
-    Sortie : Dictionnaire des moyennes de température par mois
-    '''
-    res = {i: [] for i in range(1, 13)}
-    cnt = {i: 0 for i in range(1, 13)}
-    for d in data:
-        mois = d.date.month
-        heure = d.date.hour
-        temp = d.temperature
-        if (not ('temperature' in d.a_donnees_manquantes())) and (not (temp == '')):
-
-            if intervalle_heure != [] and heure >= intervalle_heure[0] and heure <= intervalle_heure[1]:
-                res[mois].append((temp, d.date.year))
-            elif intervalle_heure == []:
-                res[mois].append((temp, d.date.year))
-    return res
-
-
-def sort_mois_qnh(data, intervalle_heure=[]):
-    '''
-    Entrée : Liste des observations, Intervalle des heures à prendre en compte (pour exclure la nuit)
-    Sortie : Dictionnaire des moyennes de température par mois
-    '''
-    res = {i: [] for i in range(1, 13)}
-    cnt = {i: 0 for i in range(1, 13)}
-    for d in data:
-        mois = d.date.month
-        heure = d.date.hour
-        temp = d.qnh
-        if (not ('qnh' in d.a_donnees_manquantes())) and (not (temp == '')):
-
-            if intervalle_heure != [] and heure >= intervalle_heure[0] and heure <= intervalle_heure[1]:
-                res[mois].append((int(temp), d.date.year))
-            elif intervalle_heure == []:
-                res[mois].append((int(temp), d.date.year))
-    return res
-
-
-def tableau_climato_temp(data, fonction):
-    valeurs = sort_mois_temp(data)
+def tableau_climato_temp(valeurs, fonction):
+    """
+    Entrée : Dictionnaire des température par mois (max, min), fonction de comparaison
+    Sortie : Renvoie la liste des températures pliées selon fonction
+    """
     res = []
     for i in range(1, 13):
         res.append(fonction(valeurs[i]))
     return res
 
 
-def tableau_climato_qnh(data, fonction):
-    valeurs = sort_mois_qnh(data)
+def tableau_climato_qnh(valeurs, fonction):
+    """
+    Entrée : Dictionnaire des qnh par mois (max, min), fonction de comparaison
+    Sortie : Renvoie la liste des températures pliées selon fonction
+    """
     res = []
     for i in range(1, 13):
         res.append(fonction(valeurs[i]))
@@ -139,32 +125,38 @@ def tableau_climato_qnh(data, fonction):
 
 
 def moyenne(t):
+    """
+    Entrée : liste de float/int
+    Sortie : moyenne de la liste
+    """
     return sum(t)/len(t)
 
 
-def tableau_moyenne_temp(data):
-    valeurs = sort_mois_temp(data)
+def tableau_moyenne_temp(valeurs):
+    """
+    Entrée : liste des températures
+    Sortie : moyenne de la liste des valeurs
+    """
     res = []
-
     for i in range(1, 13):
         somme = 0
         for (temp, _) in valeurs[i]:
             somme += temp
         res.append(round(somme/len(valeurs[i]), 2))
-
     return res
 
 
-def tableau_moyenne_qnh(data):
-    valeurs = sort_mois_qnh(data)
+def tableau_moyenne_qnh(valeurs):
+    """
+    Entrée : liste des qnh
+    Sortie : moyenne de la liste des valeurs
+    """
     res = []
-
     for i in range(1, 13):
         somme = 0
         for (temp, _) in valeurs[i]:
             somme += temp
         res.append(round(somme/len(valeurs[i]), 0))
-
     return res
 
 

@@ -12,7 +12,6 @@ def rose_des_vents(data, conf) -> None:
     Sortie : Graphique Rose des vents
     '''
     vd = vents_dominants_vitesse(data)
-
     ax = plt.subplot(111, polar=True)
     ax.set_theta_zero_location("N")
     ax.set_theta_direction(-1)
@@ -20,12 +19,10 @@ def rose_des_vents(data, conf) -> None:
     legnd_R = True
     legnd_O = True
     legnd_G = True
-
     for d in vd:
         i, m, s = vd[d]
         s += i+m
         m += i
-
         if legnd_R:
             plt.bar(x=(d*10)*math.pi/180, height=s, width=math.pi*10 /
                     180, bottom=0, color="red", label='Vitesse vent>15kt')
@@ -47,12 +44,10 @@ def rose_des_vents(data, conf) -> None:
         else:
             plt.bar(x=(d*10)*math.pi/180, height=i,
                     width=math.pi*10/180, bottom=0, color="green")
-
     ax.set_title("Rose des vents")
     plt.legend()
     plt.savefig('Figures_raw/' +
                 conf.chemin_observations[-9:-5]+'/RDV_.svg', format='svg')
-
     if config.SHOW:
         plt.show()
     plt.close('all')
@@ -72,9 +67,7 @@ def plot_temp(data):
         if not ('temperature' in d.a_donnees_manquantes()):
             X.append(d.temperature)
             Y.append(cnt)
-
             cnt += datetime.timedelta(0, 30*60)
-
     plt.plot_date(Y, X)
     plt.xlabel('Date')
     plt.ylabel('Température (°C)')
@@ -97,10 +90,8 @@ def plot_qnh(data):
     cnt = data[0].date
     for d in data:
         if not ('qnh' in d.a_donnees_manquantes()):
-
             X.append(d.qnh)
             Y.append(cnt)
-
         cnt += datetime.timedelta(0, 30*60)
     plt.plot(Y, X)
     plt.xlabel('Date')
@@ -123,7 +114,6 @@ def plot_weather(metars, conf, seuil=0):
     temp = []
     for key in weather.keys():
         temp.append([weather[key], key])
-
     temp.sort(reverse=True)
     long = len(metars)
     for (x, y) in temp:
@@ -131,10 +121,8 @@ def plot_weather(metars, conf, seuil=0):
         if pourcentage > seuil:
             X.append(pourcentage)
             Y.append(y)
-
     plt.bar(Y, X, color=color_template().orange)
     addlabels(Y, X, 'j/an')
-
     plt.title('Temps significatifs')
     plt.savefig('Figures_raw/' +
                 conf.chemin_observations[-9:-5]+'/weather.svg', format='svg')
@@ -168,17 +156,14 @@ def trace_phenomene(metars, code, conf, show=True):
                 value = res[key_date]
                 Y[mois-1] += value
                 cnt[mois-1] += 24
-
     if code != 'TS':
         for k in range(len(Y)):
             Y[k] = 30*Y[k]/cnt[k]
     else:
         for k in range(len(Y)):
             Y[k] = 30*(Y[k]*24)/cnt[k]
-
     plt.bar(X, Y, color=color_template().orange)
     addlabels(X, Y, 'j')
-
     plt.title('Moyenne des jour de '+code+' par mois')
     plt.savefig(
         'Figures_raw/'+conf.chemin_observations[-9:-5]+'/Phenomene'+code+'.svg', format='svg')
@@ -196,11 +181,9 @@ def trace_tableau(column_labels, line_label, data_temp, nom, conf, ajout=''):
     for t in data_temp:
         tableau = format_temp_date(t, ajout)
         data_temp_2.append(tableau)
-
     data = []
     for k in range(len(data_temp_2)):
         data.append(ajoute_debut(data_temp_2[k], line_label[k]))
-
     data_head = ajoute_debut(data, column_labels)
     colors = [[color_template().fond_table for _ in range(len(data_head[0]))]
               for _ in range(len(data_head))]
@@ -213,10 +196,8 @@ def trace_tableau(column_labels, line_label, data_temp, nom, conf, ajout=''):
     table.auto_set_font_size(False)
     table.set_fontsize(5)
     plt.title(nom)
-
     plt.savefig(
         'Figures_raw/'+conf.chemin_observations[-9:-5]+'/Tableau'+nom+'.svg', format='svg')
-
     if config.SHOW:
         plt.show()
     plt.close('all')
@@ -227,11 +208,10 @@ def trace_tableau_temp(data, conf):
     Entrée : Observation
     Sortie : Tableau des temperature max, min et moyenne avec les records par mois
     """
-
-    t_max = tableau_climato_temp(data, max)
-    t_min = tableau_climato_temp(data, min)
-    t_moy = tableau_moyenne_temp(data)
-
+    valeurs = sort_mois_temp(data)
+    t_max = tableau_climato_temp(valeurs, max)
+    t_min = tableau_climato_temp(valeurs, min)
+    t_moy = tableau_moyenne_temp(valeurs)
     trace_tableau(['-', 'Jan', 'Fev', 'Mars', 'Avr', 'Mai', 'Juin', 'Juil', 'Aout', 'Sept', 'Oct', 'Nov', 'Dec'],
                   ['Max', 'Min', 'Moy'],
                   [t_max, t_min, t_moy], 'température', conf, '°C')
@@ -242,15 +222,13 @@ def trace_tableau_qnh(data, conf):
     Entrée : Observation
     Sortie : Tableau des temperature max, min et moyenne avec les records par mois
     """
-
-    t_max = tableau_climato_qnh(data, max)
-    t_min = tableau_climato_qnh(data, min)
-    t_moy = tableau_moyenne_qnh(data)
-
+    valeurs = sort_mois_qnh(data)
+    t_max = tableau_climato_qnh(valeurs, max)
+    t_min = tableau_climato_qnh(valeurs, min)
+    t_moy = tableau_moyenne_qnh(valeurs)
     maxi = max(t_max)[0]
     mini = min(t_min)[0]
     moy = round(moyenne(t_moy), 0)
-
     trace_tableau(['-', 'Jan', 'Fev', 'Mars', 'Avr', 'Mai', 'Juin', 'Juil', 'Aout', 'Sept', 'Oct', 'Nov', 'Dec', 'Record'],
                   ['Max', 'Min', 'Moy'],
                   [t_max+[maxi], t_min+[mini], t_moy+[str(moy)]], 'QNH', conf, 'hPa')
@@ -264,12 +242,9 @@ def trace_limitations(data, aeronef, ad, conf):
     res = limitations(data, aeronef, ad)
     X = ['Jan', 'Fev', 'Mars', 'Avr', 'Mai', 'Juin',
          'Juil', 'Aout', 'Sept', 'Oct', 'Nov', 'Dec']
-
     plt.bar(X, res, color=color_template().orange)
     addlabels(X, res, 'j')
-
     plt.title('limitation '+aeronef.nom)
-
     plt.savefig(
         'Figures_raw/'+conf.chemin_observations[-9:-5]+'/limit_'+aeronef.code+'.svg', format='svg')
     if config.SHOW:
@@ -288,7 +263,6 @@ def trace_donnees_manquantes(data, conf):
     for key in calc.keys():
         res.append([round(calc[key], 2)])
         keys.append(key)
-
     trace_tableau(['Données', 'Données Manquantes (%)'],
                   keys,
                   res, 'Données Manquantes', conf)
@@ -322,7 +296,6 @@ def trace_tableau_gel(data, conf):
     Sortie : tableau du nombre de jour moyen de gel par mois
     """
     tab = compte_gel_mois(data)
-
     trace_tableau(['-', 'Jan', 'Fev', 'Mars', 'Avr', 'Mai', 'Juin', 'Juil', 'Aout', 'Sept', 'Oct', 'Nov', 'Dec'],
                   ['jours/mois'],
                   [tab], 'gel', conf, 'j/m')
@@ -333,13 +306,10 @@ def trace_tableau_precipitation(data, conf):
     Entrée : Observation
     Sortie : Tableau des precipitations max et moyenne avec les records par mois
     """
-
     t_max = max_precipitation_mois(data)
     t_moy = moyenne_precipitation_mois(data)
-
     maxi = max(t_max)[0]
     moy = round(moyenne(t_moy), 0)
-
     trace_tableau(['-', 'Jan', 'Fev', 'Mars', 'Avr', 'Mai', 'Juin', 'Juil', 'Aout', 'Sept', 'Oct', 'Nov', 'Dec', 'Record'],
                   ['Max (mm/jour)', 'Moy (mm)'],
                   [t_max+[str(maxi)], t_moy+[str(moy)]],
@@ -351,13 +321,10 @@ def trace_tableau_vent_travers(data, piste, conf):
     Entrée : Observation
     Sortie : Tableau des vents traversiés max et moyen avec les records par mois
     """
-
     t_max = max_vent_t_mois(data, piste)
     t_moy = moyenne_vent_t_mois(data, piste)
-
     maxi = max(t_max)[0]
     moy = round(moyenne(t_moy), 0)
-
     trace_tableau(['-', 'Jan', 'Fev', 'Mars', 'Avr', 'Mai', 'Juin', 'Juil', 'Aout', 'Sept', 'Oct', 'Nov', 'Dec', 'Record'],
                   ['Max', 'Moy'],
                   [t_max+[str(maxi)], t_moy+[str(moy)]],
@@ -369,13 +336,10 @@ def trace_tableau_vent_effectif(data, piste, conf):
     Entrée : Observation
     Sortie : Tableau des vents traversiés max et moyen avec les records par mois
     """
-
     t_max = max_vent_e_mois(data, piste)
     t_moy = moyenne_vent_e_mois(data, piste)
-
     maxi = max(t_max)[0]
     moy = round(moyenne(t_moy), 0)
-
     trace_tableau(['-', 'Jan', 'Fev', 'Mars', 'Avr', 'Mai', 'Juin', 'Juil', 'Aout', 'Sept', 'Oct', 'Nov', 'Dec', 'Record'],
                   ['Max', 'Moy'],
                   [t_max+[str(maxi)], t_moy+[str(moy)]],
@@ -388,11 +352,8 @@ def affiche_coeff_pistes(data, ad, seuil_vent, conf):
     for piste in coeff_p.keys():
         X.append(str(piste))
         Y.append(coeff_p[piste])
-
     plt.bar(X, Y, color=color_template().orange)
-
     addlabels(X, Y, '%')
-
     plt.savefig(
         'Figures_raw/'+conf.chemin_observations[-9:-5]+'/coeff_pistes.svg', format='svg')
     if config.SHOW:
