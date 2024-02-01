@@ -58,5 +58,7 @@ def multi_exports(liste_ad, flotte, phenomenes):
         tps = round(time.time()-deb, 0)
         print("Temps d'execution : "+str(tps)+' s')
         print("Nombre de figures : "+str(res)+' figures')
-        print("Nombre de figures : "+str(res)+' figures')
         print("Temps par figure : "+str(round(tps/res, 1))+' s/figures')
+        
+def export_all():
+    multi_exports(config.liste_ad, config.flotte, config.phenomenes)

@@ -27,4 +27,4 @@ print('DEBUT CODE')
 # --------------------------------------------------------------------------------------
 
 
-multi_exports(config.liste_ad, config.flotte, config.phenomenes)
+export_all()
