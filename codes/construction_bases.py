@@ -5,7 +5,7 @@ from codes.classes import *
 
 def build_dict_metar(path):
     def clean_metars(metars):
-        res=[]
+        res = []
         for m in metars:
             try:
                 _ = Metar.Metar(m)
@@ -13,13 +13,14 @@ def build_dict_metar(path):
             except:
                 ()
         return res
-    
-    file=open(path, 'r')
-    keys = ['station','valid','tmpf','dwpf','relh','drct','sknt','p01i','alti','mslp','vsby','gust','skyc1','skyc2','skyc3','skyc4','skyl1','skyl2','skyl3','skyl4','wxcodes','ice_accretion_1hr','ice_accretion_3hr','ice_accretion_6hr','peak_wind_gust','peak_wind_drct','peak_wind_time','feel','metar','snowdepth']
-    res={}
+
+    file = open(path, 'r')
+    keys = ['station', 'valid', 'tmpf', 'dwpf', 'relh', 'drct', 'sknt', 'p01i', 'alti', 'mslp', 'vsby', 'gust', 'skyc1', 'skyc2', 'skyc3', 'skyc4', 'skyl1', 'skyl2', 'skyl3',
+            'skyl4', 'wxcodes', 'ice_accretion_1hr', 'ice_accretion_3hr', 'ice_accretion_6hr', 'peak_wind_gust', 'peak_wind_drct', 'peak_wind_time', 'feel', 'metar', 'snowdepth']
+    res = {}
     for key in keys:
-        res[key]=[]
-    
+        res[key] = []
+
     for ligne in file:
         elements = ligne.split(',')
         for i in range(len(elements)):
@@ -29,40 +30,30 @@ def build_dict_metar(path):
     temps = res['valid']
     metars = []
     for k in range(len(messages)):
-        m = metar(messages[k],temps[k])
+        m = metar(messages[k], temps[k])
         metars.append(m)
-    
+
     return metars
 
-    
+
 def charge_fichier(path):
-    res=[]
-    file=open(path,'r')
+    res = []
+    file = open(path, 'r')
     for ligne in file:
         obs = observation(ligne)
         res.append(obs)
     return res
 
-def reecrit_fichier(fichier,fichier_corr):
-    file=open(fichier,'r')
-    rajout='''Melun;1�15'43"E;43�27'05"N;301;'''
+
+def reecrit_fichier(fichier, fichier_corr):
+    file = open(fichier, 'r')
+    rajout = '''Melun;1�15'43"E;43�27'05"N;301;'''
     temp = []
     for ligne in file:
-        debut=ligne[0:9]
-        fin=ligne[9:len(ligne)]
+        debut = ligne[0:9]
+        fin = ligne[9:len(ligne)]
         temp.append(debut+rajout+fin)
-    file=open(fichier_corr,'w')
+    file = open(fichier_corr, 'w')
     for ligne in temp:
         file.write(ligne)
     file.close()
-    
-
-
-    
-    
-
-        
-        
-        
-        
-    
