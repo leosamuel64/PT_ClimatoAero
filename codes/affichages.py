@@ -6,7 +6,7 @@ from codes.calculs import *
 from codes.config import *
 
 
-def rose_des_vents(data,conf):
+def rose_des_vents(data,conf) -> None:
     '''
     Entrée : Liste des observations, liste des numéros de pistes
     Sortie : Graphique Rose des vents

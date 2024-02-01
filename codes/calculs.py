@@ -13,7 +13,6 @@ def vents_dominants_vitesse(data):
         direct = d.direction_vent
         sp=d.vitesse_vent
         if (not('direction_vent' in d.a_donnees_manquantes())) and (not(direct=='')) and (not('vitesse_vent' in d.a_donnees_manquantes())) and (not(sp=='')):
-        
             wr=round_wind(direct)%36
             if sp>2.9:
                 if sp<8.7:
@@ -22,7 +21,6 @@ def vents_dominants_vitesse(data):
                     res[wr][1]+=1
                 else:
                     res[wr][2]+=1
-                
     return res
 
 
@@ -31,7 +29,6 @@ def maxi_temp(data):
     Entrée : Liste des observations
     Sortie : Couple (Température Maximum, Date)
     '''
-    
     res=data[0].temperature_maxi
     date = data[0].date
     for d in data:
