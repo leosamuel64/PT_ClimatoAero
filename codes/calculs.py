@@ -391,7 +391,7 @@ def compte_gel_mois(data):
 def precipitation_par_jour(data):
     """
     Entrée : Observation
-    Sortie : liste des precipitations par jour
+    Sortie : Dico des precipitations par jour
     """
     res = {}
 
@@ -605,3 +605,70 @@ def sort_mois_qnh(data, intervalle_heure=[]):
             elif intervalle_heure == []:
                 res[mois].append((int(temp), d.date.year))
     return res
+
+
+def recup_qnh(data):
+    '''
+    Entrée : Liste des observations
+    Sortie : liste des couples (QNH, date)
+    '''
+    res=[]
+    for d in data:
+        if (not ('qnh' in d.a_donnees_manquantes())) and (not (d.qnh == '')):
+            res.append((d.qnh,d.date))
+    return res
+
+def recup_temp(data):
+    '''
+    Entrée : Liste des observations
+    Sortie : liste des couples (temperature, date)
+    '''
+    res=[]
+    for d in data:
+        if (not ('temperature' in d.a_donnees_manquantes())) and (not (d.temperature == '')):
+            res.append((d.temperature,d.date))
+    return res
+
+def recup_precip(data):
+    '''
+    Entrée : Liste des observations
+    Sortie : liste des couples (precipitation, date)
+    '''
+    dico = precipitation_par_jour(data)
+    res=[]
+    for key in dico.keys():
+        res.append((dico[key],key))
+    return res
+
+def liste_occurences(data,fonction,seuil,operation):
+    '''
+    Entrée : Liste des observations, fonction d'extraction,seuil de comparaison, operation de comparaison
+    Sortie : liste des couples (valeur, date) où la valeur est 'operation' au seuil 
+    '''
+    valeurs = fonction(data)
+    res=[(val,datetime.datetime(date.year,date.month,date.day)) for (val,date) in valeurs if operation(val,seuil)]
+    return enleve_doublon(res)
+
+def temps_entre_occurence(occurences,seuil=3):
+    '''
+    Entrée : liste des occurences [(valeur,date)...]
+    Sortie : liste des temps entre deux occurences
+    '''
+    res=[]
+    for k in range(len(occurences)-1):
+        Δt =  occurences[k+1][1] - occurences[k][1]
+        if Δt>datetime.timedelta(seuil):
+            res.append(Δt.days)
+    return res
+
+def duree_retour(data,fonction,seuil,operation):
+    '''
+    Entrée : Liste des observations, fonction d'extraction, seuil du phenomène, operation de comparaison
+    Sortie : durée de retour en mois
+    '''
+    occurences = liste_occurences(data,fonction,seuil,operation)
+    tps_entre = temps_entre_occurence(occurences)
+    if tps_entre==[]:
+        return None
+    else:
+        return round(moyenne(tps_entre)/31,1)

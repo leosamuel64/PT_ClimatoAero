@@ -44,6 +44,12 @@ def genere_export_ad(code_ad, flotte, phenomenes):
     res += 1
     affiche_coeff_pistes(data, ad, config.SEUIL_VENT_CALME, conf)
     res += 1
+    trace_duree_retour_qnh(data,conf)
+    res += 1
+    trace_duree_retour_temp(data,conf)
+    res += 1
+    trace_duree_retour_precip(data,conf)
+    res += 1
     return res
 
 

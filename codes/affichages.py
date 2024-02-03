@@ -360,3 +360,67 @@ def affiche_coeff_pistes(data, ad, seuil_vent, conf):
     if config.SHOW:
         plt.show()
     plt.close('all')
+
+
+def trace_duree_retour_qnh(data,conf,borne_inf=875,borne_sup=1045):
+    X = []
+    Y = []
+    for qnh in range(borne_inf,borne_sup+1):
+        if qnh<=1013:
+            dr = duree_retour(data,recup_qnh,qnh, inferieur_a)
+        else:
+            dr = duree_retour(data,recup_qnh,qnh, superieur_a)
+        if dr != None:
+            X.append(dr)
+            Y.append(qnh)
+    plt.scatter(Y, X)
+    plt.xlabel('QNH (hPa)')
+    plt.ylabel('Nombre de mois')
+    plt.title('Durée de retour QNH')
+    plt.savefig(
+        'Figures_raw/'+conf.chemin_observations[-9:-5]+'/duree_retour_qnh.svg', format='svg')
+    
+    if config.SHOW:
+        plt.show()
+    plt.close('all')
+    
+def trace_duree_retour_temp(data,conf,borne_inf=-20,borne_sup=45):
+    X = []
+    Y = []
+    for qnh in range(borne_inf,borne_sup+1):
+        if qnh>15:
+            dr = duree_retour(data,recup_temp,qnh, superieur_a)
+        else:
+            dr = duree_retour(data,recup_temp,qnh, inferieur_a)
+        if dr != None:
+            X.append(dr)
+            Y.append(qnh)
+    plt.scatter(Y, X)
+    plt.xlabel('Température (°C)')
+    plt.ylabel('Nombre de mois')
+    plt.title('Durée de retour Température')
+    plt.savefig(
+        'Figures_raw/'+conf.chemin_observations[-9:-5]+'/duree_retour_temp.svg', format='svg')
+    
+    if config.SHOW:
+        plt.show()
+    plt.close('all')
+    
+def trace_duree_retour_precip(data,conf,borne_inf=0,borne_sup=60):
+    X = []
+    Y = []
+    for qnh in range(borne_inf,borne_sup+1):
+        dr = duree_retour(data,recup_precip,qnh, superieur_a)
+        if dr != None:
+            X.append(dr)
+            Y.append(qnh)
+    plt.scatter(Y, X)
+    plt.xlabel('Precipitation (mm/jour)')
+    plt.ylabel('Nombre de mois')
+    plt.title('Durée de retour Precipitation')
+    plt.savefig(
+        'Figures_raw/'+conf.chemin_observations[-9:-5]+'/duree_retour_precip.svg', format='svg')
+    
+    if config.SHOW:
+        plt.show()
+    plt.close('all')
