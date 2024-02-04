@@ -150,14 +150,14 @@ def trace_phenomene(metars, code, conf, show=True):
             value = res[key_date]
             Y[mois-1] += value
             cnt[mois-1] += 24
-            
+
         else:
             if not (datetime.datetime(year, mois, jour) in deja_jour):
                 deja_jour.append(datetime.datetime(year, mois, jour))
                 value = res[key_date]
                 Y[mois-1] += value
                 cnt[mois-1] += 24
-    if not code in  config.PHENOMENE_PONDERATION.keys():
+    if not code in config.PHENOMENE_PONDERATION.keys():
         for k in range(len(Y)):
             Y[k] = 30*Y[k]/cnt[k]
     else:
@@ -366,18 +366,18 @@ def affiche_coeff_pistes(data, ad, seuil_vent, conf):
     plt.close('all')
 
 
-def trace_duree_retour_qnh(data,conf,borne_inf=875,borne_sup=1045):
+def trace_duree_retour_qnh(data, conf, borne_inf=875, borne_sup=1045):
     """
     Entrée : Observation
     Sortie : Graphe de la durée de retour des valeurs de qnh
     """
     X = []
     Y = []
-    for qnh in range(borne_inf,borne_sup+1):
-        if qnh<=1013:
-            dr = duree_retour(data,recup_qnh,qnh, inferieur_a)
+    for qnh in range(borne_inf, borne_sup+1):
+        if qnh <= 1013:
+            dr = duree_retour(data, recup_qnh, qnh, inferieur_a)
         else:
-            dr = duree_retour(data,recup_qnh,qnh, superieur_a)
+            dr = duree_retour(data, recup_qnh, qnh, superieur_a)
         if dr != None:
             X.append(dr)
             Y.append(qnh)
@@ -390,19 +390,20 @@ def trace_duree_retour_qnh(data,conf,borne_inf=875,borne_sup=1045):
     if config.SHOW:
         plt.show()
     plt.close('all')
-    
-def trace_duree_retour_temp(data,conf,borne_inf=-20,borne_sup=45):
+
+
+def trace_duree_retour_temp(data, conf, borne_inf=-20, borne_sup=45):
     """
     Entrée : Observation
     Sortie : Graphe de la durée de retour des valeurs de température
     """
     X = []
     Y = []
-    for qnh in range(borne_inf,borne_sup+1):
-        if qnh>15:
-            dr = duree_retour(data,recup_temp,qnh, superieur_a)
+    for qnh in range(borne_inf, borne_sup+1):
+        if qnh > 15:
+            dr = duree_retour(data, recup_temp, qnh, superieur_a)
         else:
-            dr = duree_retour(data,recup_temp,qnh, inferieur_a)
+            dr = duree_retour(data, recup_temp, qnh, inferieur_a)
         if dr != None:
             X.append(dr)
             Y.append(qnh)
@@ -415,16 +416,17 @@ def trace_duree_retour_temp(data,conf,borne_inf=-20,borne_sup=45):
     if config.SHOW:
         plt.show()
     plt.close('all')
-    
-def trace_duree_retour_precip(data,conf,borne_inf=0,borne_sup=60):
+
+
+def trace_duree_retour_precip(data, conf, borne_inf=0, borne_sup=60):
     """
     Entrée : Observation
     Sortie : Graphe de la durée de retour des valeurs de precipitation
     """
     X = []
     Y = []
-    for qnh in range(borne_inf,borne_sup+1):
-        dr = duree_retour(data,recup_precip,qnh, superieur_a)
+    for qnh in range(borne_inf, borne_sup+1):
+        dr = duree_retour(data, recup_precip, qnh, superieur_a)
         if dr != None:
             X.append(dr)
             Y.append(qnh)
@@ -437,94 +439,102 @@ def trace_duree_retour_precip(data,conf,borne_inf=0,borne_sup=60):
     if config.SHOW:
         plt.show()
     plt.close('all')
-    
-def trace_proba_retour_qnh(data,conf,qnh,nb_periode=10*12,seuil=10**(-3)):
+
+
+def trace_proba_retour_qnh(data, conf, qnh, nb_periode=10*12, seuil=10**(-3)):
     """
     Entrée : Observation, valeur cible, nb de periode
     Sortie : Graphe de la probabilité d'avoir une valeur de QNH des occurence sur la periode 
     """
     X = []
     Y = []
-    if qnh<=1013:
-        dr = duree_retour(data,recup_qnh,qnh, inferieur_a)
+    if qnh <= 1013:
+        dr = duree_retour(data, recup_qnh, qnh, inferieur_a)
     else:
-        dr = duree_retour(data,recup_qnh,qnh, superieur_a)
-    occ=0
-    p=1
-    while p>seuil:
-        p=proba_retour_au_moins(nb_periode,occ,dr)
+        dr = duree_retour(data, recup_qnh, qnh, superieur_a)
+    occ = 0
+    p = 1
+    while p > seuil:
+        p = proba_retour_au_moins(nb_periode, occ, dr)
         X.append(occ)
         Y.append(p)
-        occ+=1
-    plt.scatter(X, Y,label='Probabilité')
-    plt.plot([0,occ],[0.95,0.95],color='red',label='Seuil à 95%')
+        occ += 1
+    plt.scatter(X, Y, label='Probabilité')
+    plt.plot([0, occ], [0.95, 0.95], color='red', label='Seuil à 95%')
     plt.legend()
     plt.xlabel("Nombre d'occurences")
     plt.ylabel('Probabilité')
-    if qnh<=1013:
-        plt.title("Probabilité du nombre d'occurences de \n QNH<"+str(qnh)+'hPa sur une periode de ' +str(int(nb_periode/12))+' ans')
+    if qnh <= 1013:
+        plt.title("Probabilité du nombre d'occurences de \n QNH<"+str(qnh) +
+                  'hPa sur une periode de ' + str(int(nb_periode/12))+' ans')
     else:
-        plt.title("Probabilité du nombre d'occurences de \n QNH>"+str(qnh)+'hPa sur une periode de ' +str(int(nb_periode/12))+' ans')
+        plt.title("Probabilité du nombre d'occurences de \n QNH>"+str(qnh) +
+                  'hPa sur une periode de ' + str(int(nb_periode/12))+' ans')
     plt.savefig(
         'Figures_raw/'+conf.chemin_observations[-9:-5]+'/proba_retour_qnh.svg', format='svg')
     if config.SHOW:
         plt.show()
     plt.close('all')
-    
-def trace_proba_retour_temp(data,conf,qnh,nb_periode=10*12,seuil=10**(-3)):
+
+
+def trace_proba_retour_temp(data, conf, qnh, nb_periode=10*12, seuil=10**(-3)):
     """
     Entrée : Observation, valeur cible, nb de periode
     Sortie : Graphe de la probabilité d'avoir une valeur de température des occurence sur la periode 
     """
     X = []
     Y = []
-    if qnh>15:
-        dr = duree_retour(data,recup_temp,qnh, superieur_a)
+    if qnh > 15:
+        dr = duree_retour(data, recup_temp, qnh, superieur_a)
     else:
-        dr = duree_retour(data,recup_temp,qnh, inferieur_a)
-    occ=0
-    p=1
-    while p>seuil:
-        p=proba_retour_au_moins(nb_periode,occ,dr)
+        dr = duree_retour(data, recup_temp, qnh, inferieur_a)
+    occ = 0
+    p = 1
+    while p > seuil:
+        p = proba_retour_au_moins(nb_periode, occ, dr)
         X.append(occ)
         Y.append(p)
-        occ+=1
-    plt.scatter(X, Y,label='Probabilité')
-    plt.plot([0,occ],[0.95,0.95],color='red',label='Seuil à 95%')
+        occ += 1
+    plt.scatter(X, Y, label='Probabilité')
+    plt.plot([0, occ], [0.95, 0.95], color='red', label='Seuil à 95%')
     plt.legend()
     plt.xlabel("Nombre d'occurences")
     plt.ylabel('Probabilité')
-    if qnh>15:
-        plt.title("Probabilité du nombre d'occurence de \n T<"+str(qnh)+'°C sur une periode de ' +str(int(nb_periode/12))+' ans')
+    if qnh > 15:
+        plt.title("Probabilité du nombre d'occurence de \n T<"+str(qnh) +
+                  '°C sur une periode de ' + str(int(nb_periode/12))+' ans')
     else:
-        plt.title("Probabilité du nombre d'occurence de \n T>"+str(qnh)+'°C sur une periode de ' +str(int(nb_periode/12))+' ans')
+        plt.title("Probabilité du nombre d'occurence de \n T>"+str(qnh) +
+                  '°C sur une periode de ' + str(int(nb_periode/12))+' ans')
     plt.savefig(
         'Figures_raw/'+conf.chemin_observations[-9:-5]+'/proba_retour_temp.svg', format='svg')
     if config.SHOW:
         plt.show()
     plt.close('all')
-    
-def trace_proba_retour_precip(data,conf,qnh,nb_periode=10*12,seuil=10**(-3)):
+
+
+def trace_proba_retour_precip(data, conf, qnh, nb_periode=10*12, seuil=10**(-3)):
     """
     Entrée : Observation, valeur cible, nb de periode
     Sortie : Graphe de la probabilité d'avoir une valeur de precipitations des occurence sur la periode 
     """
     X = []
     Y = []
-    dr = duree_retour(data,recup_precip,qnh, superieur_a)
-    occ=0
-    p=1
-    while p>seuil:
-        p=proba_retour_au_moins(nb_periode,occ,dr)
+    dr = duree_retour(data, recup_precip, qnh, superieur_a)
+    occ = 0
+    p = 1
+    while p > seuil:
+        p = proba_retour_au_moins(nb_periode, occ, dr)
         X.append(occ)
         Y.append(p)
-        occ+=1
-    plt.scatter(X, Y,label='Probabilité')
-    plt.plot([0,occ],[0.95,0.95],color='red',label='Seuil à 95%')
+        occ += 1
+    plt.scatter(X, Y, label='Probabilité')
+    plt.plot([0, occ], [0.95, 0.95], color='red', label='Seuil à 95%')
     plt.legend()
     plt.xlabel("Nombre d'occurences")
     plt.ylabel('Probabilité')
-    plt.title("Probabilité du nombre d'occurence de plus de \n "+str(qnh)+'mm/jour de precipitation sur une periode de ' +str(int(nb_periode/12))+' ans')
+    plt.title("Probabilité du nombre d'occurence de plus de \n "+str(qnh) +
+              'mm/jour de precipitation sur une periode de ' + str(int(nb_periode/12))+' ans')
     plt.savefig(
         'Figures_raw/'+conf.chemin_observations[-9:-5]+'/proba_retour_precip.svg', format='svg')
     if config.SHOW:

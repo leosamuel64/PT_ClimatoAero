@@ -211,27 +211,30 @@ def enleve_doublon(liste):
     Entrée : Liste de couple
     Sortie : liste des couples sans doublon du deuxieme element (_,b) [b unique]
     '''
-    res=[]
-    double=[]
-    for (a,b) in liste:
-        if not(b in double):
-            res.append((a,b))
+    res = []
+    double = []
+    for (a, b) in liste:
+        if not (b in double):
+            res.append((a, b))
             double.append(b)
     return res
 
-def inferieur_a(a,b):
+
+def inferieur_a(a, b):
     '''
     Entrée : a,b entiers ou floats
     Sortie : bool a<b
     '''
-    return a<b    
+    return a < b
 
-def superieur_a(a,b):
+
+def superieur_a(a, b):
     '''
     Entrée : a,b entiers ou floats
     Sortie : bool a>b
     '''
-    return a>b 
+    return a > b
+
 
 def facto(n):
     """

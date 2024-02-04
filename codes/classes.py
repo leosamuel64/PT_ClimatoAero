@@ -9,7 +9,6 @@ class metar:
         jour = int(date[8:10])
         heure = int(date[11:13])
         minute = int(date[14:16])
-
         self.date = datetime.datetime(annee, mois, jour, heure, minute)
         self.message = ligne
 

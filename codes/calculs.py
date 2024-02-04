@@ -462,7 +462,8 @@ def vent_t_par_mois(data, piste):
             mois = d.date.month
             annee = d.date.year
             vt = calcul_crossWind(piste*10, vent_dir, vent_sp)
-            res[mois].append((round(vt, 0), str(annee)+' \n'+str(int(vent_dir))+'°/'+str(int(vent_sp))+'kt'))
+            res[mois].append((round(vt, 0), str(annee)+' \n' +
+                             str(int(vent_dir))+'°/'+str(int(vent_sp))+'kt'))
     return res
 
 
@@ -509,7 +510,8 @@ def vent_e_par_mois(data, piste):
             mois = d.date.month
             annee = d.date.year
             vt = abs(calcul_vent_eff(piste*10, vent_dir, vent_sp))
-            res[mois].append((round(vt, 0), str(annee)+' \n'+str(int(vent_dir))+'°/'+str(int(vent_sp))+'kt'))
+            res[mois].append((round(vt, 0), str(annee)+' \n' +
+                             str(int(vent_dir))+'°/'+str(int(vent_sp))+'kt'))
     return res
 
 
@@ -612,22 +614,24 @@ def recup_qnh(data):
     Entrée : Liste des observations
     Sortie : liste des couples (QNH, date)
     '''
-    res=[]
+    res = []
     for d in data:
         if (not ('qnh' in d.a_donnees_manquantes())) and (not (d.qnh == '')):
-            res.append((d.qnh,d.date))
+            res.append((d.qnh, d.date))
     return res
+
 
 def recup_temp(data):
     '''
     Entrée : Liste des observations
     Sortie : liste des couples (temperature, date)
     '''
-    res=[]
+    res = []
     for d in data:
         if (not ('temperature' in d.a_donnees_manquantes())) and (not (d.temperature == '')):
-            res.append((d.temperature,d.date))
+            res.append((d.temperature, d.date))
     return res
+
 
 def recup_precip(data):
     '''
@@ -635,57 +639,63 @@ def recup_precip(data):
     Sortie : liste des couples (precipitation, date)
     '''
     dico = precipitation_par_jour(data)
-    res=[]
+    res = []
     for key in dico.keys():
-        res.append((dico[key],key))
+        res.append((dico[key], key))
     return res
 
-def liste_occurences(data,fonction,seuil,operation):
+
+def liste_occurences(data, fonction, seuil, operation):
     '''
     Entrée : Liste des observations, fonction d'extraction,seuil de comparaison, operation de comparaison
     Sortie : liste des couples (valeur, date) où la valeur est 'operation' au seuil 
     '''
     valeurs = fonction(data)
-    res=[(val,datetime.datetime(date.year,date.month,date.day)) for (val,date) in valeurs if operation(val,seuil)]
+    res = [(val, datetime.datetime(date.year, date.month, date.day))
+           for (val, date) in valeurs if operation(val, seuil)]
     return enleve_doublon(res)
 
-def temps_entre_occurence(occurences,seuil=3):
+
+def temps_entre_occurence(occurences, seuil=3):
     '''
     Entrée : liste des occurences [(valeur,date)...]
     Sortie : liste des temps entre deux occurences
     '''
-    res=[]
+    res = []
     for k in range(len(occurences)-1):
-        Δt =  occurences[k+1][1] - occurences[k][1]
-        if Δt>datetime.timedelta(seuil):
+        Δt = occurences[k+1][1] - occurences[k][1]
+        if Δt > datetime.timedelta(seuil):
             res.append(Δt.days)
     return res
 
-def duree_retour(data,fonction,seuil,operation):
+
+def duree_retour(data, fonction, seuil, operation):
     '''
     Entrée : Liste des observations, fonction d'extraction, seuil du phenomène, operation de comparaison
     Sortie : durée de retour en mois
     '''
-    occurences = liste_occurences(data,fonction,seuil,operation)
+    occurences = liste_occurences(data, fonction, seuil, operation)
     tps_entre = temps_entre_occurence(occurences)
-    if tps_entre==[]:
+    if tps_entre == []:
         return None
     else:
-        return round(moyenne(tps_entre)/31,1)
-    
-def proba_retour(nb_periodes,nb_occurences,d_retour):
+        return round(moyenne(tps_entre)/31, 1)
+
+
+def proba_retour(nb_periodes, nb_occurences, d_retour):
     """
     Entrée : nombre de periode, nombre d'occurence, durée de retour
     Sortie : Probabilité d'avoir nb_occurences sur le nb_periode
     """
     return ((nb_periodes/d_retour)**nb_occurences/(facto(nb_occurences)))*math.exp(-nb_periodes/d_retour)
 
-def proba_retour_au_moins(nb_periodes,nb_occurences,d_retour):
+
+def proba_retour_au_moins(nb_periodes, nb_occurences, d_retour):
     """
     Entrée : nombre de periode, nombre d'occurence, durée de retour
     Sortie : Probabilité d'avoir au moins nb_occurences sur le nb_periode
     """
-    somme=0
-    for i in range(0,nb_occurences):
-        somme+=proba_retour(nb_periodes,i,d_retour)
+    somme = 0
+    for i in range(0, nb_occurences):
+        somme += proba_retour(nb_periodes, i, d_retour)
     return 1 - somme

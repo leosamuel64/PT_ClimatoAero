@@ -44,17 +44,17 @@ def genere_export_ad(code_ad, flotte, phenomenes):
     res += 1
     affiche_coeff_pistes(data, ad, config.SEUIL_VENT_CALME, conf)
     res += 1
-    trace_duree_retour_qnh(data,conf)
+    trace_duree_retour_qnh(data, conf)
     res += 1
-    trace_duree_retour_temp(data,conf)
+    trace_duree_retour_temp(data, conf)
     res += 1
-    trace_duree_retour_precip(data,conf)
+    trace_duree_retour_precip(data, conf)
     res += 1
-    trace_proba_retour_qnh(data,conf,985,nb_periode=30*12)
+    trace_proba_retour_qnh(data, conf, 985, nb_periode=30*12)
     res += 1
-    trace_proba_retour_temp(data,conf,35)
+    trace_proba_retour_temp(data, conf, 35)
     res += 1
-    trace_proba_retour_precip(data,conf,40)
+    trace_proba_retour_precip(data, conf, 40)
     res += 1
     return res
 
@@ -72,11 +72,10 @@ def multi_exports(liste_ad, flotte, phenomenes):
         print("Nombre de figures : "+str(res)+' figures')
         print("Temps par figure : "+str(round(tps/res, 1))+' s/figures')
     print('---------------------')
-    tps=round(time.time()-td, 0)
-    print('Execution en '+str(tps)+'s ('+str(round(tps/6,0))+'s/terrain)')
-    
-    
-        
+    tps = round(time.time()-td, 0)
+    print('Execution en '+str(tps)+'s ('+str(round(tps/6, 0))+'s/terrain)')
+
+
 def export_all():
     if not config.SHOW:
         multi_exports(config.liste_ad, config.flotte, config.phenomenes)
