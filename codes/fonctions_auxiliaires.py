@@ -234,6 +234,10 @@ def superieur_a(a,b):
     return a>b 
 
 def facto(n):
+    """
+    Entrée : Entier n
+    Sortie : n!
+    """
     match n:
         case 0:
             return 1

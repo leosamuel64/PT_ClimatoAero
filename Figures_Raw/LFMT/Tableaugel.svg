@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2024-02-01T02:28:59.715900</dc:date>
+    <dc:date>2024-02-04T18:10:12.817962</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -40,7 +40,7 @@ z
     </g>
     <g id="text_1">
      <!-- - -->
-     <g transform="translate(80.519786 169.907687) scale(0.05 -0.05)">
+     <g transform="translate(80.880567 169.63175) scale(0.04 -0.04)">
       <defs>
        <path id="DejaVuSans-2d" d="M 313 2009 
 L 1997 2009 
@@ -63,7 +63,7 @@ z
     </g>
     <g id="text_2">
      <!-- Jan -->
-     <g transform="translate(102.086649 169.907687) scale(0.05 -0.05)">
+     <g transform="translate(103.628212 169.63175) scale(0.04 -0.04)">
       <defs>
        <path id="DejaVuSans-4a" d="M 628 4666 
 L 1259 4666 
@@ -146,7 +146,7 @@ z
     </g>
     <g id="text_3">
      <!-- Fev -->
-     <g transform="translate(128.628512 169.907687) scale(0.05 -0.05)">
+     <g transform="translate(130.355856 169.63175) scale(0.04 -0.04)">
       <defs>
        <path id="DejaVuSans-46" d="M 628 4666 
 L 3309 4666 
@@ -212,7 +212,7 @@ z
     </g>
     <g id="text_4">
      <!-- Mars -->
-     <g transform="translate(152.697719 169.907687) scale(0.05 -0.05)">
+     <g transform="translate(155.105375 169.63175) scale(0.04 -0.04)">
       <defs>
        <path id="DejaVuSans-4d" d="M 628 4666 
 L 1569 4666 
@@ -295,7 +295,7 @@ z
     </g>
     <g id="text_5">
      <!-- Avr -->
-     <g transform="translate(184.065363 169.907687) scale(0.05 -0.05)">
+     <g transform="translate(185.693644 169.63175) scale(0.04 -0.04)">
       <defs>
        <path id="DejaVuSans-41" d="M 2188 4044 
 L 1331 1722 
@@ -329,7 +329,7 @@ z
     </g>
     <g id="text_6">
      <!-- Mai -->
-     <g transform="translate(210.910351 169.907687) scale(0.05 -0.05)">
+     <g transform="translate(212.663788 169.63175) scale(0.04 -0.04)">
       <defs>
        <path id="DejaVuSans-69" d="M 603 3500 
 L 1178 3500 
@@ -360,7 +360,7 @@ z
     </g>
     <g id="text_7">
      <!-- Juin -->
-     <g transform="translate(237.946745 169.907687) scale(0.05 -0.05)">
+     <g transform="translate(239.787058 169.63175) scale(0.04 -0.04)">
       <defs>
        <path id="DejaVuSans-75" d="M 544 1381 
 L 544 3500 
@@ -401,7 +401,7 @@ z
     </g>
     <g id="text_8">
      <!-- Juil -->
-     <g transform="translate(267.197202 169.907687) scale(0.05 -0.05)">
+     <g transform="translate(268.681577 169.63175) scale(0.04 -0.04)">
       <defs>
        <path id="DejaVuSans-6c" d="M 603 4863 
 L 1178 4863 
@@ -427,7 +427,7 @@ z
     </g>
     <g id="text_9">
      <!-- Aout -->
-     <g transform="translate(290.568752 169.907687) scale(0.05 -0.05)">
+     <g transform="translate(292.872971 169.63175) scale(0.04 -0.04)">
       <defs>
        <path id="DejaVuSans-6f" d="M 1959 3097 
 Q 1497 3097 1228 2736 
@@ -488,7 +488,7 @@ z
     </g>
     <g id="text_10">
      <!-- Sept -->
-     <g transform="translate(318.175459 169.907687) scale(0.05 -0.05)">
+     <g transform="translate(320.45249 169.63175) scale(0.04 -0.04)">
       <defs>
        <path id="DejaVuSans-53" d="M 3425 4513 
 L 3425 3897 
@@ -564,7 +564,7 @@ z
     </g>
     <g id="text_11">
      <!-- Oct -->
-     <g transform="translate(348.386072 169.907687) scale(0.05 -0.05)">
+     <g transform="translate(350.115135 169.63175) scale(0.04 -0.04)">
       <defs>
        <path id="DejaVuSans-4f" d="M 2522 4238 
 Q 1834 4238 1429 3725 
@@ -624,7 +624,7 @@ z
     </g>
     <g id="text_12">
      <!-- Nov -->
-     <g transform="translate(374.742779 169.907687) scale(0.05 -0.05)">
+     <g transform="translate(376.694654 169.63175) scale(0.04 -0.04)">
       <defs>
        <path id="DejaVuSans-4e" d="M 628 4666 
 L 1478 4666 
@@ -655,7 +655,7 @@ z
     </g>
     <g id="text_13">
      <!-- Dec -->
-     <g transform="translate(402.297142 169.907687) scale(0.05 -0.05)">
+     <g transform="translate(404.232298 169.63175) scale(0.04 -0.04)">
       <defs>
        <path id="DejaVuSans-44" d="M 1259 4147 
 L 1259 519 
@@ -692,7 +692,7 @@ z
     </g>
     <g id="text_14">
      <!-- jours/mois -->
-     <g transform="translate(56.438536 181.907687) scale(0.05 -0.05)">
+     <g transform="translate(61.615567 181.63175) scale(0.04 -0.04)">
       <defs>
        <path id="DejaVuSans-6a" d="M 603 3500 
 L 1178 3500 
@@ -773,7 +773,7 @@ z
     </g>
     <g id="text_15">
      <!-- 5.29j/m -->
-     <g transform="translate(90.717899 181.907687) scale(0.05 -0.05)">
+     <g transform="translate(94.533212 181.63175) scale(0.04 -0.04)">
       <defs>
        <path id="DejaVuSans-35" d="M 691 4666 
 L 3169 4666 
@@ -881,7 +881,7 @@ z
     </g>
     <g id="text_16">
      <!-- 7.73j/m -->
-     <g transform="translate(118.188668 181.907687) scale(0.05 -0.05)">
+     <g transform="translate(122.003981 181.63175) scale(0.04 -0.04)">
       <defs>
        <path id="DejaVuSans-37" d="M 525 4666 
 L 3525 4666 
@@ -945,7 +945,7 @@ z
     </g>
     <g id="text_17">
      <!-- 0.51j/m -->
-     <g transform="translate(145.659438 181.907687) scale(0.05 -0.05)">
+     <g transform="translate(149.47475 181.63175) scale(0.04 -0.04)">
       <defs>
        <path id="DejaVuSans-30" d="M 2034 4250 
 Q 1547 4250 1301 3770 
@@ -1002,7 +1002,7 @@ z
     </g>
     <g id="text_18">
      <!-- 0.0j/m -->
-     <g transform="translate(176.311457 181.907687) scale(0.05 -0.05)">
+     <g transform="translate(179.490519 181.63175) scale(0.04 -0.04)">
       <use xlink:href="#DejaVuSans-30"/>
       <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
       <use xlink:href="#DejaVuSans-30" x="95.410156"/>
@@ -1021,7 +1021,7 @@ z
     </g>
     <g id="text_19">
      <!-- 0.0j/m -->
-     <g transform="translate(203.782226 181.907687) scale(0.05 -0.05)">
+     <g transform="translate(206.961288 181.63175) scale(0.04 -0.04)">
       <use xlink:href="#DejaVuSans-30"/>
       <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
       <use xlink:href="#DejaVuSans-30" x="95.410156"/>
@@ -1040,7 +1040,7 @@ z
     </g>
     <g id="text_20">
      <!-- 0.0j/m -->
-     <g transform="translate(231.252995 181.907687) scale(0.05 -0.05)">
+     <g transform="translate(234.432058 181.63175) scale(0.04 -0.04)">
       <use xlink:href="#DejaVuSans-30"/>
       <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
       <use xlink:href="#DejaVuSans-30" x="95.410156"/>
@@ -1059,7 +1059,7 @@ z
     </g>
     <g id="text_21">
      <!-- 0.0j/m -->
-     <g transform="translate(258.723764 181.907687) scale(0.05 -0.05)">
+     <g transform="translate(261.902827 181.63175) scale(0.04 -0.04)">
       <use xlink:href="#DejaVuSans-30"/>
       <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
       <use xlink:href="#DejaVuSans-30" x="95.410156"/>
@@ -1078,7 +1078,7 @@ z
     </g>
     <g id="text_22">
      <!-- 0.0j/m -->
-     <g transform="translate(286.194534 181.907687) scale(0.05 -0.05)">
+     <g transform="translate(289.373596 181.63175) scale(0.04 -0.04)">
       <use xlink:href="#DejaVuSans-30"/>
       <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
       <use xlink:href="#DejaVuSans-30" x="95.410156"/>
@@ -1097,7 +1097,7 @@ z
     </g>
     <g id="text_23">
      <!-- 0.0j/m -->
-     <g transform="translate(313.665303 181.907687) scale(0.05 -0.05)">
+     <g transform="translate(316.844365 181.63175) scale(0.04 -0.04)">
       <use xlink:href="#DejaVuSans-30"/>
       <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
       <use xlink:href="#DejaVuSans-30" x="95.410156"/>
@@ -1116,7 +1116,7 @@ z
     </g>
     <g id="text_24">
      <!-- 0.0j/m -->
-     <g transform="translate(341.136072 181.907687) scale(0.05 -0.05)">
+     <g transform="translate(344.315135 181.63175) scale(0.04 -0.04)">
       <use xlink:href="#DejaVuSans-30"/>
       <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
       <use xlink:href="#DejaVuSans-30" x="95.410156"/>
@@ -1135,7 +1135,7 @@ z
     </g>
     <g id="text_25">
      <!-- 0.47j/m -->
-     <g transform="translate(365.425591 181.907687) scale(0.05 -0.05)">
+     <g transform="translate(369.240904 181.63175) scale(0.04 -0.04)">
       <defs>
        <path id="DejaVuSans-34" d="M 2419 4116 
 L 825 1625 
@@ -1176,7 +1176,7 @@ z
     </g>
     <g id="text_26">
      <!-- 2.81j/m -->
-     <g transform="translate(392.896361 181.907687) scale(0.05 -0.05)">
+     <g transform="translate(396.711673 181.63175) scale(0.04 -0.04)">
       <defs>
        <path id="DejaVuSans-38" d="M 2034 2216 
 Q 1584 2216 1326 1975 

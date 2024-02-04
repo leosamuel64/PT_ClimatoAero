@@ -462,7 +462,7 @@ def vent_t_par_mois(data, piste):
             mois = d.date.month
             annee = d.date.year
             vt = calcul_crossWind(piste*10, vent_dir, vent_sp)
-            res[mois].append((round(vt, 0), annee))
+            res[mois].append((round(vt, 0), str(annee)+' \n'+str(int(vent_dir))+'°/'+str(int(vent_sp))+'kt'))
     return res
 
 
@@ -509,7 +509,7 @@ def vent_e_par_mois(data, piste):
             mois = d.date.month
             annee = d.date.year
             vt = abs(calcul_vent_eff(piste*10, vent_dir, vent_sp))
-            res[mois].append((round(vt, 0), annee))
+            res[mois].append((round(vt, 0), str(annee)+' \n'+str(int(vent_dir))+'°/'+str(int(vent_sp))+'kt'))
     return res
 
 
@@ -674,9 +674,17 @@ def duree_retour(data,fonction,seuil,operation):
         return round(moyenne(tps_entre)/31,1)
     
 def proba_retour(nb_periodes,nb_occurences,d_retour):
+    """
+    Entrée : nombre de periode, nombre d'occurence, durée de retour
+    Sortie : Probabilité d'avoir nb_occurences sur le nb_periode
+    """
     return ((nb_periodes/d_retour)**nb_occurences/(facto(nb_occurences)))*math.exp(-nb_periodes/d_retour)
 
 def proba_retour_au_moins(nb_periodes,nb_occurences,d_retour):
+    """
+    Entrée : nombre de periode, nombre d'occurence, durée de retour
+    Sortie : Probabilité d'avoir au moins nb_occurences sur le nb_periode
+    """
     somme=0
     for i in range(0,nb_occurences):
         somme+=proba_retour(nb_periodes,i,d_retour)

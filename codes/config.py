@@ -13,7 +13,7 @@ class config:
                              'DZ': 12
                              }
     SEUIL_VENT_CALME = 2  # En kt
-    SHOW = True
+    SHOW = False
     flotte = ['TOBA',
               'TB20',
               'DA40',

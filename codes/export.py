@@ -60,7 +60,7 @@ def genere_export_ad(code_ad, flotte, phenomenes):
 
 
 def multi_exports(liste_ad, flotte, phenomenes):
-
+    td = time.time()
     for code in liste_ad:
         print('---------------------')
 
@@ -71,6 +71,14 @@ def multi_exports(liste_ad, flotte, phenomenes):
         print("Temps d'execution : "+str(tps)+' s')
         print("Nombre de figures : "+str(res)+' figures')
         print("Temps par figure : "+str(round(tps/res, 1))+' s/figures')
+    print('---------------------')
+    tps=round(time.time()-td, 0)
+    print('Execution en '+str(tps)+'s ('+str(round(tps/6,0))+'s/terrain)')
+    
+    
         
 def export_all():
-    multi_exports(config.liste_ad, config.flotte, config.phenomenes)
+    if not config.SHOW:
+        multi_exports(config.liste_ad, config.flotte, config.phenomenes)
+    else:
+        raise Exception('config.SHOW == True --> Set config.SHOW==False')
