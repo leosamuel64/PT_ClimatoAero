@@ -672,3 +672,12 @@ def duree_retour(data,fonction,seuil,operation):
         return None
     else:
         return round(moyenne(tps_entre)/31,1)
+    
+def proba_retour(nb_periodes,nb_occurences,d_retour):
+    return ((nb_periodes/d_retour)**nb_occurences/(facto(nb_occurences)))*math.exp(-nb_periodes/d_retour)
+
+def proba_retour_au_moins(nb_periodes,nb_occurences,d_retour):
+    somme=0
+    for i in range(0,nb_occurences):
+        somme+=proba_retour(nb_periodes,i,d_retour)
+    return 1 - somme

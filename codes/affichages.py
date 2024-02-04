@@ -379,7 +379,6 @@ def trace_duree_retour_qnh(data,conf,borne_inf=875,borne_sup=1045):
     plt.title('Durée de retour QNH')
     plt.savefig(
         'Figures_raw/'+conf.chemin_observations[-9:-5]+'/duree_retour_qnh.svg', format='svg')
-    
     if config.SHOW:
         plt.show()
     plt.close('all')
@@ -401,7 +400,6 @@ def trace_duree_retour_temp(data,conf,borne_inf=-20,borne_sup=45):
     plt.title('Durée de retour Température')
     plt.savefig(
         'Figures_raw/'+conf.chemin_observations[-9:-5]+'/duree_retour_temp.svg', format='svg')
-    
     if config.SHOW:
         plt.show()
     plt.close('all')
@@ -420,7 +418,81 @@ def trace_duree_retour_precip(data,conf,borne_inf=0,borne_sup=60):
     plt.title('Durée de retour Precipitation')
     plt.savefig(
         'Figures_raw/'+conf.chemin_observations[-9:-5]+'/duree_retour_precip.svg', format='svg')
+    if config.SHOW:
+        plt.show()
+    plt.close('all')
     
+def trace_proba_retour_qnh(data,conf,qnh,nb_periode=10*12,seuil=10**(-3)):
+    X = []
+    Y = []
+    if qnh<=1013:
+        dr = duree_retour(data,recup_qnh,qnh, inferieur_a)
+    else:
+        dr = duree_retour(data,recup_qnh,qnh, superieur_a)
+    occ=0
+    p=1
+    while p>seuil:
+        p=proba_retour_au_moins(nb_periode,occ,dr)
+        X.append(occ)
+        Y.append(p)
+        occ+=1
+    plt.scatter(X, Y,label='Probabilité')
+    plt.plot([0,occ],[0.95,0.95],color='red',label='Seuil à 95%')
+    plt.legend()
+    plt.xlabel("Nombre d'occurences")
+    plt.ylabel('Probabilité')
+    plt.title("Probabilité du nombre d'occurence de \n QNH="+str(qnh)+'hPa sur une periode de ' +str(int(nb_periode/12))+' ans')
+    plt.savefig(
+        'Figures_raw/'+conf.chemin_observations[-9:-5]+'/proba_retour_qnh.svg', format='svg')
+    if config.SHOW:
+        plt.show()
+    plt.close('all')
+    
+def trace_proba_retour_temp(data,conf,qnh,nb_periode=10*12,seuil=10**(-3)):
+    X = []
+    Y = []
+    if qnh>15:
+        dr = duree_retour(data,recup_temp,qnh, superieur_a)
+    else:
+        dr = duree_retour(data,recup_temp,qnh, inferieur_a)
+    occ=0
+    p=1
+    while p>seuil:
+        p=proba_retour_au_moins(nb_periode,occ,dr)
+        X.append(occ)
+        Y.append(p)
+        occ+=1
+    plt.scatter(X, Y,label='Probabilité')
+    plt.plot([0,occ],[0.95,0.95],color='red',label='Seuil à 95%')
+    plt.legend()
+    plt.xlabel("Nombre d'occurences")
+    plt.ylabel('Probabilité')
+    plt.title("Probabilité du nombre d'occurence de \n T="+str(qnh)+'°C sur une periode de ' +str(int(nb_periode/12))+' ans')
+    plt.savefig(
+        'Figures_raw/'+conf.chemin_observations[-9:-5]+'/proba_retour_temp.svg', format='svg')
+    if config.SHOW:
+        plt.show()
+    plt.close('all')
+    
+def trace_proba_retour_precip(data,conf,qnh,nb_periode=10*12,seuil=10**(-3)):
+    X = []
+    Y = []
+    dr = duree_retour(data,recup_precip,qnh, superieur_a)
+    occ=0
+    p=1
+    while p>seuil:
+        p=proba_retour_au_moins(nb_periode,occ,dr)
+        X.append(occ)
+        Y.append(p)
+        occ+=1
+    plt.scatter(X, Y,label='Probabilité')
+    plt.plot([0,occ],[0.95,0.95],color='red',label='Seuil à 95%')
+    plt.legend()
+    plt.xlabel("Nombre d'occurences")
+    plt.ylabel('Probabilité')
+    plt.title("Probabilité du nombre d'occurence de \n "+str(qnh)+'mm/jour de precipitation sur une periode de ' +str(int(nb_periode/12))+' ans')
+    plt.savefig(
+        'Figures_raw/'+conf.chemin_observations[-9:-5]+'/proba_retour_precip.svg', format='svg')
     if config.SHOW:
         plt.show()
     plt.close('all')

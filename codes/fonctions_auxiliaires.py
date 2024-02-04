@@ -232,3 +232,12 @@ def superieur_a(a,b):
     Sortie : bool a>b
     '''
     return a>b 
+
+def facto(n):
+    match n:
+        case 0:
+            return 1
+        case 1:
+            return 1
+        case n:
+            return n*facto(n-1)

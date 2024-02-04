@@ -50,6 +50,12 @@ def genere_export_ad(code_ad, flotte, phenomenes):
     res += 1
     trace_duree_retour_precip(data,conf)
     res += 1
+    trace_proba_retour_qnh(data,conf,985,nb_periode=30*12)
+    res += 1
+    trace_proba_retour_temp(data,conf,35)
+    res += 1
+    trace_proba_retour_precip(data,conf,40)
+    res += 1
     return res
 
 
