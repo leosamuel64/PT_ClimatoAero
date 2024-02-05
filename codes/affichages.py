@@ -15,7 +15,7 @@ def rose_des_vents(data, conf) -> None:
     ax = plt.subplot(111, polar=True)
     ax.set_theta_zero_location("N")
     ax.set_theta_direction(-1)
-    ax.get_yaxis().set_visible(False)
+    ax.get_yaxis().set_visible(True)
     legnd_R = True
     legnd_O = True
     legnd_G = True
@@ -32,20 +32,24 @@ def rose_des_vents(data, conf) -> None:
                     width=math.pi*10/180, bottom=0, color="red")
         if legnd_O:
             plt.bar(x=(d*10)*math.pi/180, height=m, width=math.pi*10/180,
-                    bottom=0, color="orange", label='Vitesse vent ∈ [2.9;8.7] kt')
+                    bottom=0, color="orange", label='Vitesse vent ∈ [10;15] kt')
             legnd_O = False
         else:
             plt.bar(x=(d*10)*math.pi/180, height=m,
                     width=math.pi*10/180, bottom=0, color="orange")
         if legnd_G:
             plt.bar(x=(d*10)*math.pi/180, height=i, width=math.pi*10 /
-                    180, bottom=0, color="green", label='Vitesse vent<2.9kt')
+                    180, bottom=0, color="green", label='Vitesse vent ∈ [3;10]kt')
             legnd_G = False
         else:
             plt.bar(x=(d*10)*math.pi/180, height=i,
                     width=math.pi*10/180, bottom=0, color="green")
     ax.set_title("Rose des vents")
-    plt.legend()
+    ax.set_rlabel_position(45) 
+    plt.xticks([x*math.pi/180 for x in range(10,370,10)])               
+    # ax.xaxis.set_major_locator(plt.MultipleLocator(10*math.pi/180))
+    
+    plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0)
     plt.savefig('Figures_raw/' +
                 conf.chemin_observations[-9:-5]+'/RDV_.svg', format='svg')
     if config.SHOW:
@@ -165,7 +169,7 @@ def trace_phenomene(metars, code, conf, show=True):
             Y[k] = 30*(Y[k]*config.PHENOMENE_PONDERATION[code])/cnt[k]
     plt.bar(X, Y, color=color_template().orange)
     addlabels(X, Y, 'j')
-    plt.title('Moyenne des jour de '+code+' par mois')
+    plt.title('Moyenne des jours de '+code+' par mois')
     plt.savefig(
         'Figures_raw/'+conf.chemin_observations[-9:-5]+'/Phenomene'+code+'.svg', format='svg')
     if config.SHOW:
@@ -243,8 +247,51 @@ def trace_limitations(data, aeronef, ad, conf):
     res = limitations(data, aeronef, ad)
     X = ['Jan', 'Fev', 'Mars', 'Avr', 'Mai', 'Juin',
          'Juil', 'Aout', 'Sept', 'Oct', 'Nov', 'Dec']
-    plt.bar(X, res, color=color_template().orange)
-    addlabels(X, res, 'j')
+    l_vent=[]
+    l_visi=[]
+    l_plaf=[]
+    l_precip=[]
+    legend_vent=False
+    legend_visi=False
+    legend_plaf=False
+    legend_precip=False
+    for (vent,visi,plaf,precip) in res:
+        visi+=vent
+        plaf+=visi
+        precip+=plaf
+        l_vent.append(vent)
+        l_visi.append(visi)
+        l_plaf.append(plaf)
+        l_precip.append(precip)
+        
+    if not legend_precip:
+        plt.bar(X, l_precip, color='lightsteelblue',label='Limitations precipitations')
+        legend_precip=True
+    else:
+        plt.bar(X, l_precip, color='lightsteelblue')
+        
+    if not legend_plaf:
+        plt.bar(X, l_plaf, color='palegreen',label='Limitations plafond')
+        legend_plaf=True
+    else:
+        plt.bar(X, l_plaf, color='palegreen')
+        
+    if not legend_visi:
+        plt.bar(X, l_visi, color='darkgray',label='Limitations visibilité')
+        legend_visi=True
+    else:
+        plt.bar(X, l_visi, color='darkgray')
+        
+    if not legend_vent:
+        plt.bar(X, l_vent, color='peachpuff',label='Limitations vent traversié')
+        legend_vent=True
+    else:
+        plt.bar(X, l_vent, color='peachpuff')
+    
+    
+    addlabels(X, l_precip, 'j')
+    
+    plt.legend()
     plt.title('limitation '+aeronef.nom)
     plt.savefig(
         'Figures_raw/'+conf.chemin_observations[-9:-5]+'/limit_'+aeronef.code+'.svg', format='svg')
@@ -269,32 +316,43 @@ def trace_donnees_manquantes(data, conf):
                   res, 'Données Manquantes', conf)
 
 
-def affiche_table_contingence(data, pas_abs, pas_ord, fonction_couple, texte, conf):
+def affiche_table_contingence(data, pas_abs, pas_ord, fonction_couple, texte, conf,ad):
     """
     Entrée : Observation, catégories en abscisse, catégories en ordonnée, fonction de création des couples, texte pour la case (0,0)
     Sortie : table de contingence du couple en fonction des catégories en image
     """
-    table = calcul_table_contingence(data, pas_abs, pas_ord, fonction_couple)
+    table = calcul_table_contingence(data, pas_abs, pas_ord, fonction_couple,ad)
     trace_tableau([texte]+pas_abs+['>'],
                   pas_ord+['>'],
                   table, 'tc'+fonction_couple.__name__, conf, '')
 
 
-def affiche_tc_visi_plafond(data, conf):
+def affiche_tc_visi_plafond(data, conf,ad):
     """
     Entrée : Observation,
     Sortie : table de contingence visi/plafond
     """
     pas_visi = [800, 1500, 5000, 10000]  # Visi
-    pas_plafond = [50, 100, 200, 400, 1500, 5000]  # Plafond
+    pas_plafond = [200, 400, 1500, 5000]  # Plafond
+    # TODO : Définir les seuils
     affiche_table_contingence(data, pas_visi, pas_plafond,
-                              couple_contingence_visi_plafond, 'Visibilité\n Plafond          ', conf)
+                              couple_contingence_visi_plafond, 'Visibilité\n Plafond          ', conf,ad)
 
+def affiche_tc_venteff_altip(data, conf,ad):
+    """
+    Entrée : Observation,
+    Sortie : table de contingence visi/plafond
+    """
+    pas_visi = [3, 10, 20]  # vent eff
+    pas_plafond = [450, 620, 750]  # alti pression
+    # TODO : Définir les seuils
+    affiche_table_contingence(data, pas_visi, pas_plafond,
+                              couple_contingence_veff_altip, 'Vent effectif\n altitude pression         ', conf,ad)
 
 def trace_tableau_gel(data, conf):
     """
     Entrée : Observation,
-    Sortie : tableau du nombre de jour moyen de gel par mois
+    Sortie : tableau du nombre de jours moyen de gel par mois
     """
     tab = compte_gel_mois(data)
     trace_tableau(['-', 'Jan', 'Fev', 'Mars', 'Avr', 'Mai', 'Juin', 'Juil', 'Aout', 'Sept', 'Oct', 'Nov', 'Dec'],
@@ -327,8 +385,8 @@ def trace_tableau_vent_travers(data, piste, conf):
     maxi = max(t_max)[0]
     moy = round(moyenne(t_moy), 0)
     trace_tableau(['-', 'Jan', 'Fev', 'Mars', 'Avr', 'Mai', 'Juin', 'Juil', 'Aout', 'Sept', 'Oct', 'Nov', 'Dec', 'Record'],
-                  ['Max', 'Moy'],
-                  [t_max+[str(maxi)], t_moy+[str(moy)]],
+                  ['Max'],
+                  [t_max+[str(maxi)]],
                   'Vent_travers', conf, 'kt')
 
 

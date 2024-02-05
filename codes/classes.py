@@ -98,7 +98,7 @@ class observation:
                   "direction_vent", "vitesse_vent_instant_maxi", "direction_vent_instant_maxi ", "heure_vent_instant_maxi ", "humidite", "humidite_mini", "heure_humidite_mini", "humidite_maxi", "heure_humidite_maxi", "nebulosite ", "temps_present ", "visi"]
         res = []
         for i in range(len(tab)):
-            if tab[i] in ['n', 'm', 'd', 'r', '']:
+            if tab[i] in ['n', 'm', '']:
                 res.append(labels[i])
         if self.temperature == '' and (not ('temperature' in res)):
             res.append('visi')

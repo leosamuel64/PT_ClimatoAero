@@ -48,7 +48,7 @@
     },
     "PIVI":     {
         "Nom_entier": "Pipistrel Velis Electro",
-        "limit_cross_wind": 15,
+        "limit_cross_wind": 10,
         "limit_vent_arriere": 10,
         "limit_vent": null,
         "limit_pluie":true,

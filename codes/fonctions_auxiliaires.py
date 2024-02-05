@@ -248,3 +248,13 @@ def facto(n):
             return 1
         case n:
             return n*facto(n-1)
+
+
+def ajoute_vecteurs(X,Y):
+    if len(X)!=len(Y):
+        raise Exception('Les vecteurs ne sont pas de la même taille')
+    else:
+        res=[]
+        for k in range(len(X)):
+            res.append(X[k]+Y[k])
+        return res

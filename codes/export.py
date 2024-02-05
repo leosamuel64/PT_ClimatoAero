@@ -40,7 +40,7 @@ def genere_export_ad(code_ad, flotte, phenomenes):
         res += 1
     trace_donnees_manquantes(data, conf)
     res += 1
-    affiche_tc_visi_plafond(data, conf)
+    affiche_tc_visi_plafond(data, conf,ad)
     res += 1
     affiche_coeff_pistes(data, ad, config.SEUIL_VENT_CALME, conf)
     res += 1
