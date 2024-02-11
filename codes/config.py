@@ -8,9 +8,9 @@ class color_template:
 
 
 class config:
-    PHENOMENE_PONDERATION = {'TS': 24,
-                             'RA': 12,
-                             'DZ': 12
+    PHENOMENE_PONDERATION = {'TS': 2*24,
+                             'RA': 2*2,
+                             'DZ': 2*2
                              }
     SEUIL_VENT_CALME = 2  # En kt
     SHOW = True

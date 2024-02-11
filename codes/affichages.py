@@ -25,21 +25,21 @@ def rose_des_vents(data, conf) -> None:
         m += i
         if legnd_R:
             plt.bar(x=(d*10)*math.pi/180, height=s, width=math.pi*10 /
-                    180, bottom=0, color="red", label='Vitesse vent>15kt')
+                    180, bottom=0, color="red", label='>15kt')
             legnd_R = False
         else:
             plt.bar(x=(d*10)*math.pi/180, height=s,
                     width=math.pi*10/180, bottom=0, color="red")
         if legnd_O:
             plt.bar(x=(d*10)*math.pi/180, height=m, width=math.pi*10/180,
-                    bottom=0, color="orange", label='Vitesse vent ∈ [10;15] kt')
+                    bottom=0, color="orange", label='[10;15] kt')
             legnd_O = False
         else:
             plt.bar(x=(d*10)*math.pi/180, height=m,
                     width=math.pi*10/180, bottom=0, color="orange")
         if legnd_G:
             plt.bar(x=(d*10)*math.pi/180, height=i, width=math.pi*10 /
-                    180, bottom=0, color="green", label='Vitesse vent ∈ [3;10]kt')
+                    180, bottom=0, color="green", label='[3;10]kt')
             legnd_G = False
         else:
             plt.bar(x=(d*10)*math.pi/180, height=i,
@@ -283,7 +283,7 @@ def trace_limitations(data, aeronef, ad, conf):
         plt.bar(X, l_visi, color='darkgray')
         
     if not legend_vent:
-        plt.bar(X, l_vent, color='peachpuff',label='Limitations vent traversié')
+        plt.bar(X, l_vent, color='peachpuff',label='Limitations vent traversier')
         legend_vent=True
     else:
         plt.bar(X, l_vent, color='peachpuff')
@@ -324,7 +324,7 @@ def affiche_table_contingence(data, pas_abs, pas_ord, fonction_couple, texte, co
     table = calcul_table_contingence(data, pas_abs, pas_ord, fonction_couple,ad)
     trace_tableau([texte]+pas_abs+['>'],
                   pas_ord+['>'],
-                  table, 'tc'+fonction_couple.__name__, conf, '')
+                  table, 'tc '+texte, conf, '')
 
 
 def affiche_tc_visi_plafond(data, conf,ad):
@@ -338,16 +338,24 @@ def affiche_tc_visi_plafond(data, conf,ad):
     affiche_table_contingence(data, pas_visi, pas_plafond,
                               couple_contingence_visi_plafond, 'Visibilité\n Plafond          ', conf,ad)
 
-def affiche_tc_venteff_altip(data, conf,ad):
+def affiche_tc_venteff_altip(data, conf,ad,T,marge):
     """
     Entrée : Observation,
     Sortie : table de contingence visi/plafond
     """
+    data2=[]
+    for d in data:
+        temp = d.temperature
+        if (not ('temperature' in d.a_donnees_manquantes())) and (not (temp == '')):
+            if (d.temperature <= T+marge) and (d.temperature >=T-marge):
+                data2.append(d)
+    
+
     pas_visi = [3, 10, 20]  # vent eff
     pas_plafond = [450, 620, 750]  # alti pression
     # TODO : Définir les seuils
-    affiche_table_contingence(data, pas_visi, pas_plafond,
-                              couple_contingence_veff_altip, 'Vent effectif\n altitude pression         ', conf,ad)
+    affiche_table_contingence(data2, pas_visi, pas_plafond,
+                              couple_contingence_veff_altip, 'Vent effectif\n altitude pression         '+str(T)+'°C', conf,ad)
 
 def trace_tableau_gel(data, conf):
     """

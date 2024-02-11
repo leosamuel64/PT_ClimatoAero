@@ -29,7 +29,10 @@ def vents_dominants_vitesse(data,decli=0):
         norm = {}
         for key in res.keys():
             a,b,c=res[key]
-            norm[key]=[100*a/somme,100*b/somme,100*c/somme]
+            if somme != 0:
+                norm[key]=[100*a/somme,100*b/somme,100*c/somme]
+            else:
+                norm[key]=[0,0,0]
     return norm
 
 
@@ -196,9 +199,15 @@ def count_weather_date(metars, code):
             key_date = datetime.datetime(m.date.year, m.date.month, m.date.day)
             if temp == code:
                 if key_date in res.keys():
-                    res[key_date] += 0.5
+                    if code in config.PHENOMENE_PONDERATION.keys():
+                        res[key_date] += config.PHENOMENE_PONDERATION[code]
+                    else:
+                        res[key_date] += 0.5
                 else:
-                    res[key_date] = 0.5
+                    if code in config.PHENOMENE_PONDERATION.keys():
+                        res[key_date] = config.PHENOMENE_PONDERATION[code]
+                    else:
+                        res[key_date] = 0.5
         key_date = datetime.datetime(m.date.year, m.date.month, m.date.day)
         if not (key_date in res.keys()):
             res[key_date] = 0

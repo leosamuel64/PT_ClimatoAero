@@ -34,3 +34,8 @@ ac = avion('PIVI')
 # affiche_tc_visi_plafond(data,conf,ad)
 
 # export_all()
+
+# affiche_tc_venteff_altip(data,conf,ad,15,5)
+
+# rose_des_vents(data,conf)
+trace_limitations(data,ac,ad,conf)

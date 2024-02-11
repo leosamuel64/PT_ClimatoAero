@@ -56,6 +56,9 @@ def genere_export_ad(code_ad, flotte, phenomenes):
     res += 1
     trace_proba_retour_precip(data, conf, 40)
     res += 1
+    for T in [-0,15,30]:
+        affiche_tc_venteff_altip(data,conf,ad,1,5)
+        res += 1
     return res
 
 
