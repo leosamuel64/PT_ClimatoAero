@@ -40,7 +40,7 @@ def genere_export_ad(code_ad, flotte, phenomenes):
         res += 1
     trace_donnees_manquantes(data, conf)
     res += 1
-    affiche_tc_visi_plafond(data, conf,ad)
+    affiche_tc_visi_plafond(data, conf, ad)
     res += 1
     affiche_coeff_pistes(data, ad, config.SEUIL_VENT_CALME, conf)
     res += 1
@@ -56,8 +56,8 @@ def genere_export_ad(code_ad, flotte, phenomenes):
     res += 1
     trace_proba_retour_precip(data, conf, 40)
     res += 1
-    for T in [-0,15,30]:
-        affiche_tc_venteff_altip(data,conf,ad,1,5)
+    for T in [-0, 15, 30]:
+        affiche_tc_venteff_altip(data, conf, ad, 1, 5)
         res += 1
     return res
 

@@ -4,13 +4,13 @@ import math
 from codes.config import *
 
 
-def vents_dominants_vitesse(data,decli=0):
+def vents_dominants_vitesse(data, decli=0):
     """
     Entrée : Liste des observations, declinaison magnétique
     Sortie : Dictionnaire des listes des vitesses de vent
     """
     res = {i: [0, 0, 0] for i in range(0, 36)}
-    somme=0
+    somme = 0
     for d in data:
         direct = d.direction_vent
         sp = d.vitesse_vent
@@ -19,20 +19,20 @@ def vents_dominants_vitesse(data,decli=0):
             if sp > 3:
                 if sp < 10:
                     res[wr][0] += 1
-                    somme+=1
+                    somme += 1
                 elif sp < 15:
-                    somme+=1
+                    somme += 1
                     res[wr][1] += 1
                 else:
-                    somme+=1
+                    somme += 1
                     res[wr][2] += 1
         norm = {}
         for key in res.keys():
-            a,b,c=res[key]
+            a, b, c = res[key]
             if somme != 0:
-                norm[key]=[100*a/somme,100*b/somme,100*c/somme]
+                norm[key] = [100*a/somme, 100*b/somme, 100*c/somme]
             else:
-                norm[key]=[0,0,0]
+                norm[key] = [0, 0, 0]
     return norm
 
 
@@ -307,20 +307,21 @@ def limitations(data, aeronef, ad):
     Entrée : Observation, avion, Numéro de la piste, aerodrome
     Sortie : Tableau des pourcentages de non-accessibilité de l'aérodrome par l'aéronef en fonction des mois
     """
-    res = {i: ([0,0,0,0], 0) for i in range(0, 12)}
+    res = {i: ([0, 0, 0, 0], 0) for i in range(0, 12)}
     cnt = 0
     for d in data:
         mois = d.date.month
         last_lim, last_tot = res[mois-1]
-        vect_limit = [limite_vent(d, aeronef, ad),limite_visi(d, aeronef, ad),limite_plafond(d, aeronef, ad),limite_precip(d, aeronef)]
+        vect_limit = [limite_vent(d, aeronef, ad), limite_visi(
+            d, aeronef, ad), limite_plafond(d, aeronef, ad), limite_precip(d, aeronef)]
         if True in vect_limit:
-            res[mois-1] = (ajoute_vecteurs(last_lim,vect_limit), last_tot+1)
+            res[mois-1] = (ajoute_vecteurs(last_lim, vect_limit), last_tot+1)
         else:
             res[mois-1] = (last_lim, last_tot+1)
     fin = []
     for key in res:
         last_lim, last_tot = res[key]
-        temp=[]
+        temp = []
         for x in last_lim:
             temp.append(round((x/last_tot)*30, 1))
         fin.append(temp)
@@ -346,7 +347,7 @@ def calcul_donnees_manquantes(data):
     return res
 
 
-def couple_contingence_visi_plafond(data,ad):
+def couple_contingence_visi_plafond(data, ad):
     """
     Entrée : Observation
     Sortie : liste des couples (visi,plafond)
@@ -362,8 +363,7 @@ def couple_contingence_visi_plafond(data,ad):
     return res
 
 
-
-def couple_contingence_veff_altip(data,ad):
+def couple_contingence_veff_altip(data, ad):
     """
     Entrée : Observation
     Sortie : liste des couples (veff,altipression)
@@ -374,8 +374,9 @@ def couple_contingence_veff_altip(data,ad):
             direction = d.direction_vent
             vitesse = d.vitesse_vent
             alti_p = d.alt + (1013-d.qnh)*28
-            
-            res.append((calcul_vent_eff(ad.pistes[0],direction,vitesse),alti_p))
+
+            res.append(
+                (calcul_vent_eff(ad.pistes[0], direction, vitesse), alti_p))
     return res
 
 
@@ -399,12 +400,12 @@ def place_table_contingence(grandeurs, pas1, pas2):
     return res
 
 
-def calcul_table_contingence(data, pas_abs, pas_ord, fonction_couple,ad):
+def calcul_table_contingence(data, pas_abs, pas_ord, fonction_couple, ad):
     """
     Entrée : Observation, catégories en abscisse, catégories en ordonnée, fonction de création des couples
     Sortie : table de contingence du couple en fonction des catégories (en pourcent)
     """
-    couple = fonction_couple(data,ad)
+    couple = fonction_couple(data, ad)
     table_place = place_table_contingence(couple, pas_abs, pas_ord)
     normalise_matrice(table_place)
     return table_place

@@ -45,10 +45,10 @@ def rose_des_vents(data, conf) -> None:
             plt.bar(x=(d*10)*math.pi/180, height=i,
                     width=math.pi*10/180, bottom=0, color="green")
     ax.set_title("Rose des vents")
-    ax.set_rlabel_position(45) 
-    plt.xticks([x*math.pi/180 for x in range(10,370,10)])               
+    ax.set_rlabel_position(45)
+    plt.xticks([x*math.pi/180 for x in range(10, 370, 10)])
     # ax.xaxis.set_major_locator(plt.MultipleLocator(10*math.pi/180))
-    
+
     plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0)
     plt.savefig('Figures_raw/' +
                 conf.chemin_observations[-9:-5]+'/RDV_.svg', format='svg')
@@ -247,50 +247,51 @@ def trace_limitations(data, aeronef, ad, conf):
     res = limitations(data, aeronef, ad)
     X = ['Jan', 'Fev', 'Mars', 'Avr', 'Mai', 'Juin',
          'Juil', 'Aout', 'Sept', 'Oct', 'Nov', 'Dec']
-    l_vent=[]
-    l_visi=[]
-    l_plaf=[]
-    l_precip=[]
-    legend_vent=False
-    legend_visi=False
-    legend_plaf=False
-    legend_precip=False
-    for (vent,visi,plaf,precip) in res:
-        visi+=vent
-        plaf+=visi
-        precip+=plaf
+    l_vent = []
+    l_visi = []
+    l_plaf = []
+    l_precip = []
+    legend_vent = False
+    legend_visi = False
+    legend_plaf = False
+    legend_precip = False
+    for (vent, visi, plaf, precip) in res:
+        visi += vent
+        plaf += visi
+        precip += plaf
         l_vent.append(vent)
         l_visi.append(visi)
         l_plaf.append(plaf)
         l_precip.append(precip)
-        
+
     if not legend_precip:
-        plt.bar(X, l_precip, color='lightsteelblue',label='Limitations precipitations')
-        legend_precip=True
+        plt.bar(X, l_precip, color='lightsteelblue',
+                label='Limitations precipitations')
+        legend_precip = True
     else:
         plt.bar(X, l_precip, color='lightsteelblue')
-        
+
     if not legend_plaf:
-        plt.bar(X, l_plaf, color='palegreen',label='Limitations plafond')
-        legend_plaf=True
+        plt.bar(X, l_plaf, color='palegreen', label='Limitations plafond')
+        legend_plaf = True
     else:
         plt.bar(X, l_plaf, color='palegreen')
-        
+
     if not legend_visi:
-        plt.bar(X, l_visi, color='darkgray',label='Limitations visibilité')
-        legend_visi=True
+        plt.bar(X, l_visi, color='darkgray', label='Limitations visibilité')
+        legend_visi = True
     else:
         plt.bar(X, l_visi, color='darkgray')
-        
+
     if not legend_vent:
-        plt.bar(X, l_vent, color='peachpuff',label='Limitations vent traversier')
-        legend_vent=True
+        plt.bar(X, l_vent, color='peachpuff',
+                label='Limitations vent traversier')
+        legend_vent = True
     else:
         plt.bar(X, l_vent, color='peachpuff')
-    
-    
+
     addlabels(X, l_precip, 'j')
-    
+
     plt.legend()
     plt.title('limitation '+aeronef.nom)
     plt.savefig(
@@ -316,18 +317,19 @@ def trace_donnees_manquantes(data, conf):
                   res, 'Données Manquantes', conf)
 
 
-def affiche_table_contingence(data, pas_abs, pas_ord, fonction_couple, texte, conf,ad):
+def affiche_table_contingence(data, pas_abs, pas_ord, fonction_couple, texte, conf, ad):
     """
     Entrée : Observation, catégories en abscisse, catégories en ordonnée, fonction de création des couples, texte pour la case (0,0)
     Sortie : table de contingence du couple en fonction des catégories en image
     """
-    table = calcul_table_contingence(data, pas_abs, pas_ord, fonction_couple,ad)
+    table = calcul_table_contingence(
+        data, pas_abs, pas_ord, fonction_couple, ad)
     trace_tableau([texte]+pas_abs+['>'],
                   pas_ord+['>'],
                   table, 'tc '+texte, conf, '')
 
 
-def affiche_tc_visi_plafond(data, conf,ad):
+def affiche_tc_visi_plafond(data, conf, ad):
     """
     Entrée : Observation,
     Sortie : table de contingence visi/plafond
@@ -336,26 +338,27 @@ def affiche_tc_visi_plafond(data, conf,ad):
     pas_plafond = [200, 400, 1500, 5000]  # Plafond
     # TODO : Définir les seuils
     affiche_table_contingence(data, pas_visi, pas_plafond,
-                              couple_contingence_visi_plafond, 'Visibilité\n Plafond          ', conf,ad)
+                              couple_contingence_visi_plafond, 'Visibilité\n Plafond          ', conf, ad)
 
-def affiche_tc_venteff_altip(data, conf,ad,T,marge):
+
+def affiche_tc_venteff_altip(data, conf, ad, T, marge):
     """
     Entrée : Observation,
     Sortie : table de contingence visi/plafond
     """
-    data2=[]
+    data2 = []
     for d in data:
         temp = d.temperature
         if (not ('temperature' in d.a_donnees_manquantes())) and (not (temp == '')):
-            if (d.temperature <= T+marge) and (d.temperature >=T-marge):
+            if (d.temperature <= T+marge) and (d.temperature >= T-marge):
                 data2.append(d)
-    
 
     pas_visi = [3, 10, 20]  # vent eff
     pas_plafond = [450, 620, 750]  # alti pression
     # TODO : Définir les seuils
     affiche_table_contingence(data2, pas_visi, pas_plafond,
-                              couple_contingence_veff_altip, 'Vent effectif\n altitude pression         '+str(T)+'°C', conf,ad)
+                              couple_contingence_veff_altip, 'Vent effectif\n altitude pression         '+str(T)+'°C', conf, ad)
+
 
 def trace_tableau_gel(data, conf):
     """
