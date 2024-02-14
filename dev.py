@@ -30,7 +30,7 @@ ac = avion('PIVI')
 
 # trace_limitations(data,ac,ad,conf)
 
-# affiche_tc_venteff_altip(data,conf,ad)
+# affiche_tc_venteff_altip(data,conf,ad,15,5)
 # affiche_tc_visi_plafond(data,conf,ad)
 
 # export_all()
@@ -38,4 +38,11 @@ ac = avion('PIVI')
 # affiche_tc_venteff_altip(data,conf,ad,15,5)
 
 # rose_des_vents(data,conf)
-trace_limitations(data,ac,ad,conf)
+# trace_limitations(data,ac,ad,conf)
+    
+# couple_contingence_visi_plafond_metar(metars,ad)
+# affiche_tc_visi_plafond(metars,conf,ad)
+# trace_limitations(data,ac,ad,conf)
+
+multi_exports(['LFBR'],config.flotte, config.phenomenes)
+

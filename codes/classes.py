@@ -125,6 +125,8 @@ class avion:
         self.limite_vent = dico["limit_vent"]  # None or #int
         self.limite_pluie = dico["limit_pluie"]  # bool
         self.ifr = dico['IFR']  # bool
+        self.max_temp = dico['max_temp']  # bool
+        self.min_temp = dico['min_temp']  # bool
 
 
 class aerodrome:

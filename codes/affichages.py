@@ -251,18 +251,47 @@ def trace_limitations(data, aeronef, ad, conf):
     l_visi = []
     l_plaf = []
     l_precip = []
+    l_maxtemp = []
+    l_mintemp = []
+    
+    
     legend_vent = False
     legend_visi = False
     legend_plaf = False
     legend_precip = False
-    for (vent, visi, plaf, precip) in res:
+    legend_maxtemp = False
+    legend_mintemp = False
+    
+    for (vent, visi, plaf, precip,max_temp,min_temp) in res:
         visi += vent
         plaf += visi
         precip += plaf
+        max_temp += precip
+        min_temp +=max_temp
+        
         l_vent.append(vent)
         l_visi.append(visi)
         l_plaf.append(plaf)
         l_precip.append(precip)
+        l_maxtemp.append(max_temp)
+        l_mintemp.append(min_temp)
+        
+        
+    if not legend_mintemp:
+        plt.bar(X, l_mintemp, color='cornflowerblue',
+                label='Limitations Température Min')
+        legend_mintemp = True
+    else:
+        plt.bar(X, l_mintemp, color='cornflowerblue')
+        
+    if not legend_maxtemp:
+        plt.bar(X, l_maxtemp, color='firebrick',
+                label='Limitations Température Max')
+        legend_maxtemp = True
+    else:
+        plt.bar(X, l_maxtemp, color='firebrick')
+        
+
 
     if not legend_precip:
         plt.bar(X, l_precip, color='lightsteelblue',
@@ -289,8 +318,10 @@ def trace_limitations(data, aeronef, ad, conf):
         legend_vent = True
     else:
         plt.bar(X, l_vent, color='peachpuff')
+        
+    
 
-    addlabels(X, l_precip, 'j')
+    addlabels(X, l_mintemp, 'j')
 
     plt.legend()
     plt.title('limitation '+aeronef.nom)
@@ -334,11 +365,11 @@ def affiche_tc_visi_plafond(data, conf, ad):
     Entrée : Observation,
     Sortie : table de contingence visi/plafond
     """
-    pas_visi = [800, 1500, 5000, 10000]  # Visi
+    pas_visi = [800, 1500, 5000, 9999]  # Visi
     pas_plafond = [200, 400, 1500, 5000]  # Plafond
     # TODO : Définir les seuils
     affiche_table_contingence(data, pas_visi, pas_plafond,
-                              couple_contingence_visi_plafond, 'Visibilité\n Plafond          ', conf, ad)
+                              couple_contingence_visi_plafond_metar, 'Visibilité\n Plafond          ', conf, ad)
 
 
 def affiche_tc_venteff_altip(data, conf, ad, T, marge):
@@ -354,7 +385,7 @@ def affiche_tc_venteff_altip(data, conf, ad, T, marge):
                 data2.append(d)
 
     pas_visi = [3, 10, 20]  # vent eff
-    pas_plafond = [450, 620, 750]  # alti pression
+    pas_plafond = [433-50, 433, 433+50]  # alti pression
     # TODO : Définir les seuils
     affiche_table_contingence(data2, pas_visi, pas_plafond,
                               couple_contingence_veff_altip, 'Vent effectif\n altitude pression         '+str(T)+'°C', conf, ad)

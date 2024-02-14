@@ -4,7 +4,9 @@
         "limit_vent_arriere": 10,
         "limit_vent": null,
         "limit_pluie":false,
-        "IFR": false
+        "IFR": false,
+        "max_temp": null,
+        "min_temp": null
     },
     "DA42":     {
         "Nom_entier": "Diamond DA42",
@@ -12,7 +14,9 @@
         "limit_vent_arriere": 10,
         "limit_vent": null,
         "limit_pluie":false,
-        "IFR": true
+        "IFR": true,
+        "max_temp": null,
+        "min_temp": null
     },
     "TOBA":     {
         "Nom_entier": "Socata TB10 Tobago",
@@ -20,7 +24,9 @@
         "limit_vent_arriere": 10,
         "limit_vent": null,
         "limit_pluie":false,
-        "IFR": false
+        "IFR": false,
+        "max_temp": null,
+        "min_temp": null
     },
     "TB20":     {
         "Nom_entier": "Socata TB20 Trinidad",
@@ -28,7 +34,9 @@
         "limit_vent_arriere": 10,
         "limit_vent": null,
         "limit_pluie":false,
-        "IFR": true
+        "IFR": true,
+        "max_temp": null,
+        "min_temp": null
     },
     "CP10":     {
         "Nom_entier": "Mudry Cap 10",
@@ -36,7 +44,9 @@
         "limit_vent_arriere": 5,
         "limit_vent": 25,
         "limit_pluie":false,
-        "IFR": false
+        "IFR": false,
+        "max_temp": null,
+        "min_temp": null
     },
     "B58":     {
         "Nom_entier": "Beechcraft Baron 58",
@@ -44,7 +54,9 @@
         "limit_vent_arriere": 10,
         "limit_vent": null,
         "limit_pluie":false,
-        "IFR": true
+        "IFR": true,
+        "max_temp": null,
+        "min_temp": null
     },
     "PIVI":     {
         "Nom_entier": "Pipistrel Velis Electro",
@@ -52,6 +64,8 @@
         "limit_vent_arriere": 10,
         "limit_vent": null,
         "limit_pluie":true,
-        "IFR": false
+        "IFR": false,
+        "max_temp": 35,
+        "min_temp": 0
     }
 }  

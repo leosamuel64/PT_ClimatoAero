@@ -269,7 +269,31 @@ def limite_precip(d, aeronef):
             return False
     else:
         return False
+    
+    
+def limite_max_temp(d, aeronef, ad):
+    """
+    Entrée : Observation, avion, aerodrome
+    Sortie : Indique si la visibilité est limitant
+    """
+    temp = d.temperature
+    res = False
+    if (not ('temperature' in d.a_donnees_manquantes())) and temp != '' and aeronef.max_temp!=None:
+        if temp >= aeronef.max_temp:
+            res = True
+    return res
 
+def limite_min_temp(d, aeronef, ad):
+    """
+    Entrée : Observation, avion, aerodrome
+    Sortie : Indique si la visibilité est limitant
+    """
+    temp = d.temperature
+    res = False
+    if (not ('temperature' in d.a_donnees_manquantes())) and temp != '' and aeronef.max_temp!=None:
+        if temp <= aeronef.min_temp:
+            res = True
+    return res
 
 def limite_visi(d, aeronef, ad):
     """
@@ -299,6 +323,8 @@ def limite_plafond(d, aeronef, ad):
         res = True
     elif plafond != None and not aeronef.ifr and plafond < ad.vfr_plafond:
         res = True
+    elif (plafond == None) and (d.temps_present in config.code_ciel_invisible):
+        res = True
     return res
 
 
@@ -307,13 +333,13 @@ def limitations(data, aeronef, ad):
     Entrée : Observation, avion, Numéro de la piste, aerodrome
     Sortie : Tableau des pourcentages de non-accessibilité de l'aérodrome par l'aéronef en fonction des mois
     """
-    res = {i: ([0, 0, 0, 0], 0) for i in range(0, 12)}
+    res = {i: ([0, 0, 0, 0, 0, 0], 0) for i in range(0, 12)}
     cnt = 0
     for d in data:
         mois = d.date.month
         last_lim, last_tot = res[mois-1]
         vect_limit = [limite_vent(d, aeronef, ad), limite_visi(
-            d, aeronef, ad), limite_plafond(d, aeronef, ad), limite_precip(d, aeronef)]
+            d, aeronef, ad), limite_plafond(d, aeronef, ad), limite_precip(d, aeronef),limite_max_temp(d,aeronef,ad),limite_min_temp(d,aeronef,ad)]
         if True in vect_limit:
             res[mois-1] = (ajoute_vecteurs(last_lim, vect_limit), last_tot+1)
         else:
@@ -373,8 +399,9 @@ def couple_contingence_veff_altip(data, ad):
         if (not 'direction_vent' in d.a_donnees_manquantes()) and d.direction_vent != '' and (not 'qnh' in d.a_donnees_manquantes()) and d.qnh != '':
             direction = d.direction_vent
             vitesse = d.vitesse_vent
-            alti_p = d.alt + (1013-d.qnh)*28
-
+            # alti_p = d.alt + (1013-d.qnh)*28
+            alti_p = 433 + (1013-d.qnh)*28
+            # TODO
             res.append(
                 (calcul_vent_eff(ad.pistes[0], direction, vitesse), alti_p))
     return res
@@ -740,3 +767,32 @@ def proba_retour_au_moins(nb_periodes, nb_occurences, d_retour):
     for i in range(0, nb_occurences):
         somme += proba_retour(nb_periodes, i, d_retour)
     return 1 - somme
+
+
+def couple_contingence_visi_plafond_metar(metars, ad):
+    """
+    Entrée : Observation
+    Sortie : liste des couples (visi,plafond)
+    """
+    res=[]
+    for m in metars:
+        obs = Metar.Metar(m.message)
+        sky = obs.sky
+        for couche in sky:
+            max_plaf = None
+            octa,base,type_nuage = couche
+            if octa in ['BKN','OVC']:
+                if supaNone(base.value(),max_plaf):
+                    max_plaf=base.value()
+        # if max_plaf!= None and max_plaf<500:
+        #     print(max_plaf) 
+        if max_plaf==None and 'vertical visibility to' in obs.sky_conditions():
+            max_plaf=0
+        elif max_plaf==None:
+            max_plaf=20000
+            
+        visi = obs.vis
+        if visi != None:
+            couple = (visi.value(),max_plaf)
+            res.append(couple) 
+    return res

@@ -258,3 +258,117 @@ def ajoute_vecteurs(X, Y):
         for k in range(len(X)):
             res.append(X[k]+Y[k])
         return res
+    
+    
+def supaNone(a,b):
+    match (a,b):
+        case (None,b):
+            return True
+        case (a, None):
+            return True
+        case (a,b):
+            return a>b
+
+# def assoc_codeMetar_CodeTpsPresent(code):
+#     match code:
+#         case 0 : return '0'
+#         case 1 : return '1'
+#         case 2 : return '2'
+#         case 3 : return '3'
+#         case 4 : return 'FU'
+#         case 5 : return 'HZ'
+#         case 6 : return 'DU'
+#         case 7 : return 'SA'
+#         case 8 : return 'SA'
+#         case 9 : return 'SA'
+#         case 10 : return 'BR'
+#         case 11 : return 'MIFG'
+#         case 12 : return 'MIFG'
+#         case 13 : return 'TS'
+#         case 14 : return '14'
+#         case 15 : return 'RA'
+#         case 16 : return 'RA'
+#         case 17 : return 'RA'
+#         case 18 : return 'SQ'
+#         case 19 : return 'FC'
+#         case 20 : return 'DZ'
+#         case 21 : return 'RA'
+#         case 22 : return 'SN'
+#         case 23 : return 'PL'
+#         case 24 : return 'FZBR'
+#         case 25 : return 'SHRA'
+#         case 26 : return 'SHSN'
+#         case 27 : return 'SHGR'
+#         case 28 : return 'FG'
+#         case 29 : return 'TS'
+#         case 30 : return 'PO'
+#         case 31 : return 'PO'
+#         case 32 : return 'PO'
+#         case 33 : return '+PO'
+#         case 34 : return '+PO'
+#         case 35 : return '+PO'
+#         case 36 : return 'DRSN'
+#         case 37 : return '+DRSN'
+#         case 38 : return 'BLSN'
+#         case 39 : return ''
+#         case 40 : return
+#         case 41 : return
+#         case 42 : return
+#         case 43 : return
+#         case 44 : return
+#         case 45 : return
+#         case 46 : return
+#         case 47 : return
+#         case 48 : return
+#         case 49 : return
+#         case 50 : return
+#         case 51 : return
+#         case 52 : return
+#         case 53 : return
+#         case 54 : return
+#         case 55 : return
+#         case 56 : return
+#         case 57 : return
+#         case 58 : return
+#         case 59 : return
+#         case 60 : return
+#         case 61 : return
+#         case 62 : return
+#         case 63 : return
+#         case 64 : return
+#         case 65 : return
+#         case 66 : return
+#         case 67 : return
+#         case 68 : return
+#         case 69 : return
+#         case 70 : return
+#         case 71 : return
+#         case 72 : return
+#         case 73 : return
+#         case 74 : return
+#         case 75 : return
+#         case 76 : return
+#         case 77 : return
+#         case 78 : return
+#         case 79 : return
+#         case 80 : return
+#         case 81 : return
+#         case 82 : return
+#         case 83 : return
+#         case 84 : return
+#         case 85 : return
+#         case 86 : return
+#         case 87 : return
+#         case 88 : return
+#         case 89 : return
+#         case 90 : return
+#         case 91 : return
+#         case 92 : return
+#         case 93 : return
+#         case 94 : return
+#         case 95 : return
+#         case 96 : return
+#         case 97 : return
+#         case 98 : return
+#         case 99 : return
+            
