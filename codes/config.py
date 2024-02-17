@@ -12,8 +12,8 @@ class config:
                              'RA': 2*2,
                              'DZ': 2*2
                              }
-    SEUIL_VENT_CALME = 2  # En kt
-    SHOW = False
+    SEUIL_VENT_CALME = 3  # En kt
+    SHOW = True
     flotte = ['TOBA',
               'TB20',
               'DA40',

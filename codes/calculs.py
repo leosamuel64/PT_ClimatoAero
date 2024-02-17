@@ -15,7 +15,7 @@ def vents_dominants_vitesse(data, decli=0):
         direct = d.direction_vent
         sp = d.vitesse_vent
         if (not ('direction_vent' in d.a_donnees_manquantes())) and (not (direct == '')) and (not ('vitesse_vent' in d.a_donnees_manquantes())) and (not (sp == '')):
-            wr = round_wind(direct+decli) % 36
+            wr = round_wind(direct-decli) % 36
             if sp > 3:
                 if sp < 10:
                     res[wr][0] += 1
@@ -309,26 +309,42 @@ def limite_visi(d, aeronef, ad):
             res = True
     return res
 
+def get_plafond(om,date):
+    _,m = om[date]
+    if m!=[]:
+        obs = Metar.Metar(m.message)
+        sky = obs.sky
+        max_plaf = None
+        for couche in sky:
+            octa,base,type_nuage = couche
+            if octa in ['BKN','OVC']:
+                if supaNone(base.value(),max_plaf):
+                    max_plaf=base.value()
+        # if max_plaf!= None and max_plaf<500:
+        #     print(max_plaf) 
+        if max_plaf==None and 'vertical visibility to' in obs.sky_conditions():
+            max_plaf=0
+        return max_plaf
+    else:
+        return None
 
-def limite_plafond(d, aeronef, ad):
+
+def limite_plafond(d,om, aeronef, ad):
     """
     Entrée : Observation, avion, aerodrome
     Sortie : Indique si le plafond est limitant
     """
-    plafond = d.plafond()
-    if plafond != None:
-        plafond = int(d.plafond()[2])
+    # plafond = d.plafond()
+    plafond = get_plafond(om,d.date)
     res = False
     if plafond != None and aeronef.ifr and plafond < ad.ifr_plafond:
         res = True
     elif plafond != None and not aeronef.ifr and plafond < ad.vfr_plafond:
         res = True
-    elif (plafond == None) and (d.temps_present in config.code_ciel_invisible):
-        res = True
     return res
 
 
-def limitations(data, aeronef, ad):
+def limitations(data,om, aeronef, ad):
     """
     Entrée : Observation, avion, Numéro de la piste, aerodrome
     Sortie : Tableau des pourcentages de non-accessibilité de l'aérodrome par l'aéronef en fonction des mois
@@ -339,7 +355,7 @@ def limitations(data, aeronef, ad):
         mois = d.date.month
         last_lim, last_tot = res[mois-1]
         vect_limit = [limite_vent(d, aeronef, ad), limite_visi(
-            d, aeronef, ad), limite_plafond(d, aeronef, ad), limite_precip(d, aeronef),limite_max_temp(d,aeronef,ad),limite_min_temp(d,aeronef,ad)]
+            d, aeronef, ad), limite_plafond(d,om, aeronef, ad), limite_precip(d, aeronef),limite_max_temp(d,aeronef,ad),limite_min_temp(d,aeronef,ad)]
         if True in vect_limit:
             res[mois-1] = (ajoute_vecteurs(last_lim, vect_limit), last_tot+1)
         else:
@@ -778,8 +794,8 @@ def couple_contingence_visi_plafond_metar(metars, ad):
     for m in metars:
         obs = Metar.Metar(m.message)
         sky = obs.sky
+        max_plaf = None
         for couche in sky:
-            max_plaf = None
             octa,base,type_nuage = couche
             if octa in ['BKN','OVC']:
                 if supaNone(base.value(),max_plaf):

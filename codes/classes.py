@@ -111,7 +111,7 @@ class observation:
             return self.alt+(1013-self.qnh)*28
         else:
             return None
-
+                
 
 class avion:
     def __init__(self, code):

@@ -127,7 +127,8 @@ def plot_weather(metars, conf, seuil=0):
             Y.append(y)
     plt.bar(Y, X, color=color_template().orange)
     addlabels(Y, X, 'j/an')
-    plt.title('Temps significatifs')
+    plt.title('Temps présents')
+    plt.ylabel('Nombre de jours par an')
     plt.savefig('Figures_raw/' +
                 conf.chemin_observations[-9:-5]+'/weather.svg', format='svg')
     if config.SHOW:
@@ -170,6 +171,7 @@ def trace_phenomene(metars, code, conf, show=True):
     plt.bar(X, Y, color=color_template().orange)
     addlabels(X, Y, 'j')
     plt.title('Moyenne des jours de '+code+' par mois')
+    plt.ylabel('Nombre de jours par mois')
     plt.savefig(
         'Figures_raw/'+conf.chemin_observations[-9:-5]+'/Phenomene'+code+'.svg', format='svg')
     if config.SHOW:
@@ -239,12 +241,12 @@ def trace_tableau_qnh(data, conf):
                   [t_max+[maxi], t_min+[mini], t_moy+[str(moy)]], 'QNH', conf, 'hPa')
 
 
-def trace_limitations(data, aeronef, ad, conf):
+def trace_limitations(data,om, aeronef, ad, conf):
     """
     Entrée : Observation, avion, Numéro de la piste, aerodrome
     Sortie : Graphique des pourcentages de non-accessibilité de l'aérodrome par l'aéronef en fonction des mois
     """
-    res = limitations(data, aeronef, ad)
+    res = limitations(data,om, aeronef, ad)
     X = ['Jan', 'Fev', 'Mars', 'Avr', 'Mai', 'Juin',
          'Juil', 'Aout', 'Sept', 'Oct', 'Nov', 'Dec']
     l_vent = []
@@ -325,6 +327,8 @@ def trace_limitations(data, aeronef, ad, conf):
 
     plt.legend()
     plt.title('limitation '+aeronef.nom)
+    plt.ylabel('Nombre de jours par mois')
+    
     plt.savefig(
         'Figures_raw/'+conf.chemin_observations[-9:-5]+'/limit_'+aeronef.code+'.svg', format='svg')
     if config.SHOW:

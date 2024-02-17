@@ -12,6 +12,7 @@ def genere_export_ad(code_ad, flotte, phenomenes):
     conf = export(code_ad)
     data = charge_fichier(conf.chemin_observations)
     metars = build_dict_metar('data/metar/'+code_ad+'.txt')
+    om = obs_metar(data,metars)
     ad = aerodrome(code_ad)
     res = 0
     # Debut calculs images
@@ -36,7 +37,7 @@ def genere_export_ad(code_ad, flotte, phenomenes):
     res += 1
     for ac in flotte:
         acft = avion(ac)
-        trace_limitations(data, acft, ad, conf)
+        trace_limitations(data,om, acft, ad, conf)
         res += 1
     trace_donnees_manquantes(data, conf)
     res += 1

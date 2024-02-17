@@ -40,6 +40,16 @@ def charge_fichier(path):
         res.append(obs)
     return res
 
+def obs_metar(liste_obs,liste_metars):
+    res={} # Date -> (obs,metar)
+    for d in liste_obs:
+        date = d.date
+        res[date]=[d,[]]
+    for m in liste_metars:
+        date=m.date
+        if date in res.keys():
+            res[date][1]=m
+    return res
 
 def reecrit_fichier(fichier, fichier_corr):
     file = open(fichier, 'r')
