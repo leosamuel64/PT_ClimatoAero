@@ -13,8 +13,8 @@ code_ad = 'LFBR'
 conf = export(code_ad)
 
 data = charge_fichier(conf.chemin_observations)
-metars = build_dict_metar('data/metar/'+code_ad+'.txt')
-om = obs_metar(data,metars)
+# metars = build_dict_metar('data/metar/'+code_ad+'.txt')
+# om = obs_metar(data,metars)
 
 ad = aerodrome(code_ad)
 
@@ -49,4 +49,9 @@ ac = avion('TB20')
 
 # print(obs_metars)
 
-trace_limitations(data,om,ac,ad,conf)
+# trace_limitations(data,om,ac,ad,conf)
+
+
+
+
+            
