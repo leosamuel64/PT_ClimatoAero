@@ -10,10 +10,15 @@ class color_template:
 class config:
     PHENOMENE_PONDERATION = {'TS': 2*24,
                              'RA': 2*2,
-                             'DZ': 2*2
+                             'DZ': 2*2,
+                             'BR': 2*4,
+                             'TSRA' :2*24 ,
+                             '-TSRA' : 2*24,
+                             'RETS' : 2*24,
+                             'VCTS': 2*24
                              }
     SEUIL_VENT_CALME = 3  # En kt
-    SHOW = False
+    SHOW = True
     flotte = ['TOBA',
               'TB20',
               'DA40',
@@ -26,4 +31,4 @@ class config:
                   'FG',
                   'TS']
     liste_ad = ['LFBR', 'LFLN', 'LFLS', 'LFMK', 'LFMT', 'LFPM']
-    code_ciel_invisible = [0,10,43,45,47,49]
+    code_ciel_invisible = [0, 10, 43, 45, 47, 49]

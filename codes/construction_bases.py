@@ -18,6 +18,7 @@ def build_dict_metar(path):
             'skyl4', 'wxcodes', 'ice_accretion_1hr', 'ice_accretion_3hr', 'ice_accretion_6hr', 'peak_wind_gust', 'peak_wind_drct', 'peak_wind_time', 'feel', 'metar', 'snowdepth']
     res = {}
     for key in keys:
+        
         res[key] = []
     for ligne in file:
         elements = ligne.split(',')
@@ -40,20 +41,22 @@ def charge_fichier(path):
         res.append(obs)
     return res
 
-def obs_metar(liste_obs,liste_metars):
-    res={} # Date -> (obs,metar)
+
+def obs_metar(liste_obs, liste_metars):
+    res = {}  # Date -> (obs,metar)
     for d in liste_obs:
         date = d.date
-        res[date]=[d,[]]
+        res[date] = [d, []]
     for m in liste_metars:
-        date=m.date
+        date = m.date
         if date in res.keys():
-            res[date][1]=m
+            res[date][1] = m
     return res
 
-def reecrit_fichier(fichier, fichier_corr):
+
+def reecrit_fichier(fichier, fichier_corr,terrain,alti):
     file = open(fichier, 'r')
-    rajout = '''Melun;1�15'43"E;43�27'05"N;301;'''
+    rajout = '''{terrain};1�15'43"E;43�27'05"N;{alti};'''.format(terrain=terrain,alti=alti)
     temp = []
     for ligne in file:
         debut = ligne[0:9]

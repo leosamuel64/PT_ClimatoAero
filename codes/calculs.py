@@ -9,6 +9,7 @@ from codes.config import *
 # ----------------------------------------------------------------------
 # ----------------------------------------------------------------------
 
+
 def vents_dominants_vitesse(data, decli=0):
     """
     Entrée : Liste des observations, declinaison magnétique
@@ -45,6 +46,7 @@ def vents_dominants_vitesse(data, decli=0):
 # ------------------------------ Tableaux ------------------------------
 # ----------------------------------------------------------------------
 # ----------------------------------------------------------------------
+
 
 def maxi_temp(data):
     '''
@@ -125,6 +127,7 @@ def moyenne_mois(data, intervalle_heure=[]):
     for mois in res.keys():
         res[mois] = res[mois]/cnt[mois]
     return res
+
 
 def compte_gel_mois(data):
     """
@@ -344,6 +347,7 @@ def sort_mois_qnh(data, intervalle_heure=[]):
 # ----------------------------------------------------------------------
 # ----------------------------------------------------------------------
 
+
 def compte_temps_present(data):
     '''
     Entrée : Liste des observations
@@ -356,7 +360,7 @@ def compte_temps_present(data):
     return res
 
 
-def pourcentage_temps_present(data, path, affichage=False):
+def pourcentage_temps_present(data, path):
     '''
     Entrée : Liste des observations, chemin vers code météo, Affichage debug
     Sortie : Renvoie le dictionnaire code -> occurences des phenomènes
@@ -370,16 +374,9 @@ def pourcentage_temps_present(data, path, affichage=False):
             liste.append((temps_present[k], int(k)))
             somme += temps_present[k]
     liste.sort(reverse=True)
-    if affichage:
-        for (nombre, code) in liste:
-            valeur = round(100*nombre/somme)
-            if valeur > 0:
-                print(str(round(100*nombre/somme, 2))+'% : '+assoc_code[code])
-                print('ok')
-    else:
-        res = []
-        for (nombre, code) in liste:
-            res.append((assoc_code[code], 100*nombre/somme))
+    res = []
+    for (nombre, code) in liste:
+        res.append((assoc_code[code], 100*nombre/somme))
 
 
 def count_weather(metars):
@@ -427,12 +424,12 @@ def count_weather_date(metars, code):
             if temp == code:
                 if key_date in res.keys():
                     if code in config.PHENOMENE_PONDERATION.keys():
-                        res[key_date] += config.PHENOMENE_PONDERATION[code]
+                        res[key_date] += 0.5
                     else:
                         res[key_date] += 0.5
                 else:
                     if code in config.PHENOMENE_PONDERATION.keys():
-                        res[key_date] = config.PHENOMENE_PONDERATION[code]
+                        res[key_date] = 0.5
                     else:
                         res[key_date] = 0.5
         key_date = datetime.datetime(m.date.year, m.date.month, m.date.day)
@@ -446,6 +443,7 @@ def count_weather_date(metars, code):
 # ---------------------------- Limitations -----------------------------
 # ----------------------------------------------------------------------
 # ----------------------------------------------------------------------
+
 
 def limite_vent(d, aeronef, ad):
     """
@@ -476,8 +474,8 @@ def limite_precip(d, aeronef):
             return False
     else:
         return False
-    
-    
+
+
 def limite_max_temp(d, aeronef, ad):
     """
     Entrée : Observation, avion, aerodrome
@@ -485,10 +483,11 @@ def limite_max_temp(d, aeronef, ad):
     """
     temp = d.temperature
     res = False
-    if (not ('temperature' in d.a_donnees_manquantes())) and temp != '' and aeronef.max_temp!=None:
+    if (not ('temperature' in d.a_donnees_manquantes())) and temp != '' and aeronef.max_temp != None:
         if temp >= aeronef.max_temp:
             res = True
     return res
+
 
 def limite_min_temp(d, aeronef, ad):
     """
@@ -497,10 +496,11 @@ def limite_min_temp(d, aeronef, ad):
     """
     temp = d.temperature
     res = False
-    if (not ('temperature' in d.a_donnees_manquantes())) and temp != '' and aeronef.max_temp!=None:
+    if (not ('temperature' in d.a_donnees_manquantes())) and temp != '' and aeronef.max_temp != None:
         if temp <= aeronef.min_temp:
             res = True
     return res
+
 
 def limite_visi(d, aeronef, ad):
     """
@@ -516,31 +516,32 @@ def limite_visi(d, aeronef, ad):
             res = True
     return res
 
-def get_plafond(om,date):
-    _,m = om[date]
-    if m!=[]:
+
+def get_plafond(om, date):
+    _, m = om[date]
+    if m != []:
         obs = Metar.Metar(m.message)
         sky = obs.sky
         max_plaf = None
         for couche in sky:
-            octa,base,type_nuage = couche
-            if octa in ['BKN','OVC']:
-                if supaNone(base.value(),max_plaf):
-                    max_plaf=base.value() 
-        if max_plaf==None and 'vertical visibility to' in obs.sky_conditions():
-            max_plaf=0
+            octa, base, type_nuage = couche
+            if octa in ['BKN', 'OVC']:
+                if supaNone(base.value(), max_plaf):
+                    max_plaf = base.value()
+        if max_plaf == None and 'vertical visibility to' in obs.sky_conditions():
+            max_plaf = 0
         return max_plaf
     else:
         return None
 
 
-def limite_plafond(d,om, aeronef, ad):
+def limite_plafond(d, om, aeronef, ad):
     """
     Entrée : Observation, avion, aerodrome
     Sortie : Indique si le plafond est limitant
     """
     # plafond = d.plafond()
-    plafond = get_plafond(om,d.date)
+    plafond = get_plafond(om, d.date)
     res = False
     if plafond != None and aeronef.ifr and plafond < ad.ifr_plafond:
         res = True
@@ -549,7 +550,7 @@ def limite_plafond(d,om, aeronef, ad):
     return res
 
 
-def limitations(data,om, aeronef, ad):
+def limitations(data, om, aeronef, ad):
     """
     Entrée : Observation, avion, Numéro de la piste, aerodrome
     Sortie : Tableau des pourcentages de non-accessibilité de l'aérodrome par l'aéronef en fonction des mois
@@ -560,7 +561,7 @@ def limitations(data,om, aeronef, ad):
         mois = d.date.month
         last_lim, last_tot = res[mois-1]
         vect_limit = [limite_vent(d, aeronef, ad), limite_visi(
-            d, aeronef, ad), limite_plafond(d,om, aeronef, ad), limite_precip(d, aeronef),limite_max_temp(d,aeronef,ad),limite_min_temp(d,aeronef,ad)]
+            d, aeronef, ad), limite_plafond(d, om, aeronef, ad), limite_precip(d, aeronef), limite_max_temp(d, aeronef, ad), limite_min_temp(d, aeronef, ad)]
         if True in vect_limit:
             res[mois-1] = (ajoute_vecteurs(last_lim, vect_limit), last_tot+1)
         else:
@@ -579,6 +580,7 @@ def limitations(data,om, aeronef, ad):
 # -------------------------- Données Manquantes ------------------------
 # ----------------------------------------------------------------------
 # ----------------------------------------------------------------------
+
 
 def calcul_donnees_manquantes(data):
     """
@@ -603,6 +605,7 @@ def calcul_donnees_manquantes(data):
 # ----------------------- Tables de contingence ------------------------
 # ----------------------------------------------------------------------
 # ----------------------------------------------------------------------
+
 
 def couple_contingence_visi_plafond(data, ad):
     """
@@ -674,6 +677,7 @@ def calcul_table_contingence(data, pas_abs, pas_ord, fonction_couple, ad):
 # ----------------------------------------------------------------------
 # ----------------------------------------------------------------------
 
+
 def coeff_pistes(data, ad, seuil_vent):
     pistes = ad.pistes
     piste_pref = ad.piste_pref
@@ -704,6 +708,7 @@ def coeff_pistes(data, ad, seuil_vent):
 # -------------------------- Durées de retour --------------------------
 # ----------------------------------------------------------------------
 # ----------------------------------------------------------------------
+
 
 def recup_qnh(data):
     '''
@@ -802,25 +807,23 @@ def couple_contingence_visi_plafond_metar(metars, ad):
     Entrée : Observation
     Sortie : liste des couples (visi,plafond)
     """
-    res=[]
+    res = []
     for m in metars:
         obs = Metar.Metar(m.message)
         sky = obs.sky
         max_plaf = None
         for couche in sky:
-            octa,base,type_nuage = couche
-            if octa in ['BKN','OVC']:
-                if supaNone(base.value(),max_plaf):
-                    max_plaf=base.value()
-        # if max_plaf!= None and max_plaf<500:
-        #     print(max_plaf) 
-        if max_plaf==None and 'vertical visibility to' in obs.sky_conditions():
-            max_plaf=0
-        elif max_plaf==None:
-            max_plaf=20000
-            
+            octa, base, type_nuage = couche
+            if octa in ['BKN', 'OVC']:
+                if supaNone(base.value(), max_plaf):
+                    max_plaf = base.value()
+        if max_plaf == None and 'vertical visibility to' in obs.sky_conditions():
+            max_plaf = 0
+        elif max_plaf == None:
+            max_plaf = 20000
+
         visi = obs.vis
         if visi != None:
-            couple = (visi.value(),max_plaf)
-            res.append(couple) 
+            couple = (visi.value(), max_plaf)
+            res.append(couple)
     return res

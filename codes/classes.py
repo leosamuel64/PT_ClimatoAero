@@ -1,5 +1,7 @@
 from codes.fonctions_auxiliaires import *
 import json
+from metar import Metar
+
 
 
 class metar:
@@ -9,7 +11,14 @@ class metar:
         jour = int(date[8:10])
         heure = int(date[11:13])
         minute = int(date[14:16])
-        self.date = datetime.datetime(annee, mois, jour, heure, minute)
+        
+        obs = Metar.Metar(ligne)
+        h = obs.time.hour
+        m = obs.time.minute
+        d = obs.time.day
+        
+        
+        self.date = datetime.datetime(annee, mois, d, h, m)
         self.message = ligne
 
 
@@ -111,7 +120,7 @@ class observation:
             return self.alt+(1013-self.qnh)*28
         else:
             return None
-                
+
 
 class avion:
     def __init__(self, code):
@@ -148,4 +157,3 @@ class export:
     def __init__(self, code_ad) -> None:
         self.chemin_observations = 'data/obs/'+code_ad+'.data'
         self.code_ad = code_ad
-

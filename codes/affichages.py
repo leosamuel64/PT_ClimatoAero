@@ -67,6 +67,7 @@ def rose_des_vents(data, conf) -> None:
 # ----------------------------------------------------------------------
 # ----------------------------------------------------------------------
 
+
 def plot_temp(data) -> None:
     '''
     Entrée : Liste des observations
@@ -121,6 +122,7 @@ def plot_qnh(data) -> None:
 # -------------------------- Temps présents ----------------------------
 # ----------------------------------------------------------------------
 # ----------------------------------------------------------------------
+
 
 def plot_weather(metars, conf, seuil=0) -> None:
     '''
@@ -192,7 +194,7 @@ def trace_phenomene(metars, code, conf, show=True) -> None:
     if config.SHOW:
         plt.show()
     plt.close('all')
-    
+
 # ----------------------------------------------------------------------
 # ----------------------------------------------------------------------
 # ------------------------------ Tableaux ------------------------------
@@ -260,7 +262,8 @@ def trace_tableau_qnh(data, conf) -> None:
     trace_tableau(['-', 'Jan', 'Fev', 'Mars', 'Avr', 'Mai', 'Juin', 'Juil', 'Aout', 'Sept', 'Oct', 'Nov', 'Dec', 'Record'],
                   ['Max', 'Min', 'Moy'],
                   [t_max+[maxi], t_min+[mini], t_moy+[str(moy)]], 'QNH', conf, 'hPa')
-    
+
+
 def trace_tableau_gel(data, conf) -> None:
     """
     Entrée : Observation,
@@ -323,12 +326,12 @@ def trace_tableau_vent_effectif(data, piste, conf) -> None:
 # ----------------------------------------------------------------------
 # ----------------------------------------------------------------------
 
-def trace_limitations(data,om, aeronef, ad, conf) -> None:
+def trace_limitations(data, om, aeronef, ad, conf) -> None:
     """
     Entrée : Observation, avion, Numéro de la piste, aerodrome
     Sortie : Graphique des pourcentages de non-accessibilité de l'aérodrome par l'aéronef en fonction des mois
     """
-    res = limitations(data,om, aeronef, ad)
+    res = limitations(data, om, aeronef, ad)
     X = ['Jan', 'Fev', 'Mars', 'Avr', 'Mai', 'Juin',
          'Juil', 'Aout', 'Sept', 'Oct', 'Nov', 'Dec']
     l_vent = []
@@ -337,45 +340,41 @@ def trace_limitations(data,om, aeronef, ad, conf) -> None:
     l_precip = []
     l_maxtemp = []
     l_mintemp = []
-    
-    
+
     legend_vent = False
     legend_visi = False
     legend_plaf = False
     legend_precip = False
     legend_maxtemp = False
     legend_mintemp = False
-    
-    for (vent, visi, plaf, precip,max_temp,min_temp) in res:
+
+    for (vent, visi, plaf, precip, max_temp, min_temp) in res:
         visi += vent
         plaf += visi
         precip += plaf
         max_temp += precip
-        min_temp +=max_temp
-        
+        min_temp += max_temp
+
         l_vent.append(vent)
         l_visi.append(visi)
         l_plaf.append(plaf)
         l_precip.append(precip)
         l_maxtemp.append(max_temp)
         l_mintemp.append(min_temp)
-        
-        
+
     if not legend_mintemp:
         plt.bar(X, l_mintemp, color='cornflowerblue',
                 label='Limitations Température Min')
         legend_mintemp = True
     else:
         plt.bar(X, l_mintemp, color='cornflowerblue')
-        
+
     if not legend_maxtemp:
         plt.bar(X, l_maxtemp, color='firebrick',
                 label='Limitations Température Max')
         legend_maxtemp = True
     else:
         plt.bar(X, l_maxtemp, color='firebrick')
-        
-
 
     if not legend_precip:
         plt.bar(X, l_precip, color='lightsteelblue',
@@ -402,19 +401,19 @@ def trace_limitations(data,om, aeronef, ad, conf) -> None:
         legend_vent = True
     else:
         plt.bar(X, l_vent, color='peachpuff')
-        
+
     addlabels(X, l_mintemp, 'j')
 
     plt.legend()
     plt.title('limitation '+aeronef.nom)
     plt.ylabel('Nombre de jours par mois')
-    
+
     plt.savefig(
         'Figures_raw/'+conf.chemin_observations[-9:-5]+'/limit_'+aeronef.code+'.svg', format='svg')
     if config.SHOW:
         plt.show()
     plt.close('all')
-    
+
 # ----------------------------------------------------------------------
 # ----------------------------------------------------------------------
 # -------------------------- Données Manquantes ------------------------
@@ -436,7 +435,7 @@ def trace_donnees_manquantes(data, conf) -> None:
     trace_tableau(['Données', 'Données Manquantes (%)'],
                   keys,
                   res, 'Données Manquantes', conf)
-    
+
 # ----------------------------------------------------------------------
 # ----------------------------------------------------------------------
 # ----------------------- Tables de contingence ------------------------
@@ -487,7 +486,6 @@ def affiche_tc_venteff_altip(data, conf, ad, T, marge) -> None:
                               couple_contingence_veff_altip, 'Vent effectif\n altitude pression         '+str(T)+'°C', conf, ad)
 
 
-    
 # ----------------------------------------------------------------------
 # ----------------------------------------------------------------------
 # ------------------------- Diagrammes en barres -----------------------

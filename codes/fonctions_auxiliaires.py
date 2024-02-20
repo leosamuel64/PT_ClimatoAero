@@ -2,6 +2,7 @@ import datetime
 import matplotlib.pyplot as plt
 import math
 
+
 def incr_dico(dico, key, value):
     '''
     Entrée : Dictionnaire, Clé, Valeur
@@ -258,21 +259,22 @@ def ajoute_vecteurs(X, Y):
         for k in range(len(X)):
             res.append(X[k]+Y[k])
         return res
-    
-    
-def supaNone(a,b):
-    match (a,b):
-        case (None,b):
+
+
+def supaNone(a, b):
+    match (a, b):
+        case (None, b):
             return True
         case (a, None):
             return True
-        case (a,b):
-            return a>b
+        case (a, b):
+            return a > b
 
 
 def affiche_dico(dico):
     for key in sorted(dico.keys()):
-        print('{key} : {face}'.format(key=key,face=dico[key]))
+        print('{key} : {face}'.format(key=key, face=dico[key]))
+
 
 def calcul_crossWind(cap, direction, vitesse):
     """
