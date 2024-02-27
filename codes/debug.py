@@ -54,7 +54,7 @@ def debug_visi(data,conf, decli=0):
         if (not ('visi' in d.a_donnees_manquantes())) and (not (visi == '')):
             
             # [170;220]
-            if visi<1000:  # Reglage dans le if
+            if visi<5000:  # Reglage dans le if
                 # print('vent du {dir} pour {vitesse}kt le {date}'.format(dir=wr*10,vitesse=round(sp,0),date=d.date))
                 incr_dico(res,d.date.hour,1)
                 cnt+=1
@@ -66,7 +66,7 @@ def debug_visi(data,conf, decli=0):
         
     plt.bar(X, Y, color=color_template().orange)
     # addlabels(X, Y, 'j')
-    plt.title("Fréquence de visibilité < 1000m")
+    plt.title("Fréquence de visibilité < 5000m")
     plt.ylabel('Fréquence (%)')
     plt.xlabel('Heure (h)')
     
